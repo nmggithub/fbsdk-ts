@@ -41,7 +41,7 @@ export default class Node<ThisNode extends CRUDNodeInfo, Edges extends CRUDEdgeI
         public Edges: {
             [edge in keyof Edges]: Edge<Edges[edge]>;
         },
-        private id: string
+        private id?: string
     ) {}
     public read = async <FieldsTuple extends (keyof ThisNode['type'])[]>(
         access_token: string,
@@ -63,7 +63,7 @@ export class Edge<ThisEdge extends CRUDEdgeInfo> implements CRUDEdge<ThisEdge> {
     constructor(
         private edge: ThisEdge['edge'],
         private GraphAPI: FacebookAppBase<APISpec>['GraphAPI'],
-        private id: string
+        private id?: string
     ) {}
     public read = async <FieldsTuple extends (keyof ThisEdge['type'])[]>(
         access_token: string,

@@ -12,7 +12,7 @@ _Strongly-typed promise-based client library for Facebook's Graph API using Type
 
 _TypeScript is recommended to get all the benefits of this package, but you can also use plain JavaScript._
 
-## Step 0: Installation
+## Step 0: Installing
 
 To install this package in a Node.js project, run this command in the project root:
 
@@ -29,7 +29,7 @@ const { FacebookApp } = require('fbsdk-ts');
 If you are using TypesScript, import the `FacebookApp` class like so:
 
 ```ts
-import { FacebookApp } from ' fbsdk-ts';
+import { FacebookApp } from 'fbsdk-ts';
 ```
 
 ## Step 2: Initialization
@@ -121,7 +121,7 @@ app.Nodes.Page('{SOME-PAGE-ID}')
 
 This package is made to be extensible. You can create your own custom class like `FacebookApp` with its own methods to suit your needs.
 
-## Step 0: Installation
+## Step 0: Installing
 
 To install this package in a Node.js project, run this command in the project root:
 
@@ -138,7 +138,7 @@ const { FacebookAppNoExposedNodes } = require('fbsdk-ts');
 If you are using TypesScript, import the `FacebookAppNoExposedNodes` class like so:
 
 ```ts
-import { FacebookAppNoExposedNodes } from ' fbsdk-ts';
+import { FacebookAppNoExposedNodes } from 'fbsdk-ts';
 ```
 
 ## Step 2: Sub-classing
@@ -192,7 +192,7 @@ import { FacebookAppBase } from 'fbsdk-ts';
 
 ```ts
 import { FacebookAppBase } from 'fbsdk-ts';
-import { APISpec } from 'fbsdk-ts/api-spec';
+import { APISpec } from 'fbsdk-ts/dist/api-spec';
 
 interface CustomAPISpec extends APISpec {
     SomeNodeName: {
@@ -212,7 +212,7 @@ interface CustomAPISpec extends APISpec {
 These definitions can be further simplified by helper types:
 ```ts
 import { FacebookAppBase } from 'fbsdk-ts';
-import { APISpec, NodeSpec, EdgeSpec } from 'fbsdk-ts/api-spec';
+import { APISpec, NodeSpec, EdgeSpec } from 'fbsdk-ts/dist/api-spec';
 
 interface CustomAPISpec extends APISpec {
     SomeNodeName: {
@@ -226,7 +226,7 @@ interface CustomAPISpec extends APISpec {
 If a node doesn't have any edges, its definition can be further shortened with another helper type:
 ```ts
 import { FacebookAppBase } from 'fbsdk-ts';
-import { APISpec, NodeSpec, EdgeSpec, EdgelessNodeSpec } from 'fbsdk-ts/api-spec';
+import { APISpec, NodeSpec, EdgeSpec, EdgelessNodeSpec } from 'fbsdk-ts/dist/api-spec';
 
 interface CustomAPISpec extends APISpec {
     SomeNodeName: {
@@ -241,7 +241,7 @@ interface CustomAPISpec extends APISpec {
 Nodes and edges can have read parameters defined like so:
 ```ts
 import { FacebookAppBase } from 'fbsdk-ts';
-import { APISpec, NodeSpec, EdgeSpec, EdgelessNodeSpec } from 'fbsdk-ts/api-spec';
+import { APISpec, NodeSpec, EdgeSpec, EdgelessNodeSpec } from 'fbsdk-ts/dist/api-spec';
 
 interface CustomAPISpec extends APISpec {
     SomeNodeName: {
@@ -263,11 +263,11 @@ interface CustomAPISpec extends APISpec {
 ```
 For more specific code examples, see [the v9 APISpec definition](/src/api-spec/index.ts). If you want to contribute more nodes/edges to this project, please add onto the type definition in that file.
 ## Step 3: Implementing the definition
-Import the `Node` and `Edge` classes from `fbsdk-ts/api-spec/node`.  Your custom APISpec definition can now be implemented in a subclass of `FacebookAppBase`:
+Import the `Node` and `Edge` classes from `fbsdk-ts/dist/api-spec/node`.  Your custom APISpec definition can now be implemented in a subclass of `FacebookAppBase`:
 ```ts
 import { FacebookAppBase } from 'fbsdk-ts';
-import { APISpec, NodeSpec, EdgeSpec, EdgelessNodeSpec, APISpecNodeCollection } from 'fbsdk-ts/api-spec';
-import Node, { Edge } from 'fbsdk-ts/api-spec/node';
+import { APISpec, NodeSpec, EdgeSpec, EdgelessNodeSpec, APISpecNodeCollection } from 'fbsdk-ts/dist/api-spec';
+import Node, { Edge } from 'fbsdk-ts/dist/api-spec/node';
 
 interface CustomAPISpec extends APISpec {
     SomeNodeName: {
@@ -323,10 +323,10 @@ This class can also be used as described in [how to extend / subclass](#how-to-e
 # How to access the node types
 
 
-The nodes can be imported from `fbsdk-ts/graph-api/types` like so:
+The nodes can be imported from `fbsdk-ts/dist/graph-api/types` like so:
 
 ```ts
-import { Page, User, Conversation } from 'fbsdk-ts/graph-api/types';
+import { Page, User, Conversation } from 'fbsdk-ts/dist/graph-api/types';
 ```
 
 Please check the [source file](/src/graph-api/types.ts) for the names of all the currently available types.

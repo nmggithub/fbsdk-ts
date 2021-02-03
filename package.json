@@ -7,8 +7,7 @@
         "clean": "rm -rf dist",
         "build": "tsc",
         "prune": "rm dist/util.js dist/graph-api/types.js dist/api-spec/index.js",
-        "links": "ln -s dist/graph-api/ graph-api && ln -s dist/api-spec/ api-spec",
-        "all": "npm run clean && npm run build && npm run prune && npm run links"
+        "all": "npm run clean && npm run build && npm run prune"
 
     },
     "keywords": [
@@ -30,8 +29,6 @@
     "repository": "github:nmggithub/fbsdk-ts",
     "files": [
         "dist",
-        "graph-api",
-        "api-spec",
         "!dist/util.js",
         "!dist/graph-api/types.js",
         "!dist/api-spec/index.js"
