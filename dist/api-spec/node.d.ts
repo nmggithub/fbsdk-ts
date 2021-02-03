@@ -34,17 +34,17 @@ export default class Node<ThisNode extends CRUDNodeInfo, Edges extends CRUDEdgeI
     Edges: {
         [edge in keyof Edges]: Edge<Edges[edge]>;
     };
-    private id;
+    private id?;
     constructor(GraphAPI: FacebookAppBase<APISpec>['GraphAPI'], Edges: {
         [edge in keyof Edges]: Edge<Edges[edge]>;
-    }, id: string);
+    }, id?: string);
     read: <FieldsTuple extends (keyof ThisNode["type"])[]>(access_token: string, fields?: (keyof ThisNode['type'])[], params?: Partial<ThisNode['read_params']>) => Promise<Pick<GraphAPIResponse<ThisNode["type"]>, "id" | FieldsTuple[number]>>;
 }
 export declare class Edge<ThisEdge extends CRUDEdgeInfo> implements CRUDEdge<ThisEdge> {
     private edge;
     private GraphAPI;
-    private id;
-    constructor(edge: ThisEdge['edge'], GraphAPI: FacebookAppBase<APISpec>['GraphAPI'], id: string);
+    private id?;
+    constructor(edge: ThisEdge['edge'], GraphAPI: FacebookAppBase<APISpec>['GraphAPI'], id?: string);
     read: <FieldsTuple extends (keyof ThisEdge["type"])[]>(access_token: string, fields?: (keyof ThisEdge['type'])[], params?: DeepPartial<ThisEdge['read_params']>) => Promise<EdgeResponse<Pick<GraphAPIResponse<ThisEdge["type"]>, "id" | FieldsTuple[number]>>>;
 }
 interface EdgeResponse<NodeType> {
