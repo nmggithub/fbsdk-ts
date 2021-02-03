@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "declaration": true,
+        "outDir": "dist",
+        "target": "ES6",
+        "esModuleInterop": true,
+        "noUnusedLocals": true,
+        "moduleResolution": "node",
+        "module": "commonjs"
+    },
+    "include": ["./src/index.ts"]
+}

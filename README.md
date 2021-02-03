@@ -1,0 +1,332 @@
+# fbsdk-ts
+
+_Strongly-typed promise-based client library for Facebook's Graph API using TypeScript._
+
+# Where do I start?
+- For most use cases: [How to use](#how-to-use)
+- For more experienced developers: [How to extend / subclass](#how-to-extend--subclass)
+- For advanced developers and contributors: [How to add nodes / edges](#how-to-add-nodes--edges)
+- For those who want the node types: [How to access the node types](#how-to-access-the-node-types)
+
+# How to use:
+
+_TypeScript is recommended to get all the benefits of this package, but you can also use plain JavaScript._
+
+## Step 0: Installation
+
+To install this package in a Node.js project, run this command in the project root:
+
+`npm install -S fbsdk-ts`
+
+## Step 1: Importing
+
+If you are using plain JavaScript, import the `FacebookApp` class like so:
+
+```js
+const { FacebookApp } = require('fbsdk-ts');
+```
+
+If you are using TypesScript, import the `FacebookApp` class like so:
+
+```ts
+import { FacebookApp } from ' fbsdk-ts';
+```
+
+## Step 2: Initialization
+
+`FacebookApp` is a class can be initialized like so:
+
+```ts
+const app = new FacebookApp({
+    appId: '{YOUR-APP-ID}',
+    appSecret: '{YOUR-APP-SECRET}',
+});
+```
+
+---
+
+***NOTE:** Never use your app secret directly in your code, as this is a security risk! Environment variables are recommended for storing your app secret.*
+
+
+## Step 3: Reading Nodes and Edges
+
+Once your app is initialized, you can read different nodes on the `Nodes` object:
+
+```ts
+// Get information about a page
+
+app.Nodes.Page('{SOME-PAGE-ID}')
+    .read('{PAGE-ACCESS-TOKEN}')
+    .then((pageInfo) => {
+        // do stuff with page info
+    });
+```
+
+A node may or may not also contain `Edges`, which will return a collection of nodes related to the root node:
+
+```ts
+// Get conversations on page
+
+app.Nodes.Page('{SOME-PAGE-ID}')
+    .Edges.Conversations.read('{PAGE-ACCESS-TOKEN}')
+    .then((conversations) => {
+        // do stuff with conversations
+    });
+```
+
+---
+
+***NOTE:** As with your app secret, never use your access tokens directly in your code. Environment variables are again recommended for storing your access tokens.*
+
+
+## Step 4: Selecting Fields
+
+By default, not all fields on a node are returned when it is read (however, the `id` field is always included). To select the fields that should be returned (in addition to `id`), you can pass in an array of field keys as the second parameter of the `.read` method:
+
+```js
+// Get the category and follower count of a page
+
+app.Nodes.Page('{SOME-PAGE-ID}')
+    .read('{PAGE-ACCESS-TOKEN}', ['category', 'followers_count'])
+    .then((pageInfo) => {
+        // do stuff with page info
+    });
+```
+
+If you are using TypeScript, you can limit the fields of the result type by duplicating your fields array as a type parameter on the `.read` method:
+
+```ts
+...
+.read<['category', 'followers_count']>('{PAGE-ACCESS-TOKEN}', ['category', 'followers_count'])
+...
+```
+
+## Step 5: Using Read Parameters
+
+Sometimes, a node or edge may have parameters that can be used with a read operation. These may be passed in as the third parameter in the `.read` method (`undefined` may be used for the second parameter if you don't want to specify fields):
+
+```ts
+// Get a page's spam folder
+
+app.Nodes.Page('{SOME-PAGE-ID}')
+    .Edges.Conversations.read('{PAGE-ACCESS-TOKEN}', undefined, { folder: 'spam' })
+    .then((spamConversations) => {
+        // do stuff with spam conversations
+    });
+```
+
+---
+
+# How to extend / subclass:
+
+This package is made to be extensible. You can create your own custom class like `FacebookApp` with its own methods to suit your needs.
+
+## Step 0: Installation
+
+To install this package in a Node.js project, run this command in the project root:
+
+`npm install -S fbsdk-ts`
+
+## Step 1: Importing
+
+If you are using plain JavaScript, import the `FacebookAppNoExposedNodes` class like so:
+
+```js
+const { FacebookAppNoExposedNodes } = require('fbsdk-ts');
+```
+
+If you are using TypesScript, import the `FacebookAppNoExposedNodes` class like so:
+
+```ts
+import { FacebookAppNoExposedNodes } from ' fbsdk-ts';
+```
+
+## Step 2: Sub-classing
+
+`FacebookAppNoExposedNodes` is an abstract class, and the parent class of the `FacebookApp` class used in the previous examples. Both classes are virtually identical, except that `FacebookApp` exposes the nodes object on `.Nodes`, while `FacebookAppNoExposedNodes` keeps the nodes object on the projected member `_Nodes`. If you want to make a subclass that does not expose the nodes object, you can extend `FacebookAppNoExposedNodes`:
+
+```js
+// make a class that can only return page data
+
+class FacebookPageGetter extends FacebookAppNoExposedNodes {
+    public getPageInfo(pageId, accessToken) {
+        return await this._Nodes.Page(pageId).read(accessToken);
+    }
+}
+
+```
+
+---
+
+***NOTE:** Don't return or expose single node objects as this will expose it's edges object. Instead only return the data, and make any member node objects private.*
+
+---
+
+# How to add nodes / edges:
+
+
+***NOTE:** TypeScript is required for these steps. The instructions assume you're familiar with TypeScript, specifically with interfaces, generic types, and union types.*
+
+
+## Step 0: Installation
+
+To install this package in a Node.js project, run this command in the project root:
+
+`npm install -S fbsdk-ts`
+
+## Step 0.5: Creating tsconfig.json
+
+If you haven't already, create a `tsconfig.json` file in your project root. It does not have to contain anything, but you may fill it with your preferred configuration options.
+
+## Step 1: Importing
+
+Import the `FacebookAppBase` class like so:
+
+```ts
+import { FacebookAppBase } from 'fbsdk-ts';
+```
+
+## Step 2: Making an APISpec definition
+
+`FacebookAppBase` is an abstract generic class, and requires an `APISpec` type parameter. You can declare an interface that extends `APISpec` and start defining nodes and their edges:
+
+```ts
+import { FacebookAppBase } from 'fbsdk-ts';
+import { APISpec } from 'fbsdk-ts/api-spec';
+
+interface CustomAPISpec extends APISpec {
+    SomeNodeName: {
+        node: {
+            type: SomeNode; // the type that defines the shape of the node
+        };
+        edges: {
+            SomeEdge: {
+                type: EdgeResult; // The type that defines the shape of the nodes returned by the edge
+                edge: 'things'; // The API path for the edge
+            };
+        };
+    };
+}
+```
+
+These definitions can be further simplified by helper types:
+```ts
+import { FacebookAppBase } from 'fbsdk-ts';
+import { APISpec, NodeSpec, EdgeSpec } from 'fbsdk-ts/api-spec';
+
+interface CustomAPISpec extends APISpec {
+    SomeNodeName: {
+        node: NodeSpec<SomeNode>;
+        edges: {
+            SomeEdge: EdgeSpec<EdgeResult,'things'>;
+        };        
+    };
+}
+```
+If a node doesn't have any edges, its definition can be further shortened with another helper type:
+```ts
+import { FacebookAppBase } from 'fbsdk-ts';
+import { APISpec, NodeSpec, EdgeSpec, EdgelessNodeSpec } from 'fbsdk-ts/api-spec';
+
+interface CustomAPISpec extends APISpec {
+    SomeNodeName: {
+        node: NodeSpec<SomeNode>;
+        edges: {
+            SomeEdge: EdgeSpec<EdgeResult,'things'>;
+        };        
+    };
+    SomeEdgelessNodeName: EdgelessNodeSpec<SomeEdgelessNode>;
+}
+```
+Nodes and edges can have read parameters defined like so:
+```ts
+import { FacebookAppBase } from 'fbsdk-ts';
+import { APISpec, NodeSpec, EdgeSpec, EdgelessNodeSpec } from 'fbsdk-ts/api-spec';
+
+interface CustomAPISpec extends APISpec {
+    SomeNodeName: {
+        node: NodeSpec<SomeNode> & {
+            read_params: {
+                additional_token: string;
+            };
+        };
+        edges: {
+            SomeEdge: EdgeSpec<EdgeResult,'things'> & {
+                read_params: {
+                    include_specific_kind: boolean;
+                };
+            };
+        };        
+    };
+    SomeEdgelessNodeName: EdgelessNodeSpec<SomeEdgelessNode>;
+}
+```
+For more specific code examples, see [the v9 APISpec definition](/src/api-spec/index.ts). If you want to contribute more nodes/edges to this project, please add onto the type definition in that file.
+## Step 3: Implementing the definition
+Import the `Node` and `Edge` classes from `fbsdk-ts/api-spec/node`.  Your custom APISpec definition can now be implemented in a subclass of `FacebookAppBase`:
+```ts
+import { FacebookAppBase } from 'fbsdk-ts';
+import { APISpec, NodeSpec, EdgeSpec, EdgelessNodeSpec, APISpecNodeCollection } from 'fbsdk-ts/api-spec';
+import Node, { Edge } from 'fbsdk-ts/api-spec/node';
+
+interface CustomAPISpec extends APISpec {
+    SomeNodeName: {
+        node: NodeSpec<SomeNode> & {
+            read_params: {
+                additional_token: string;
+            };
+        };
+        edges: {
+            SomeEdge: EdgeSpec<EdgeResult,'things'> & {
+                read_params: {
+                    include_specific_kind: boolean;
+                };
+            };
+        };        
+    };
+    SomeEdgelessNodeName: EdgelessNodeSpec<SomeEdgelessNode>;
+}
+
+/*
+ * Each key of the nodes object must be a function of the type: (id?: string) => Node
+ * The second parameter of the Node constructor is an implementation of the edges definition
+ * The first parameter of the Edge constructor must the the API path to the edge
+ * 
+ * The above requirements will by type-checked by the compiler.
+ */
+
+class CustomFacebookApp extends FacebookAppBase<CustomAPISpec> {
+    protected _Nodes: APISpecNodeCollection<CustomAPISpec> = {
+        SomeNodeName: (id?: string) =>
+            new Node(
+                this.GraphAPI,
+                {
+                    SomeEdge: new Edge('things', this.GraphAPI, id),
+                },
+                id
+            ),
+        SomeEdgelessNodeName: (id?: string) => new Node(this.GraphAPI, {}, id),
+    };
+}
+```
+
+If you want to expose the nodes as a public member variable (as the default `FacebookApp` does), you can simply add this inside your class:
+```ts
+...
+public Nodes = this._Nodes;
+...
+```
+This class can also be used as described in [how to extend / subclass](#how-to-extend--subclass).
+
+---
+
+# How to access the node types
+
+
+The nodes can be imported from `fbsdk-ts/graph-api/types` like so:
+
+```ts
+import { Page, User, Conversation } from 'fbsdk-ts/graph-api/types';
+```
+
+Please check the [source file](/src/graph-api/types.ts) for the names of all the currently available types.

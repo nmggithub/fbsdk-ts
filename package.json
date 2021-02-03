@@ -1,0 +1,39 @@
+{
+    "name": "fbsdk-ts",
+    "version": "1.0.0",
+    "description": "Strongly-typed promise-based client library for Facebook's Graph API using TypeScript",
+    "main": "dist/index.js",
+    "scripts": {
+        "clean": "rm -rf dist",
+        "build": "tsc",
+        "prune": "rm dist/util.js dist/graph-api/types.js dist/api-spec/index.js",
+        "links": "ln -s dist/graph-api/ graph-api && ln -s dist/api-spec/ api-spec",
+        "all": "npm run clean && npm run build && npm run prune && npm run links"
+
+    },
+    "keywords": [
+        "promise",
+        "typescript",
+        "facebook",
+        "sdk"
+    ],
+    "author": "Noah Gregory <nmgtheo@gmail.com> (https://github.com/nmggithub)",
+    "license": "MIT",
+    "types": "dist/index.d.ts",
+    "dependencies": {
+        "axios": "^0.21.1"
+    },
+    "devDependencies": {
+        "@types/node": "^14.14.21",
+        "typescript": "^4.1.3"
+    },
+    "repository": "github:nmggithub/fbsdk-ts",
+    "files": [
+        "dist",
+        "graph-api",
+        "api-spec",
+        "!dist/util.js",
+        "!dist/graph-api/types.js",
+        "!dist/api-spec/index.js"
+    ]
+}
