@@ -14,6 +14,8 @@
         "promise",
         "typescript",
         "facebook",
+        "graph",
+        "api",
         "sdk"
     ],
     "author": "Noah Gregory <nmgtheo@gmail.com> (https://github.com/nmggithub)",
