@@ -15,6 +15,18 @@ interface FacebookGraphAPIError {
     fbtrace_id: string;
 }
 
+const handleFacebookError = (e: AxiosError) => {
+    const { status, data } = e.response;
+    if (status.toString()[0] === '4') {
+        const _fbError = (<{ error: FacebookGraphAPIError }>data).error;
+        const fbError = new Error();
+        fbError.message = _fbError.message;
+        fbError.name = _fbError.type;
+        throw fbError;
+    }
+    else throw new Error('Unexpected error');
+}
+
 export abstract class FacebookAppBase<API extends APISpec> {
     protected graphAPIAxiosInstance: AxiosInstance;
 
@@ -38,15 +50,7 @@ export abstract class FacebookAppBase<API extends APISpec> {
                 );
                 return response;
             } catch (e) {
-                const { status, data } = (<AxiosError>e).response;
-                if (status.toString()[0] === '4') {
-                    const _fbError = (<{ error: FacebookGraphAPIError }>data).error;
-                    const fbError = new Error();
-                    fbError.message = _fbError.message;
-                    fbError.name = _fbError.type;
-                    throw fbError;
-                }
-                else throw new Error('Unexpected error');
+                handleFacebookError(e);
             }
         },
         post: async <ReturnType, DataType = any, ParamsType = any>(
@@ -68,15 +72,7 @@ export abstract class FacebookAppBase<API extends APISpec> {
                 );
                 return response;
             } catch (e) {
-                const { status, data } = (<AxiosError>e).response;
-                if (status.toString()[0] === '4') {
-                    const _fbError = (<{ error: FacebookGraphAPIError }>data).error;
-                    const fbError = new Error();
-                    fbError.message = _fbError.message;
-                    fbError.name = _fbError.type;
-                    throw fbError;
-                }
-                else throw new Error('Unexpected error');
+                handleFacebookError(e);
             }
         },
     };

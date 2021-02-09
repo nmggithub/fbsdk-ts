@@ -35,6 +35,18 @@ exports.FacebookApp = exports.FacebookAppNoExposedNodes = exports.FacebookAppBas
 const axios_1 = __importDefault(require("axios"));
 const node_1 = __importStar(require("./api-spec/node"));
 const crypto_1 = __importDefault(require("crypto"));
+const handleFacebookError = (e) => {
+    const { status, data } = e.response;
+    if (status.toString()[0] === '4') {
+        const _fbError = data.error;
+        const fbError = new Error();
+        fbError.message = _fbError.message;
+        fbError.name = _fbError.type;
+        throw fbError;
+    }
+    else
+        throw new Error('Unexpected error');
+};
 class FacebookAppBase {
     constructor(config) {
         this.config = config;
@@ -52,16 +64,7 @@ class FacebookAppBase {
                     return response;
                 }
                 catch (e) {
-                    const { status, data } = e.response;
-                    if (status.toString()[0] === '4') {
-                        const _fbError = data.error;
-                        const fbError = new Error();
-                        fbError.message = _fbError.message;
-                        fbError.name = _fbError.type;
-                        throw fbError;
-                    }
-                    else
-                        throw new Error('Unexpected error');
+                    handleFacebookError(e);
                 }
             }),
             post: (endpoint, _data, _params) => __awaiter(this, void 0, void 0, function* () {
@@ -78,16 +81,7 @@ class FacebookAppBase {
                     return response;
                 }
                 catch (e) {
-                    const { status, data } = e.response;
-                    if (status.toString()[0] === '4') {
-                        const _fbError = data.error;
-                        const fbError = new Error();
-                        fbError.message = _fbError.message;
-                        fbError.name = _fbError.type;
-                        throw fbError;
-                    }
-                    else
-                        throw new Error('Unexpected error');
+                    handleFacebookError(e);
                 }
             }),
         };

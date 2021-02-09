@@ -1440,7 +1440,7 @@ export interface Doc {
     updated_time: string;
 }
 
-interface Event {
+export interface Event {
     /**
      * The event ID
      */
@@ -10609,7 +10609,7 @@ export interface PaymentEnginePayment {
     /**
      * items
      */
-    items: PaymentItem[];
+    items: unknown[]; // PaymentItem[]
     /**
      * payout_foreign_exchange_rate
      */
@@ -10660,4 +10660,52 @@ export interface AppRequestFormerRecipient {
      * Recipient ID
      */
     recipient_id: string;
+}
+
+export interface URL {
+    /**
+     * The URL being queried
+     */
+    id: string;
+    /**
+     * Instant Article object for the URL, in development mode
+     */
+    development_instant_article: InstantArticle;
+    /**
+     * The engagement counts associated with the URL
+     */
+    engagement: URLEngagementData;
+    /**
+     * Instant Article object for the URL
+     */
+    instant_article: InstantArticle;
+    /**
+     * Open Graph Object for the URL
+     */
+    og_object: OpenGraphObject__generic;
+    /**
+     * Permissions based on ownership of the URL
+     */
+}
+
+interface URLEngagementData {
+    /**
+     * Number of comments on the URL.
+     */
+    comment_count: number;
+
+    /**
+     * Number of comments on the plugin gathered using the [Comments Plugin](https://developers.facebook.com/docs/plugins/comments/) on your site.
+     */
+    comment_plugin_count: number;
+
+    /**
+     * Number of reactions to the URL.
+     */
+    reaction_count: number;
+
+    /**
+     * Number of times the URL was shared.
+     */
+    share_count: number;
 }
