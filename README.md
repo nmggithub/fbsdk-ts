@@ -158,7 +158,7 @@ class FacebookPageGetter extends FacebookAppNoExposedNodes {
 
 ---
 
-***NOTE:** Don't return or expose single node objects as this will expose it's edges object. Instead only return the data, and make any member node objects private.*
+***NOTE:** Don't return or expose single node objects as this will expose its edges object. Instead only return the data, and make any member node objects private.*
 
 ---
 
@@ -288,7 +288,7 @@ interface CustomAPISpec extends APISpec {
 }
 
 /*
- * Each key of the nodes object must be a function of the type: (id?: string) => Node
+ * Each key of the nodes object must be a function of the type: (id: string) => Node
  * The second parameter of the Node constructor is an implementation of the edges definition
  * The first parameter of the Edge constructor must the the API path to the edge
  * 
@@ -297,7 +297,7 @@ interface CustomAPISpec extends APISpec {
 
 class CustomFacebookApp extends FacebookAppBase<CustomAPISpec> {
     protected _Nodes: APISpecNodeCollection<CustomAPISpec> = {
-        SomeNodeName: (id?: string) =>
+        SomeNodeName: (id: string) =>
             new Node(
                 this.GraphAPI,
                 {
@@ -305,7 +305,7 @@ class CustomFacebookApp extends FacebookAppBase<CustomAPISpec> {
                 },
                 id
             ),
-        SomeEdgelessNodeName: (id?: string) => new Node(this.GraphAPI, {}, id),
+        SomeEdgelessNodeName: (id: string) => new Node(this.GraphAPI, {}, id),
     };
 }
 ```

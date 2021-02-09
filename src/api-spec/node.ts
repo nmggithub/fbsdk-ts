@@ -8,11 +8,14 @@ export type NodeGetter<ThisNode extends CRUDNodeInfo, Edges extends CRUDEdgeInfo
 ) => Node<ThisNode, Edges>;
 
 export interface CRUDNodeInfo {
+    read_params?: { [key: string]: any };
     type: any;
     create_params?: { [key: string]: any };
-    read_params?: { [key: string]: any };
+    create_return?: any;
     update_params?: { [key: string]: any };
+    update_return?: any;
     delete_params?: { [key: string]: any };
+    delete_return?: any;
 }
 
 export interface CRUDEdgeInfo extends CRUDNodeInfo {
@@ -32,6 +35,11 @@ interface CRUDEdge<ThisEdge extends CRUDEdgeInfo> {
     read: (
         ...args: Parameters<CRUDNode<ThisEdge>['read']>
     ) => Promise<EdgeResponse<DePromise<ReturnType<CRUDNode<ThisEdge>['read']>>>>;
+    create: (
+        access_token: string,
+        data: ThisEdge['type'],
+        params?: Partial<ThisEdge['create_params']>
+    ) => Promise<ThisEdge['create_return']>;
 }
 
 export default class Node<ThisNode extends CRUDNodeInfo, Edges extends CRUDEdgeInfoSet = any>
@@ -75,7 +83,23 @@ export class Edge<ThisEdge extends CRUDEdgeInfo> implements CRUDEdge<ThisEdge> {
             DeepPartial<ThisEdge['read_params']>
         >(
             path.join(this.id, this.edge),
-            Object.assign(Object.assign(params ?? {}, { access_token }), { fields: fields?.toString() })
+            Object.assign(Object.assign(params ?? {}, { access_token }), {
+                fields: fields?.toString(),
+            })
+        );
+    public create = async (
+        access_token: string,
+        data: ThisEdge['type'],
+        params?: Partial<ThisEdge['create_params']>
+    ) =>
+        this.GraphAPI.post<
+            ThisEdge['create_return'],
+            ThisEdge['type'],
+            DeepPartial<ThisEdge['read_params']>
+        >(
+            path.join(this.id, this.edge),
+            data,
+            Object.assign(params ?? {}, { access_token })
         );
 }
 

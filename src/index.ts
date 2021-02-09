@@ -46,7 +46,36 @@ export abstract class FacebookAppBase<API extends APISpec> {
                     fbError.name = _fbError.type;
                     throw fbError;
                 }
-                else throw new Error('Unexpected error')
+                else throw new Error('Unexpected error');
+            }
+        },
+        post: async <ReturnType, DataType = any, ParamsType = any>(
+            endpoint: string,
+            data: DataType,
+            params?: ParamsType & { access_token: string }
+        ) => {
+            params = Object.assign(params, {
+                appsecret_proof: crypto
+                    .createHmac('sha256', this.config.appSecret)
+                    .update(params.access_token)
+                    .digest('hex')
+                    .toString(),
+            });
+            try {
+                const response = <ReturnType>(
+                (await this.graphAPIAxiosInstance.post(endpoint, { data, params })).data
+                );
+                return response;
+            } catch (e) {
+                const { status, data } = (<AxiosError>e).response;
+                if (status.toString()[0] === '4') {
+                    const _fbError = (<{ error: FacebookGraphAPIError }>data).error;
+                    const fbError = new Error();
+                    fbError.message = _fbError.message;
+                    fbError.name = _fbError.type;
+                    throw fbError;
+                }
+                else throw new Error('Unexpected error');
             }
         },
     };
@@ -60,7 +89,7 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
         this.graphAPIAxiosInstance = axios.create({ baseURL: `https://graph.facebook.com/v9.0` });
     }
     protected _Nodes: APISpecNodeCollection<APIv9> = {
-        Album: (id?: string) =>
+        Album: (id: string) =>
             new Node(
                 this.GraphAPI,
                 {
@@ -71,8 +100,8 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                 },
                 id
             ),
-        AppRequest: (id?: string) => new Node(this.GraphAPI, {}, id),
-        Application: (id?: string) =>
+        AppRequest: (id: string) => new Node(this.GraphAPI, {}, id),
+        Application: (id: string) =>
             new Node(
                 this.GraphAPI,
                 {
@@ -115,11 +144,11 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                 },
                 id
             ),
-        AsyncSession: (id?: string) => new Node(this.GraphAPI, {}, id),
-        CPASAdvertiserPartnershipRecommendation: (id?: string) => new Node(this.GraphAPI, {}, id),
-        CPASCollaborationRequest: (id?: string) => new Node(this.GraphAPI, {}, id),
-        CTCertDomain: (id?: string) => new Node(this.GraphAPI, {}, id),
-        Comment: (id?: string) =>
+        AsyncSession: (id: string) => new Node(this.GraphAPI, {}, id),
+        CPASAdvertiserPartnershipRecommendation: (id: string) => new Node(this.GraphAPI, {}, id),
+        CPASCollaborationRequest: (id: string) => new Node(this.GraphAPI, {}, id),
+        CTCertDomain: (id: string) => new Node(this.GraphAPI, {}, id),
+        Comment: (id: string) =>
             new Node(
                 this.GraphAPI,
                 {
@@ -130,7 +159,7 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                 },
                 id
             ),
-        CommerceMerchantSettings: (id?: string) =>
+        CommerceMerchantSettings: (id: string) =>
             new Node(
                 this.GraphAPI,
                 {
@@ -142,7 +171,7 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                 },
                 id
             ),
-        Conversation: (id?: string) =>
+        Conversation: (id: string) =>
             new Node(
                 this.GraphAPI,
                 {
@@ -150,10 +179,10 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                 },
                 id
             ),
-        Destination: (id?: string) => new Node(this.GraphAPI, {}, id),
-        Doc: (id?: string) => new Node(this.GraphAPI, {}, id),
-        Domain: (id?: string) => new Node(this.GraphAPI, {}, id),
-        Event: (id?: string) =>
+        Destination: (id: string) => new Node(this.GraphAPI, {}, id),
+        Doc: (id: string) => new Node(this.GraphAPI, {}, id),
+        Domain: (id: string) => new Node(this.GraphAPI, {}, id),
+        Event: (id: string) =>
             new Node(
                 this.GraphAPI,
                 {
@@ -161,9 +190,9 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                 },
                 id
             ),
-        Flight: (id?: string) => new Node(this.GraphAPI, {}, id),
-        FriendList: (id?: string) => new Node(this.GraphAPI, {}, id),
-        Group: (id?: string) =>
+        Flight: (id: string) => new Node(this.GraphAPI, {}, id),
+        FriendList: (id: string) => new Node(this.GraphAPI, {}, id),
+        Group: (id: string) =>
             new Node(
                 this.GraphAPI,
                 {
@@ -178,10 +207,10 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                 },
                 id
             ),
-        GroupDoc: (id?: string) => new Node(this.GraphAPI, {}, id),
-        GroupMessage: (id?: string) => new Node(this.GraphAPI, {}, id),
-        ImageCopyright: (id?: string) => new Node(this.GraphAPI, {}, id),
-        LeadGenData: (id?: string) =>
+        GroupDoc: (id: string) => new Node(this.GraphAPI, {}, id),
+        GroupMessage: (id: string) => new Node(this.GraphAPI, {}, id),
+        ImageCopyright: (id: string) => new Node(this.GraphAPI, {}, id),
+        LeadGenData: (id: string) =>
             new Node(
                 this.GraphAPI,
                 {
@@ -190,7 +219,7 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                 },
                 id
             ),
-        Link: (id?: string) =>
+        Link: (id: string) =>
             new Node(
                 this.GraphAPI,
                 {
@@ -199,8 +228,8 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                 },
                 id
             ),
-        LiveEncoder: (id?: string) => new Node(this.GraphAPI, {}, id),
-        LiveVideo: (id?: string) =>
+        LiveEncoder: (id: string) => new Node(this.GraphAPI, {}, id),
+        LiveVideo: (id: string) =>
             new Node(
                 this.GraphAPI,
                 {
@@ -214,10 +243,10 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                 },
                 id
             ),
-        LiveVideoInputStream: (id?: string) => new Node(this.GraphAPI, {}, id),
-        MailingAddress: (id?: string) => new Node(this.GraphAPI, {}, id),
-        MediaFingerprint: (id?: string) => new Node(this.GraphAPI, {}, id),
-        NativeOffer: (id?: string) =>
+        LiveVideoInputStream: (id: string) => new Node(this.GraphAPI, {}, id),
+        MailingAddress: (id: string) => new Node(this.GraphAPI, {}, id),
+        MediaFingerprint: (id: string) => new Node(this.GraphAPI, {}, id),
+        NativeOffer: (id: string) =>
             new Node(
                 this.GraphAPI,
                 {
@@ -225,7 +254,7 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                 },
                 id
             ),
-        OfflineConversionDataSet: (id?: string) =>
+        OfflineConversionDataSet: (id: string) =>
             new Node(
                 this.GraphAPI,
                 {
@@ -238,7 +267,7 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                 },
                 id
             ),
-        OfflineConversionDataSetUpload: (id?: string) =>
+        OfflineConversionDataSetUpload: (id: string) =>
             new Node(
                 this.GraphAPI,
                 {
@@ -333,8 +362,8 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                 },
                 id
             ),
-        PageCallToAction: (id?: string) => new Node(this.GraphAPI, {}, id),
-        PagePost: (id?: string) =>
+        PageCallToAction: (id: string) => new Node(this.GraphAPI, {}, id),
+        PagePost: (id: string) =>
             new Node(
                 this.GraphAPI,
                 {
@@ -344,7 +373,7 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                 },
                 id
             ),
-        Photo: (id?: string) =>
+        Photo: (id: string) =>
             new Node(
                 this.GraphAPI,
                 {
@@ -352,7 +381,7 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                 },
                 id
             ),
-        User: (id?: string) => new Node(this.GraphAPI, {
+        User: (id: string) => new Node(this.GraphAPI, {
             "Payment.subscriptions": new Edge('payment.subscriptions', this.GraphAPI, id),
             Accounts: new Edge('accounts', this.GraphAPI, id),
             AdStudies: new Edge('ad_studies', this.GraphAPI, id),
@@ -385,9 +414,9 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
             Posts: new Edge('posts', this.GraphAPI, id),
             Videos: new Edge('videos', this.GraphAPI, id)
         }, id),
-        Video: (id?: string) => new Node(this.GraphAPI, {}, id),
-        VideoList: (id?: string) => new Node(this.GraphAPI, {}, id),
-        VideoPoll: (id?: string) => new Node(this.GraphAPI, {}, id),
+        Video: (id: string) => new Node(this.GraphAPI, {}, id),
+        VideoList: (id: string) => new Node(this.GraphAPI, {}, id),
+        VideoPoll: (id: string) => new Node(this.GraphAPI, {}, id),
     };
 }
 
