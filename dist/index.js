@@ -51,11 +51,11 @@ class FacebookAppBase {
     constructor(config) {
         this.config = config;
         this.GraphAPI = {
-            get: (endpoint, params) => __awaiter(this, void 0, void 0, function* () {
-                params = Object.assign(params, {
+            get: (endpoint, _params) => __awaiter(this, void 0, void 0, function* () {
+                const params = Object.assign(_params, {
                     appsecret_proof: crypto_1.default
                         .createHmac('sha256', this.config.appSecret)
-                        .update(params.access_token)
+                        .update(_params.access_token)
                         .digest('hex')
                         .toString(),
                 });
@@ -67,7 +67,7 @@ class FacebookAppBase {
                     handleFacebookError(e);
                 }
             }),
-            post: (endpoint, _data, _params) => __awaiter(this, void 0, void 0, function* () {
+            post: (endpoint, data, _params) => __awaiter(this, void 0, void 0, function* () {
                 const params = Object.assign(_params, {
                     appsecret_proof: crypto_1.default
                         .createHmac('sha256', this.config.appSecret)
@@ -75,9 +75,8 @@ class FacebookAppBase {
                         .digest('hex')
                         .toString(),
                 });
-                const data = JSON.stringify(_data);
                 try {
-                    const response = ((yield this.graphAPIAxiosInstance.post(endpoint, { data, params })).data);
+                    const response = ((yield this.graphAPIAxiosInstance.post(endpoint, data, { params })).data);
                     return response;
                 }
                 catch (e) {

@@ -9,10 +9,10 @@ export declare abstract class FacebookAppBase<API extends APISpec> {
     protected graphAPIAxiosInstance: AxiosInstance;
     constructor(config: FacebookAppConfig);
     protected GraphAPI: {
-        get: <ReturnType_1, ParamsType = any>(endpoint: string, params?: ParamsType & {
+        get: <ReturnType_1, ParamsType = any>(endpoint: string, _params?: ParamsType & {
             access_token: string;
         }) => Promise<ReturnType_1>;
-        post: <ReturnType_2, DataType = any, ParamsType_1 = any>(endpoint: string, _data: DataType, _params?: ParamsType_1 & {
+        post: <ReturnType_2, DataType = any, ParamsType_1 = any>(endpoint: string, data: DataType, _params?: ParamsType_1 & {
             access_token: string;
         }) => Promise<ReturnType_2>;
     };

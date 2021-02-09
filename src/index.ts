@@ -35,12 +35,12 @@ export abstract class FacebookAppBase<API extends APISpec> {
     protected GraphAPI = {
         get: async <ReturnType, ParamsType = any>(
             endpoint: string,
-            params?: ParamsType & { access_token: string }
+            _params?: ParamsType & { access_token: string }
         ) => {
-            params = Object.assign(params, {
+            const params = Object.assign(_params, {
                 appsecret_proof: crypto
                     .createHmac('sha256', this.config.appSecret)
-                    .update(params.access_token)
+                    .update(_params.access_token)
                     .digest('hex')
                     .toString(),
             });
@@ -55,7 +55,7 @@ export abstract class FacebookAppBase<API extends APISpec> {
         },
         post: async <ReturnType, DataType = any, ParamsType = any>(
             endpoint: string,
-            _data: DataType,
+            data: DataType,
             _params?: ParamsType & { access_token: string }
         ) => {
             const params = Object.assign(_params, {
@@ -65,10 +65,9 @@ export abstract class FacebookAppBase<API extends APISpec> {
                     .digest('hex')
                     .toString(),
             });
-            const data = JSON.stringify(_data);
             try {
                 const response = <ReturnType>(
-                (await this.graphAPIAxiosInstance.post(endpoint, { data, params })).data
+                (await this.graphAPIAxiosInstance.post(endpoint, data, { params })).data
                 );
                 return response;
             } catch (e) {
