@@ -51,16 +51,17 @@ export abstract class FacebookAppBase<API extends APISpec> {
         },
         post: async <ReturnType, DataType = any, ParamsType = any>(
             endpoint: string,
-            data: DataType,
-            params?: ParamsType & { access_token: string }
+            _data: DataType,
+            _params?: ParamsType & { access_token: string }
         ) => {
-            params = Object.assign(params, {
+            const params = Object.assign(_params, {
                 appsecret_proof: crypto
                     .createHmac('sha256', this.config.appSecret)
-                    .update(params.access_token)
+                    .update(_params.access_token)
                     .digest('hex')
                     .toString(),
             });
+            const data = JSON.stringify(_data);
             try {
                 const response = <ReturnType>(
                 (await this.graphAPIAxiosInstance.post(endpoint, { data, params })).data

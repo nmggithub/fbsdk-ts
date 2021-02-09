@@ -64,14 +64,15 @@ class FacebookAppBase {
                         throw new Error('Unexpected error');
                 }
             }),
-            post: (endpoint, data, params) => __awaiter(this, void 0, void 0, function* () {
-                params = Object.assign(params, {
+            post: (endpoint, _data, _params) => __awaiter(this, void 0, void 0, function* () {
+                const params = Object.assign(_params, {
                     appsecret_proof: crypto_1.default
                         .createHmac('sha256', this.config.appSecret)
-                        .update(params.access_token)
+                        .update(_params.access_token)
                         .digest('hex')
                         .toString(),
                 });
+                const data = JSON.stringify(_data);
                 try {
                     const response = ((yield this.graphAPIAxiosInstance.post(endpoint, { data, params })).data);
                     return response;
