@@ -33,7 +33,12 @@ class Edge {
         this.GraphAPI = GraphAPI;
         this.id = id;
         this.read = (access_token, fields, params) => __awaiter(this, void 0, void 0, function* () {
-            return this.GraphAPI.get(path_1.default.join(this.id, this.edge), Object.assign(Object.assign(params !== null && params !== void 0 ? params : {}, { access_token }), { fields: fields === null || fields === void 0 ? void 0 : fields.toString() }));
+            return this.GraphAPI.get(path_1.default.join(this.id, this.edge), Object.assign(Object.assign(params !== null && params !== void 0 ? params : {}, { access_token }), {
+                fields: fields === null || fields === void 0 ? void 0 : fields.toString(),
+            }));
+        });
+        this.create = (access_token, data, params) => __awaiter(this, void 0, void 0, function* () {
+            return this.GraphAPI.post(path_1.default.join(this.id, this.edge), data, Object.assign(params !== null && params !== void 0 ? params : {}, { access_token }));
         });
     }
 }

@@ -440,7 +440,7 @@ export interface APIv9 extends APISpec {
     };
 }
 export declare type APISpecNodeCollection<T extends APISpec> = {
-    [node in keyof T]: (id?: string) => Node<T[node]['node'], T[node]['edges']>;
+    [node in keyof T]: (id: string) => Node<T[node]['node'], T[node]['edges']>;
 };
 export declare type NodeSpec<NodeType> = {
     type: NodeType;

@@ -64,6 +64,31 @@ class FacebookAppBase {
                         throw new Error('Unexpected error');
                 }
             }),
+            post: (endpoint, data, params) => __awaiter(this, void 0, void 0, function* () {
+                params = Object.assign(params, {
+                    appsecret_proof: crypto_1.default
+                        .createHmac('sha256', this.config.appSecret)
+                        .update(params.access_token)
+                        .digest('hex')
+                        .toString(),
+                });
+                try {
+                    const response = ((yield this.graphAPIAxiosInstance.post(endpoint, { data, params })).data);
+                    return response;
+                }
+                catch (e) {
+                    const { status, data } = e.response;
+                    if (status.toString()[0] === '4') {
+                        const _fbError = data.error;
+                        const fbError = new Error();
+                        fbError.message = _fbError.message;
+                        fbError.name = _fbError.type;
+                        throw fbError;
+                    }
+                    else
+                        throw new Error('Unexpected error');
+                }
+            }),
         };
     }
 }

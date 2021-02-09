@@ -12,6 +12,9 @@ export declare abstract class FacebookAppBase<API extends APISpec> {
         get: <ReturnType_1, ParamsType = any>(endpoint: string, params?: ParamsType & {
             access_token: string;
         }) => Promise<ReturnType_1>;
+        post: <ReturnType_2, DataType = any, ParamsType_1 = any>(endpoint: string, data: DataType, params?: ParamsType_1 & {
+            access_token: string;
+        }) => Promise<ReturnType_2>;
     };
     protected abstract _Nodes: APISpecNodeCollection<API>;
 }
