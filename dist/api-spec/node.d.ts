@@ -31,7 +31,7 @@ interface CRUDNode<ThisNode extends CRUDNodeInfo> {
 }
 interface CRUDEdge<ThisEdge extends CRUDEdgeInfo> {
     read: (...args: Parameters<CRUDNode<ThisEdge>['read']>) => Promise<EdgeResponse<DePromise<ReturnType<CRUDNode<ThisEdge>['read']>>>>;
-    create: (access_token: string, data: ThisEdge['type'], params?: Partial<ThisEdge['create_params']>) => Promise<ThisEdge['create_return']>;
+    create: (access_token: string, data: Partial<ThisEdge['type']>, params?: Partial<ThisEdge['create_params']>) => Promise<ThisEdge['create_return']>;
 }
 export default class Node<ThisNode extends CRUDNodeInfo, Edges extends CRUDEdgeInfoSet = any> implements CRUDNode<ThisNode> {
     private GraphAPI;
@@ -50,7 +50,7 @@ export declare class Edge<ThisEdge extends CRUDEdgeInfo> implements CRUDEdge<Thi
     private id?;
     constructor(edge: ThisEdge['edge'], GraphAPI: FacebookAppBase<APISpec>['GraphAPI'], id?: string);
     read: <FieldsTuple extends (keyof ThisEdge["type"])[]>(access_token: string, fields?: (keyof ThisEdge['type'])[], params?: DeepPartial<ThisEdge['read_params']>) => Promise<EdgeResponse<Pick<GraphAPIResponse<ThisEdge["type"]>, "id" | FieldsTuple[number]>>>;
-    create: (access_token: string, data: ThisEdge['type'], params?: Partial<ThisEdge['create_params']>) => Promise<ThisEdge["create_return"]>;
+    create: (access_token: string, data: Partial<ThisEdge['type']>, params?: Partial<ThisEdge['create_params']>) => Promise<ThisEdge["create_return"]>;
 }
 interface EdgeResponse<NodeType> {
     data: NodeType[];

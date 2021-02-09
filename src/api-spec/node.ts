@@ -37,7 +37,7 @@ interface CRUDEdge<ThisEdge extends CRUDEdgeInfo> {
     ) => Promise<EdgeResponse<DePromise<ReturnType<CRUDNode<ThisEdge>['read']>>>>;
     create: (
         access_token: string,
-        data: ThisEdge['type'],
+        data: Partial<ThisEdge['type']>,
         params?: Partial<ThisEdge['create_params']>
     ) => Promise<ThisEdge['create_return']>;
 }
@@ -89,7 +89,7 @@ export class Edge<ThisEdge extends CRUDEdgeInfo> implements CRUDEdge<ThisEdge> {
         );
     public create = async (
         access_token: string,
-        data: ThisEdge['type'],
+        data: Partial<ThisEdge['type']>,
         params?: Partial<ThisEdge['create_params']>
     ) =>
         this.GraphAPI.post<
