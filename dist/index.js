@@ -50,14 +50,15 @@ const handleFacebookError = (e) => {
 class FacebookAppBase {
     constructor(config) {
         this.config = config;
+        this.makeAppSecretProof = (accessToken) => crypto_1.default
+            .createHmac('sha256', this.config.appSecret)
+            .update(accessToken)
+            .digest('hex')
+            .toString();
         this.GraphAPI = {
             get: (endpoint, _params) => __awaiter(this, void 0, void 0, function* () {
                 const params = Object.assign(_params, {
-                    appsecret_proof: crypto_1.default
-                        .createHmac('sha256', this.config.appSecret)
-                        .update(_params.access_token)
-                        .digest('hex')
-                        .toString(),
+                    appsecret_proof: this.makeAppSecretProof(_params.access_token),
                 });
                 try {
                     const response = ((yield this.graphAPIAxiosInstance.get(endpoint, { params })).data);
@@ -69,14 +70,22 @@ class FacebookAppBase {
             }),
             post: (endpoint, data, _params) => __awaiter(this, void 0, void 0, function* () {
                 const params = Object.assign(_params, {
-                    appsecret_proof: crypto_1.default
-                        .createHmac('sha256', this.config.appSecret)
-                        .update(_params.access_token)
-                        .digest('hex')
-                        .toString(),
+                    appsecret_proof: this.makeAppSecretProof(_params.access_token),
                 });
                 try {
                     const response = ((yield this.graphAPIAxiosInstance.post(endpoint, data, { params })).data);
+                    return response;
+                }
+                catch (e) {
+                    handleFacebookError(e);
+                }
+            }),
+            delete: (endpoint, _params) => __awaiter(this, void 0, void 0, function* () {
+                const params = Object.assign(_params, {
+                    appsecret_proof: this.makeAppSecretProof(_params.access_token),
+                });
+                try {
+                    const response = ((yield this.graphAPIAxiosInstance.delete(endpoint, { params })).data);
                     return response;
                 }
                 catch (e) {
@@ -228,6 +237,7 @@ class FacebookAppNoExposedNodes extends FacebookAppBase {
                 LiveEncoders: new node_1.Edge('live_encoders', this.GraphAPI, id),
                 LiveVideos: new node_1.Edge('live_videos', this.GraphAPI, id),
                 Locations: new node_1.Edge('locations', this.GraphAPI, id),
+                Messages: new node_1.Edge('messages', this.GraphAPI, id),
                 MediaFingerprints: new node_1.Edge('media_fingerprints', this.GraphAPI, id),
                 MessagingFeatureReview: new node_1.Edge('messaging_feature_review', this.GraphAPI, id),
                 MessengerProfile: new node_1.Edge('messenger_profile', this.GraphAPI, id),
@@ -268,7 +278,7 @@ class FacebookAppNoExposedNodes extends FacebookAppBase {
                 Likes: new node_1.Edge('likes', this.GraphAPI, id),
             }, id),
             User: (id) => new node_1.default(this.GraphAPI, {
-                "Payment.subscriptions": new node_1.Edge('payment.subscriptions', this.GraphAPI, id),
+                'Payment.subscriptions': new node_1.Edge('payment.subscriptions', this.GraphAPI, id),
                 Accounts: new node_1.Edge('accounts', this.GraphAPI, id),
                 AdStudies: new node_1.Edge('ad_studies', this.GraphAPI, id),
                 Adaccounts: new node_1.Edge('adaccounts', this.GraphAPI, id),
@@ -298,7 +308,7 @@ class FacebookAppNoExposedNodes extends FacebookAppBase {
                 Photos: new node_1.Edge('photos', this.GraphAPI, id),
                 Picture: new node_1.Edge('picture', this.GraphAPI, id),
                 Posts: new node_1.Edge('posts', this.GraphAPI, id),
-                Videos: new node_1.Edge('videos', this.GraphAPI, id)
+                Videos: new node_1.Edge('videos', this.GraphAPI, id),
             }, id),
             Video: (id) => new node_1.default(this.GraphAPI, {}, id),
             VideoList: (id) => new node_1.default(this.GraphAPI, {}, id),

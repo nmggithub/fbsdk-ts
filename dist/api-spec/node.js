@@ -24,6 +24,9 @@ class Node {
                 fields: fields === null || fields === void 0 ? void 0 : fields.toString(),
             }));
         });
+        this.delete = (access_token, params) => __awaiter(this, void 0, void 0, function* () {
+            return yield this.GraphAPI.delete(this.id, Object.assign(params !== null && params !== void 0 ? params : {}, { access_token }));
+        });
     }
 }
 exports.default = Node;

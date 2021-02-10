@@ -1,5 +1,8 @@
 import Node, { CRUDNodeInfo, CRUDEdgeInfoSet } from './node';
-import { AdAccount, AdNetworkAnalyticsAsyncQueryResult, Album, Application, ApplicationAppEventTypes, ApplicationPermission, ApplicationPermissionStatus, AppRequest, AsyncSession, Business, ButtonAutoDetectionDeviceSelection, CanvasAppAsset, Comment, CommerceMerchantSettings, ConversionConfig, CPASAdvertiserPartnershipRecommendation, CPASCollaborationRequest, CTCertDomain, DACheck, GamesIAPProduct, InsightsQueryResult, MobileSDKGK, Photo, ProductCatalog, Profile, ProfilePictureSource, Reaction, CommerceReturn, Role, SDKMLModel, TestAccount, Conversation, Message, Destination, Doc, Event, Flight, FriendList, GroupDoc, GroupMessage, ImageCopyright, LeadGenData, UserLeadGenInfo, Link, LiveVideo, LiveVideoInputStream, LiveEncoder, User, Page, LiveVideoError, VideoPoll, MailingAddress, GroupFile, MediaFingerprint, NativeOffer, NativeOfferView, OfflineConversionDataSet, OfflineConversionDataSetUpload, CustomAudience, CustomConversion, OfflineConversionDataSetStats, CommerceMerchantTaxSettings, Video, Post, SignalsUploadProgress, GamesIAPOrder, PagePost, AssignedUser, AudioCopyright, CommerceMerchantSettingsSetupStatus, CommerceOrder, CommerceOrderTransactionDetail, CommercePayout, CustomUserSettings, InsightsResult, InstagramUser, InstantArticle, InstantArticleInsightsQueryResult, MessagingFeatureReview, MessengerProfile, PageCallToAction, PageSettings, PageThreadOwner, PageUserMessageThreadLabel, Persona, Recommendation, RTBDynamicPost, Tab, VideoCopyright, VideoCopyrightRule, VideoList, EventTour, Group, InsightBreakdown, BusinessUser, BusinessAssetGroup, Permission, URL, UserIDForApp, AdStudy, PaymentEnginePayment, PaymentSubscription, UserIDForPage, AppRequestFormerRecipient } from '../graph-api/types';
+import { AdAccount, AdNetworkAnalyticsAsyncQueryResult, Album, Application, ApplicationAppEventTypes, ApplicationPermission, ApplicationPermissionStatus, AppRequest, AsyncSession, Business, ButtonAutoDetectionDeviceSelection, CanvasAppAsset, Comment, CommerceMerchantSettings, ConversionConfig, CPASAdvertiserPartnershipRecommendation, CPASCollaborationRequest, CTCertDomain, DACheck, GamesIAPProduct, InsightsQueryResult, MobileSDKGK, Photo, ProductCatalog, Profile, ProfilePictureSource, Reaction, CommerceReturn, Role, SDKMLModel, TestAccount, Conversation, Message, Destination, Doc, Event, Flight, FriendList, GroupDoc, GroupMessage, ImageCopyright, LeadGenData, UserLeadGenInfo, Link, LiveVideo, LiveVideoInputStream, LiveEncoder, User, Page, LiveVideoError, VideoPoll, MailingAddress, GroupFile, MediaFingerprint, NativeOffer, NativeOfferView, OfflineConversionDataSet, OfflineConversionDataSetUpload, CustomAudience, CustomConversion, OfflineConversionDataSetStats, CommerceMerchantTaxSettings, Video, Post, SignalsUploadProgress, GamesIAPOrder, PagePost, AssignedUser, AudioCopyright, CommerceMerchantSettingsSetupStatus, CommerceOrder, CommerceOrderTransactionDetail, CommercePayout, InsightsResult, InstagramUser, InstantArticle, InstantArticleInsightsQueryResult, MessagingFeatureReview, PageCallToAction, PageSettings, PageThreadOwner, PageUserMessageThreadLabel, Persona, Recommendation, RTBDynamicPost, Tab, VideoCopyright, VideoCopyrightRule, VideoList, EventTour, Group, InsightBreakdown, BusinessUser, BusinessAssetGroup, Permission, URL, UserIDForApp, AdStudy, PaymentEnginePayment, PaymentSubscription, UserIDForPage, AppRequestFormerRecipient } from '../graph-api/types';
+import { CustomUserSettings } from '../messenger-platform/apis/custom-user-settings';
+import { MessengerProfile } from '../messenger-platform/apis/messenger-profile';
+import { PageMessageRequest } from '../messenger-platform/apis/send';
 interface NodeGetterTypeParams {
     node: CRUDNodeInfo;
     edges: CRUDEdgeInfoSet;
@@ -351,6 +354,12 @@ export interface APIv9 extends APISpec {
             LiveVideos: EdgeSpec<LiveVideo, 'live_videos'>;
             Locations: EdgeSpec<Page, 'locations'>;
             MediaFingerprints: EdgeSpec<MediaFingerprint, 'media_fingerprints'>;
+            Messages: {
+                node: {
+                    create_type: PageMessageRequest;
+                };
+                edge: 'messages';
+            };
             MessagingFeatureReview: EdgeSpec<MessagingFeatureReview, 'messaging_feature_review'>;
             MessengerProfile: EdgeSpec<MessengerProfile, 'messenger_profile'>;
             Nativeoffers: EdgeSpec<NativeOffer, 'nativeoffers'>;
@@ -443,10 +452,10 @@ export declare type APISpecNodeCollection<T extends APISpec> = {
     [node in keyof T]: (id: string) => Node<T[node]['node'], T[node]['edges']>;
 };
 export declare type NodeSpec<NodeType> = {
-    type: NodeType;
+    read_return: NodeType;
 };
 export declare type EdgeSpec<EdgeType, EdgePath extends string> = {
-    type: EdgeType;
+    read_return: EdgeType;
     edge: EdgePath;
 };
 export declare type EdgelessNodeSpec<NodeType> = {
@@ -478,11 +487,11 @@ declare type CommentsEdge = EdgeSpec<Comment, 'comments'> & {
     };
 };
 declare type LikesEdge = {
-    type: Profile;
+    read_return: Profile;
     edge: 'likes';
 };
 declare type ReactionsEdge = {
-    type: Profile | Reaction;
+    read_return: Profile | Reaction;
     edge: 'reactions';
     read_params: {
         type: 'NONE' | 'LIKE' | 'LOVE' | 'WOW' | 'HAHA' | 'SAD' | 'ANGRY' | 'THANKFUL' | 'PRIDE' | 'CARE';

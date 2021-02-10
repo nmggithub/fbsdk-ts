@@ -8,6 +8,7 @@ export declare abstract class FacebookAppBase<API extends APISpec> {
     private config;
     protected graphAPIAxiosInstance: AxiosInstance;
     constructor(config: FacebookAppConfig);
+    private makeAppSecretProof;
     protected GraphAPI: {
         get: <ReturnType_1, ParamsType = any>(endpoint: string, _params?: ParamsType & {
             access_token: string;
@@ -15,6 +16,9 @@ export declare abstract class FacebookAppBase<API extends APISpec> {
         post: <ReturnType_2, DataType = any, ParamsType_1 = any>(endpoint: string, data: DataType, _params?: ParamsType_1 & {
             access_token: string;
         }) => Promise<ReturnType_2>;
+        delete: <ReturnType_3, ParamsType_2 = any>(endpoint: string, _params?: ParamsType_2 & {
+            access_token: string;
+        }) => Promise<ReturnType_3>;
     };
     protected abstract _Nodes: APISpecNodeCollection<API>;
 }
