@@ -197,11 +197,11 @@ import { APISpec } from 'fbsdk-ts/dist/api-spec';
 interface CustomAPISpec extends APISpec {
     SomeNodeName: {
         node: {
-            type: SomeNode; // the type that defines the shape of the node
+            read_return: SomeNode; // the type that defines the shape of the node
         };
         edges: {
             SomeEdge: {
-                type: EdgeResult; // The type that defines the shape of the nodes returned by the edge
+                read_return: EdgeResult; // The type that defines the shape of the nodes returned by the edge
                 edge: 'things'; // The API path for the edge
             };
         };

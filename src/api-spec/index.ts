@@ -73,13 +73,11 @@ import {
     CommerceOrder,
     CommerceOrderTransactionDetail,
     CommercePayout,
-    CustomUserSettings,
     InsightsResult,
     InstagramUser,
     InstantArticle,
     InstantArticleInsightsQueryResult,
     MessagingFeatureReview,
-    MessengerProfile,
     PageCallToAction,
     PageSettings,
     PageThreadOwner,
@@ -105,6 +103,10 @@ import {
     UserIDForPage,
     AppRequestFormerRecipient,
 } from '../graph-api/types';
+
+import { CustomUserSettings } from '../messenger-platform/apis/custom-user-settings';
+import { MessengerProfile } from '../messenger-platform/apis/messenger-profile';
+import { PageMessageRequest } from '../messenger-platform/apis/send';
 
 interface NodeGetterTypeParams {
     node: CRUDNodeInfo;
@@ -497,6 +499,12 @@ export interface APIv9 extends APISpec {
             LiveVideos: EdgeSpec<LiveVideo, 'live_videos'>;
             Locations: EdgeSpec<Page, 'locations'>;
             MediaFingerprints: EdgeSpec<MediaFingerprint, 'media_fingerprints'>;
+            Messages: {
+                node: {
+                    create_type: PageMessageRequest
+                }
+                edge: 'messages'
+            }
             MessagingFeatureReview: EdgeSpec<MessagingFeatureReview, 'messaging_feature_review'>;
             MessengerProfile: EdgeSpec<MessengerProfile, 'messenger_profile'>;
             Nativeoffers: EdgeSpec<NativeOffer, 'nativeoffers'>;
@@ -591,11 +599,11 @@ export type APISpecNodeCollection<T extends APISpec> = {
 };
 
 export type NodeSpec<NodeType> = {
-    type: NodeType;
+    read_return: NodeType;
 };
 
 export type EdgeSpec<EdgeType, EdgePath extends string> = {
-    type: EdgeType;
+    read_return: EdgeType;
     edge: EdgePath;
 };
 
@@ -629,9 +637,9 @@ type CommentsEdge = EdgeSpec<Comment, 'comments'> & {
     };
 };
 
-type LikesEdge = { type: Profile; edge: 'likes' };
+type LikesEdge = { read_return: Profile; edge: 'likes' };
 type ReactionsEdge = {
-    type: Profile | Reaction;
+    read_return: Profile | Reaction;
     edge: 'reactions';
     read_params: {
         type:
