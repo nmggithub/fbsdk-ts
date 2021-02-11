@@ -499,14 +499,9 @@ export interface APIv9 extends APISpec {
             LiveVideos: EdgeSpec<LiveVideo, 'live_videos'>;
             Locations: EdgeSpec<Page, 'locations'>;
             MediaFingerprints: EdgeSpec<MediaFingerprint, 'media_fingerprints'>;
-            Messages: {
-                node: {
-                    create_type: PageMessageRequest
-                }
-                edge: 'messages'
-            }
+            Messages: CreateEdgeSpec<PageMessageRequest, 'messages'>,
             MessagingFeatureReview: EdgeSpec<MessagingFeatureReview, 'messaging_feature_review'>;
-            MessengerProfile: EdgeSpec<MessengerProfile, 'messenger_profile'>;
+            MessengerProfile: CreateEdgeSpec<MessengerProfile, 'messenger_profile'>;
             Nativeoffers: EdgeSpec<NativeOffer, 'nativeoffers'>;
             PageBackedInstagramAccounts: EdgeSpec<InstagramUser, 'page_backed_instagram_accounts'>;
             Personas: EdgeSpec<Persona, 'personas'>;
@@ -604,6 +599,11 @@ export type NodeSpec<NodeType> = {
 
 export type EdgeSpec<EdgeType, EdgePath extends string> = {
     read_return: EdgeType;
+    edge: EdgePath;
+};
+
+export type CreateEdgeSpec<EdgeType, EdgePath extends string> = {
+    create_type: EdgeType;
     edge: EdgePath;
 };
 

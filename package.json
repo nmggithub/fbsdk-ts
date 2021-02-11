@@ -6,7 +6,7 @@
     "scripts": {
         "clean": "rm -rf dist",
         "build": "tsc",
-        "prune": "rm dist/util.js dist/graph-api/types.js dist/api-spec/index.js",
+        "prune": "node bin/prune.js",
         "all": "npm run clean && npm run build && npm run prune"
     },
     "keywords": [
@@ -32,6 +32,8 @@
         "dist",
         "!dist/util.js",
         "!dist/graph-api/types.js",
-        "!dist/api-spec/index.js"
+        "!dist/messenger-platform/apis/custom-user-settings.js",
+        "!dist/messenger-platform/apis/messenger-profile.js",
+        "!dist/messenger-platform/apis/send.js"
     ]
 }
