@@ -88,7 +88,7 @@ export interface MessengerProfilePersistentMenu {
      *
      * Defaults to `false`.
      */
-    composter_input_disabled: boolean;
+    composer_input_disabled: boolean;
     /**
      * Array of interface names to disable the persistent menu in. Currently only `customer_chat_plugin` is supported.
      */
