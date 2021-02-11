@@ -1,6 +1,6 @@
 {
     "name": "fbsdk-ts",
-    "version": "1.2.3",
+    "version": "1.2.4",
     "description": "Strongly-typed promise-based client library for Facebook's Graph API using TypeScript",
     "main": "dist/index.js",
     "scripts": {
