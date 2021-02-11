@@ -1,3 +1,4 @@
+import { XOR } from '../../util';
 export interface PageMessageRequest {
     /**
      * The messaging type of the message being sent.
@@ -99,7 +100,7 @@ interface QuickReplyTextWithImage extends QuickReplyText {
 interface QuickReplyUserInfo {
     content_type: UserInfoType;
 }
-declare type QuickReply = QuickReplyText | QuickReplyTextWithImage | QuickReplyUserInfo;
+declare type QuickReply = XOR<[QuickReplyText, QuickReplyTextWithImage, QuickReplyUserInfo]>;
 interface PageMessageWithText extends PageMessageBase {
     /**
      * Message text. Previews will not be shown for the URLs in this field. Use attachment instead. Must be UTF-8 and has a 2000 character limit.
@@ -112,7 +113,7 @@ interface PageMessageWithAttachment extends PageMessageBase {
      */
     attachment: PageMessageAttachment;
 }
-declare type PageMessage = PageMessageWithText | PageMessageWithAttachment;
+declare type PageMessage = XOR<[PageMessageWithText, PageMessageWithAttachment]>;
 interface PageMessageAttachmentBase {
     /**
      * Type of attachment, may be `image`, `audio`, `video`, `file` or `template`. For assets, max file size is 25MB.
@@ -143,8 +144,8 @@ interface PageMessageTemplateAttachment extends PageMessageAttachmentBase {
      */
     payload: MessageTemplate;
 }
-declare type PageMessageAttachment = PageMessageFileAttachment | PageMessageTemplateAttachment;
-declare type MessageTemplate = GenericTemplate | ButtonTemplate | MediaTemplate | ReceiptTemplate | AirlineBoardingPassTemplate | AirlineCheckInTemplate | AirlineItineraryTemplate | AirlineFlightUpdateTemplate;
+declare type PageMessageAttachment = XOR<[PageMessageFileAttachment, PageMessageTemplateAttachment]>;
+declare type MessageTemplate = XOR<[GenericTemplate, ButtonTemplate, MediaTemplate, ReceiptTemplate, AirlineBoardingPassTemplate, AirlineCheckInTemplate, AirlineItineraryTemplate, AirlineFlightUpdateTemplate]>;
 declare type AirlineTemplateType = `airline_${'boardingpass' | 'checkin' | 'itinerary' | 'update'}`;
 interface MessageTemplateBase {
     template_type: 'generic' | 'button' | 'media' | 'receipt' | AirlineTemplateType;
@@ -499,7 +500,7 @@ interface AirlineMessageTemplateFlightInfoArrivalAirport {
      */
     city: string;
 }
-declare type AirlineBoardingPassTemplateBoardingPass = AirlineBoardingPassTemplateBoardingPassWithQRCode | AirlineBoardingPassTemplateBoardingPassWithBarCode;
+declare type AirlineBoardingPassTemplateBoardingPass = XOR<[AirlineBoardingPassTemplateBoardingPassWithQRCode, AirlineBoardingPassTemplateBoardingPassWithBarCode]>;
 interface AirlineCheckInTemplate extends AirlineMessageTemplateBase {
     template_type: 'airline_checkin';
     /**
@@ -692,7 +693,7 @@ interface URLButtonUsingMessengerExtensions {
     messenger_extensions: true;
     url: `https://${string}`;
 }
-export declare type URLButton = URLButtonBase | URLButtonUsingMessengerExtensions;
+export declare type URLButton = XOR<[URLButtonBase, URLButtonUsingMessengerExtensions]>;
 export interface PostbackButton extends MessageButtonBase {
     type: 'postback';
     /**
@@ -725,5 +726,5 @@ interface LoginButton extends MessageButtonBase {
 interface LogoutButton {
     type: 'account_unliknk';
 }
-declare type MessageButton = URLButton | PostbackButton | CallButton | LoginButton | LogoutButton;
+declare type MessageButton = XOR<[URLButton, PostbackButton, CallButton, LoginButton, LogoutButton]>;
 export {};

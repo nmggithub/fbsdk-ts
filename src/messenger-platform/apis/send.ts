@@ -1,3 +1,4 @@
+import { XOR } from '../../util';
 
 export interface PageMessageRequest {
     /**
@@ -108,7 +109,7 @@ interface QuickReplyUserInfo {
     content_type: UserInfoType;
 }
 
-type QuickReply = QuickReplyText | QuickReplyTextWithImage | QuickReplyUserInfo;
+type QuickReply =  XOR<[QuickReplyText, QuickReplyTextWithImage, QuickReplyUserInfo]>;
 
 interface PageMessageWithText extends PageMessageBase {
     /**
@@ -124,7 +125,7 @@ interface PageMessageWithAttachment extends PageMessageBase {
     attachment: PageMessageAttachment;
 }
 
-type PageMessage = PageMessageWithText | PageMessageWithAttachment;
+type PageMessage = XOR<[PageMessageWithText, PageMessageWithAttachment]>;
 
 interface PageMessageAttachmentBase {
     /**
@@ -159,9 +160,9 @@ interface PageMessageTemplateAttachment extends PageMessageAttachmentBase {
     payload: MessageTemplate;
 }
 
-type PageMessageAttachment = PageMessageFileAttachment | PageMessageTemplateAttachment;
+type PageMessageAttachment = XOR<[PageMessageFileAttachment, PageMessageTemplateAttachment]>;
 
-type MessageTemplate = GenericTemplate | ButtonTemplate | MediaTemplate | ReceiptTemplate | AirlineBoardingPassTemplate | AirlineCheckInTemplate | AirlineItineraryTemplate | AirlineFlightUpdateTemplate;
+type MessageTemplate = XOR<[GenericTemplate, ButtonTemplate, MediaTemplate, ReceiptTemplate, AirlineBoardingPassTemplate, AirlineCheckInTemplate, AirlineItineraryTemplate, AirlineFlightUpdateTemplate]>;
 
 type AirlineTemplateType = `airline_${'boardingpass' | 'checkin' | 'itinerary' | 'update'}`;
 
@@ -539,7 +540,7 @@ interface AirlineMessageTemplateFlightInfoArrivalAirport {
     city: string;
 }
 
-type AirlineBoardingPassTemplateBoardingPass = AirlineBoardingPassTemplateBoardingPassWithQRCode | AirlineBoardingPassTemplateBoardingPassWithBarCode;
+type AirlineBoardingPassTemplateBoardingPass = XOR<[AirlineBoardingPassTemplateBoardingPassWithQRCode, AirlineBoardingPassTemplateBoardingPassWithBarCode]>;
 
 interface AirlineCheckInTemplate extends AirlineMessageTemplateBase {
     template_type: 'airline_checkin';
@@ -744,7 +745,7 @@ interface URLButtonUsingMessengerExtensions {
     url: `https://${string}`;
 }
 
-export type URLButton = URLButtonBase | URLButtonUsingMessengerExtensions;
+export type URLButton = XOR<[URLButtonBase, URLButtonUsingMessengerExtensions]>;
 
 export interface PostbackButton extends MessageButtonBase {
     type: 'postback';
@@ -782,4 +783,4 @@ interface LogoutButton {
     type: 'account_unliknk';
 }
 
-type MessageButton = URLButton | PostbackButton | CallButton | LoginButton | LogoutButton;
+type MessageButton = XOR<[URLButton, PostbackButton, CallButton, LoginButton, LogoutButton]>;

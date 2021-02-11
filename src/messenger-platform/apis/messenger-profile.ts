@@ -1,3 +1,4 @@
+import { XOR } from '../../util';
 import { PostbackButton, URLButton } from './send';
 
 export interface MessengerProfile {
@@ -98,5 +99,5 @@ export interface MessengerProfilePersistentMenu {
      *
      * Required if `"composer_input_disabled": true`.
      */
-    call_to_actions: (PostbackButton | URLButton)[];
+    call_to_actions: (XOR<[PostbackButton, URLButton]>)[];
 }
