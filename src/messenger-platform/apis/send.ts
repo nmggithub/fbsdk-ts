@@ -716,7 +716,7 @@ export interface PostbackButton extends MessageButtonBase {
     /**
      * This data will be sent back to your webhook. 1000 character limit.
      */
-    payloaod: string;
+    payload: string;
 }
 
 interface CallButton extends MessageButtonBase {
