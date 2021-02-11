@@ -1,4 +1,6 @@
 # Changelog
+## [v1.2.4] - 2021-02-11
+- Fixed another bad type definition
 ## [v1.2.3] - 2021-02-11
 - Fixed bad type definition
 ## [v1.2.2] - 2021-02-11 (broken version, do not use)

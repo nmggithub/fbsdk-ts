@@ -179,7 +179,7 @@ interface GenericTemplate extends MessageTemplateBase {
     /**
      * An array of [`element`](https://developers.facebook.com/docs/messenger-platform/reference/templates/generic#elements) objects that describe instances of the generic template to be sent. Specifying multiple elements will send a horizontally scrollable carousel of templates. A maximum of 10 elements is supported.
      */
-    elements: GenericTemplateElement;
+    elements: GenericTemplateElement[];
 }
 
 interface GenericTemplateElement {
