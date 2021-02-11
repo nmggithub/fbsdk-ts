@@ -64,12 +64,51 @@ interface PageMessageBase {
     /**
      * Array of quick replies to be sent with messages
      */
-    quick_replies?: [];
+    quick_replies?: QuickReply[];
     /**
      * Custom string that is delivered as a [message echo](https://developers.facebook.com/docs/messenger-platform/webhook-reference/message-echo). 1000 character limit.
      */
     metadata?: string;
 }
+
+type UserInfoType = `user_${'phone_number' | 'email'}`;
+
+interface QuickReplyBase {
+    /**	
+     * Must be one of the following
+     * 
+     * - `text`: Sends a text button
+     * - `user_phone_number`: Sends a button allowing recipient to send the phone number associated with their account.
+     * - `user_email`: Sends a button allowing recipient to send the email associated with their account.
+     */
+    content_type: 'text' | UserInfoType;
+}
+
+interface QuickReplyText extends QuickReplyBase {
+    content_type: 'text';
+    /**
+     * The text to display on the quick reply button. 20 character limit.
+     */
+    title: string;
+    /**
+     * Custom data that will be sent back to you via the `messaging_postbacks` webhook event. 1000 character limit.
+     */
+    payload: string | number;
+}
+
+interface QuickReplyTextWithImage extends QuickReplyText {
+    title: '';
+    /**
+     * URL of image to display on the quick reply button for text quick replies. Image should be a minimum of 24px x 24px. Larger images will be automatically cropped and resized.
+     */
+    image_url: string;
+}
+
+interface QuickReplyUserInfo {
+    content_type: UserInfoType;
+}
+
+type QuickReply = QuickReplyText | QuickReplyTextWithImage | QuickReplyUserInfo;
 
 interface PageMessageWithText extends PageMessageBase {
     /**
