@@ -1,7 +1,9 @@
 # Changelog
-## [v1.2.2] - 2021-02-11
-- Built some unbuilt changes from last release.
-## [v1.2.1] - 2021-02-11
+## [v1.2.3] - 2021-02-11
+- Fixed bad type definition
+## [v1.2.2] - 2021-02-11 (broken version, do not use)
+- Built some unbuilt changes from last release
+## [v1.2.1] - 2021-02-11 (broken version, do not use)
 - Added XOR and changed Send API types
 ## [v1.2.0] - 2021-02-10
 - Added Messenger Platform types
