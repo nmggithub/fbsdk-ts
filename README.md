@@ -219,7 +219,7 @@ interface CustomAPISpec extends APISpec {
         node: NodeSpec<SomeNode>;
         edges: {
             SomeEdge: EdgeSpec<EdgeResult,'things'>;
-        };        
+        };
     };
 }
 ```
@@ -233,7 +233,7 @@ interface CustomAPISpec extends APISpec {
         node: NodeSpec<SomeNode>;
         edges: {
             SomeEdge: EdgeSpec<EdgeResult,'things'>;
-        };        
+        };
     };
     SomeEdgelessNodeName: EdgelessNodeSpec<SomeEdgelessNode>;
 }
@@ -256,7 +256,7 @@ interface CustomAPISpec extends APISpec {
                     include_specific_kind: boolean;
                 };
             };
-        };        
+        };
     };
     SomeEdgelessNodeName: EdgelessNodeSpec<SomeEdgelessNode>;
 }
@@ -282,7 +282,7 @@ interface CustomAPISpec extends APISpec {
                     include_specific_kind: boolean;
                 };
             };
-        };        
+        };
     };
     SomeEdgelessNodeName: EdgelessNodeSpec<SomeEdgelessNode>;
 }
@@ -291,7 +291,7 @@ interface CustomAPISpec extends APISpec {
  * Each key of the nodes object must be a function of the type: (id: string) => Node
  * The second parameter of the Node constructor is an implementation of the edges definition
  * The first parameter of the Edge constructor must the the API path to the edge
- * 
+ *
  * The above requirements will by type-checked by the compiler.
  */
 

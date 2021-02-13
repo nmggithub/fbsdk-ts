@@ -4692,11 +4692,11 @@ export interface PageRestaurantServices {
      */
     takeout: boolean;
     /**
-     *     Whether the restaurant has waiters
+     * Whether the restaurant has waiters
      */
     waiter: boolean;
     /**
-     *     Whether the restaurant welcomes walkins
+     * Whether the restaurant welcomes walkins
      */
     walkins: boolean;
 }
@@ -6926,7 +6926,7 @@ export interface CustomAudience {
     lookalike_audience_ids: string[];
     /**
      * Generated only when the subtype is `LOOKALIKE`. More info at [Lookalike Audience](https://developers.facebook.com/docs/marketing-api/lookalike-audience-targeting/)
-                                      
+
      */
     lookalike_spec: LookalikeSpec;
     /**

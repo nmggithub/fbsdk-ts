@@ -145,7 +145,7 @@ interface PageMessageTemplateAttachment extends PageMessageAttachmentBase {
     payload: MessageTemplate;
 }
 declare type PageMessageAttachment = XOR<[PageMessageFileAttachment, PageMessageTemplateAttachment]>;
-declare type MessageTemplate = XOR<[GenericTemplate, ButtonTemplate, MediaTemplate, ReceiptTemplate, AirlineBoardingPassTemplate, AirlineCheckInTemplate, AirlineItineraryTemplate, AirlineFlightUpdateTemplate]>;
+export declare type MessageTemplate = XOR<[GenericTemplate, ButtonTemplate, MediaTemplate, ReceiptTemplate, AirlineBoardingPassTemplate, AirlineCheckInTemplate, AirlineItineraryTemplate, AirlineFlightUpdateTemplate]>;
 declare type AirlineTemplateType = `airline_${'boardingpass' | 'checkin' | 'itinerary' | 'update'}`;
 interface MessageTemplateBase {
     template_type: 'generic' | 'button' | 'media' | 'receipt' | AirlineTemplateType;

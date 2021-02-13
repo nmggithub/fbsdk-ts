@@ -3,7 +3,7 @@ import { XOR } from '../../util';
 export interface PageMessageRequest {
     /**
      * The messaging type of the message being sent.
-     * 
+     *
      * For supported types and more information, see [Sending Messages - Messaging Types](https://developers.facebook.com/docs/messenger-platform/send-messages/#messaging_types)
      */
     messaging_type: string;
@@ -19,9 +19,9 @@ export interface PageMessageRequest {
      * - `typing_on`: display the typing bubble
      * - `typing_off`: remove the typing bubble
      * - `mark_seen`: display the confirmation icon
-     * 
+     *
      * Cannot be sent with message. Must be sent as a separate request.
-     * 
+     *
      * When using `sender_action`, recipient should be the only other property set in the request.
      */
     sender_action: string;
@@ -32,7 +32,7 @@ export interface PageMessageRequest {
      * - `REGULAR`: sound/vibration
      * - `SILENT_PUSH`: on-screen notification only
      * - `NO_PUSH`: no notification
-     * 
+     *
      * Defaults to `REGULAR`.
      */
     notification_type?: 'REGULAR' | 'SILENT_PUSH' | 'NO_PUSH';
@@ -77,7 +77,7 @@ type UserInfoType = `user_${'phone_number' | 'email'}`;
 interface QuickReplyBase {
     /**	
      * Must be one of the following
-     * 
+     *
      * - `text`: Sends a text button
      * - `user_phone_number`: Sends a button allowing recipient to send the phone number associated with their account.
      * - `user_email`: Sends a button allowing recipient to send the email associated with their account.
@@ -162,7 +162,7 @@ interface PageMessageTemplateAttachment extends PageMessageAttachmentBase {
 
 type PageMessageAttachment = XOR<[PageMessageFileAttachment, PageMessageTemplateAttachment]>;
 
-type MessageTemplate = XOR<[GenericTemplate, ButtonTemplate, MediaTemplate, ReceiptTemplate, AirlineBoardingPassTemplate, AirlineCheckInTemplate, AirlineItineraryTemplate, AirlineFlightUpdateTemplate]>;
+export type MessageTemplate = XOR<[GenericTemplate, ButtonTemplate, MediaTemplate, ReceiptTemplate, AirlineBoardingPassTemplate, AirlineCheckInTemplate, AirlineItineraryTemplate, AirlineFlightUpdateTemplate]>;
 
 type AirlineTemplateType = `airline_${'boardingpass' | 'checkin' | 'itinerary' | 'update'}`;
 
@@ -318,7 +318,7 @@ interface ReceiptTemplateElement {
      */
     currency?: string;
     /**
-     * The URL of an image to be displayed with the item.    
+     * The URL of an image to be displayed with the item.
      */
     image_url?: string;
 }
@@ -345,7 +345,7 @@ interface ReceiptTemplateAddress {
      */
     state: string;
     /**
-     * The two-letter country abbreviation of the address.    
+     * The two-letter country abbreviation of the address.
      */
     country: string;
 }
@@ -446,7 +446,7 @@ interface AirlineBoardingPassTemplateBoardingPassBase {
      */
     above_bar_code_image_url: string;
     /**
-     * Information about the flight.   
+     * Information about the flight.
      */
     flight_info: AirlineMessageTemplateFlightInfo;
 }
@@ -462,7 +462,7 @@ interface AirlineBoardingPassTemplateBoardingPassWithBarCode extends AirlineBoar
     /**
      * URL of the barcode image.
      */
-    barcode_image_url: string;        
+    barcode_image_url: string;
 }
 
 interface AirlineBoardingPassTemplateBoardingPassField {
@@ -690,7 +690,7 @@ interface AirlineFlightUpdateTemplate {
     /**
      * Background color of the attachment. Must be a RGB hexadecimal string. Defaults to #009ddc.
      */
-    theme_color?: string;  
+    theme_color?: string;
     /**
      * Type of update. Must be `delay`, `gate_change` or `cancellation`.
      */

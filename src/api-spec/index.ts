@@ -123,13 +123,13 @@ export interface APIv9 extends APISpec {
             Picture: EdgeSpec<ProfilePictureSource, 'picture'> & {
                 /**
                  * Default value: `true`
-                 * 
+                 *
                  * By default the picture edge will return a picture instead of a JSON response. If you want the picture edge to return JSON that describes the image set redirect=0 when you make the request.
                  */
                 redirect: boolean;
                 /**
                  * Default value: `album`
-                 * 
+                 *
                  * The size of this picture. It can be one of the following values: thumbnail, small, album.
                  */
                 type: 'thumbnail' | 'small' | 'album';
@@ -155,7 +155,7 @@ export interface APIv9 extends APISpec {
                 read_params: {
                     /**
                      * Default value: `Array`
-                     * 
+                     *
                      * Set of query ids to get result for
                      */
                     query_ids: string;
@@ -442,13 +442,13 @@ export interface APIv9 extends APISpec {
                 read_params: {
                     /**
                      * Default value: `false`
-                     * 
+                     *
                      * Exclude dynamic ad posts from the request
                      */
                     exclude_dynamic_ads: boolean;
                     /**
                      * Default value: `false`
-                     * 
+                     *
                      * Include also the INLINE_CREATE posts which are created to support delivered ads.
                      */
                     include_inline_create: boolean;
@@ -616,13 +616,13 @@ type CommentsEdge = EdgeSpec<Comment, 'comments'> & {
     read_params: {
         /**
          * Default value: `toplevel`
-         * 
+         *
          * SELF_EXPLANATORY
          */
         filter: 'stream' | 'toplevel';
         /**
          * Default value: `filter_low_quality`
-         * 
+         *
          * For comments on a Live streaming video, this determines whether low quality comments will be filtered out of the results (filtering is enabled by default). In all other circumstances this parameter is ignored.
          */
         live_filter: 'filter_low_quality' | 'no_filter';

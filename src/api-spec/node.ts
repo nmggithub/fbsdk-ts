@@ -11,7 +11,7 @@ export interface CRUDNodeInfo {
     // create info
     create_type?: any;
     create_params?: { [key: string]: any };
-    create_return?: any;    
+    create_return?: any;
     // read info
     read_type?: never;
     read_params?: { [key: string]: any };
