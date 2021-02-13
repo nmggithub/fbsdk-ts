@@ -1,4 +1,6 @@
 # Changelog
+## [v1.3.0] - 2021-02-13
+- Added Messenger webhook definitions
 ## [v1.2.4] - 2021-02-11
 - Fixed another bad type definition
 ## [v1.2.3] - 2021-02-11
