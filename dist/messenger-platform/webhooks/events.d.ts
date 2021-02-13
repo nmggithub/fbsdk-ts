@@ -248,52 +248,38 @@ export interface InstantGameEvent {
      */
     payload: string;
 }
-export declare type HandoverProtocolEvent = XOR<[
-    HandoverProtocolPassThreadControlEvent,
-    HandoverProtocolTakeThreadControlEvent,
-    HandoverProtocolRequestThreadControlEvent,
-    HandoverProtocolAppRolesEvent
-]>;
-interface HandoverProtocolPassThreadControlEvent {
-    pass_thread_control: {
-        /**
-         * App ID that thread control is passed to.
-         */
-        new_owner_app_id: string;
-        /**
-         * Custom string specified in the API request.
-         */
-        metadata: string;
-    };
+export interface HandoverProtocolPassThreadControlEvent {
+    /**
+     * App ID that thread control is passed to.
+     */
+    new_owner_app_id: string;
+    /**
+     * Custom string specified in the API request.
+     */
+    metadata: string;
 }
-interface HandoverProtocolTakeThreadControlEvent {
-    take_thread_control: {
-        /**
-         * App ID that thread control was taken from.
-         */
-        previous_owner_app_id: string;
-        /**
-         * Custom string specified in the API request.
-         */
-        metadata: string;
-    };
+export interface HandoverProtocolTakeThreadControlEvent {
+    /**
+     * App ID that thread control was taken from.
+     */
+    previous_owner_app_id: string;
+    /**
+     * Custom string specified in the API request.
+     */
+    metadata: string;
 }
-interface HandoverProtocolRequestThreadControlEvent {
-    requested_thread_control: {
-        /**
-         * App ID of the Secondary Receiver that is requesting thread control.
-         */
-        requested_owner_app_id: string;
-        /**
-         * Custom string specified in the API request.
-         */
-        metadata: string;
-    };
+export interface HandoverProtocolRequestThreadControlEvent {
+    /**
+     * App ID of the Secondary Receiver that is requesting thread control.
+     */
+    requested_owner_app_id: string;
+    /**
+     * Custom string specified in the API request.
+     */
+    metadata: string;
 }
-interface HandoverProtocolAppRolesEvent {
-    app_roles: {
-        [key: string]: ['primary_receiver' | 'secondary_receiver'];
-    };
+export interface HandoverProtocolAppRolesEvent {
+    [key: string]: ['primary_receiver' | 'secondary_receiver'];
 }
 export interface PluginOptInEvent {
     /**
@@ -337,7 +323,7 @@ export interface PostbackRecievedEvent {
     /**
      * Referral information for how the user got into the thread.
      */
-    referral: ReferralEvent['referral'];
+    referral: ReferralEvent;
 }
 export interface MessageReactionEvent {
     /**
@@ -366,53 +352,51 @@ export interface MessageReadEvent {
     watermark: number;
 }
 export interface ReferralEvent {
-    referral: {
+    /**
+     * The source of the referral. Supported values:
+     * - `MESSENGER_CODE`
+     * - `DISCOVER_TAB`
+     * - `ADS`
+     * - `SHORTLINK`
+     * - `CUSTOMER_CHAT_PLUGIN`
+     */
+    source: 'MESSENGER_CODE' | 'DISCOVER_TAB' | 'ADS' | 'SHORTLINK' | 'CUSTOMER_CHAT_PLUGIN';
+    /**
+     * The referral type. Currently supports OPEN_THREAD.
+     */
+    type: 'OPEN_THREAD';
+    /**
+     * The optional ref attribute set in the referrer.
+     */
+    ref: string;
+    /**
+     * The URI of the site where the message was sent in the Facebook chat plugin.
+     */
+    referrer_uri: string;
+    /**
+     * A flag indicating whether the user is a guest user from [Facebook Chat Plugin](https://developers.facebook.com/docs/messenger-platform/discovery/customer-chat-plugin/)
+     */
+    is_guest_user: string;
+    /**
+     * The data contaning information about the CTM ad, the user initiated the thread from.
+     */
+    ads_context_data: {
         /**
-         * The source of the referral. Supported values:
-         * - `MESSENGER_CODE`
-         * - `DISCOVER_TAB`
-         * - `ADS`
-         * - `SHORTLINK`
-         * - `CUSTOMER_CHAT_PLUGIN`
+         * Title of the Ad.
          */
-        source: 'MESSENGER_CODE' | 'DISCOVER_TAB' | 'ADS' | 'SHORTLINK' | 'CUSTOMER_CHAT_PLUGIN';
+        ad_title: string;
         /**
-         * The referral type. Currently supports OPEN_THREAD.
+         * Url of the image from the Ad the user is interested.
          */
-        type: 'OPEN_THREAD';
+        photo_url: string;
         /**
-         * The optional ref attribute set in the referrer.
+         * Thumbnail url of the the video from the ad.
          */
-        ref: string;
+        video_url: string;
         /**
-         * The URI of the site where the message was sent in the Facebook chat plugin.
+         * ID of the post.
          */
-        referrer_uri: string;
-        /**
-         * A flag indicating whether the user is a guest user from [Facebook Chat Plugin](https://developers.facebook.com/docs/messenger-platform/discovery/customer-chat-plugin/)
-         */
-        is_guest_user: string;
-        /**
-         * The data contaning information about the CTM ad, the user initiated the thread from.
-         */
-        ads_context_data: {
-            /**
-             * Title of the Ad.
-             */
-            ad_title: string;
-            /**
-             * Url of the image from the Ad the user is interested.
-             */
-            photo_url: string;
-            /**
-             * Thumbnail url of the the video from the ad.
-             */
-            video_url: string;
-            /**
-             * ID of the post.
-             */
-            post_id: string;
-        };
+        post_id: string;
     };
 }
 export declare type HandoverProtocolStandbyChannelEvent = XOR<[

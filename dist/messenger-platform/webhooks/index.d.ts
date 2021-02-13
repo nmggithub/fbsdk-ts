@@ -1,6 +1,6 @@
 import { WebhookEventNotificationBase } from '../../graph-api/webhooks';
 import { XOR } from '../../util';
-import { AccountLinkingEvent, HandoverProtocolEvent, HandoverProtocolStandbyChannelEvent, InstantGameEvent, MessageDeliveredEvent, MessageEchoEvent, MessageReactionEvent, MessageReadEvent, MessageReceivedEvent, PluginOptInEvent, PolicyEnforcementEvent, PostbackRecievedEvent, ReferralEvent } from './events';
+import { AccountLinkingEvent, HandoverProtocolAppRolesEvent, HandoverProtocolPassThreadControlEvent, HandoverProtocolRequestThreadControlEvent, HandoverProtocolStandbyChannelEvent, HandoverProtocolTakeThreadControlEvent, InstantGameEvent, MessageDeliveredEvent, MessageEchoEvent, MessageReactionEvent, MessageReadEvent, MessageReceivedEvent, PluginOptInEvent, PolicyEnforcementEvent, PostbackRecievedEvent, ReferralEvent } from './events';
 interface MessengerWebhookEventNotificationEntry {
     /**
      * Page ID of page
@@ -42,16 +42,18 @@ export interface MessengerWebhookEventNotification extends WebhookEventNotificat
 interface MessengerWebhookEvents {
     message: XOR<[MessageReceivedEvent, MessageEchoEvent]>;
     account_linking: AccountLinkingEvent;
-    message_deliveries: MessageDeliveredEvent;
-    message_echos: MessageEchoEvent;
-    messaging_game_plays: InstantGameEvent;
-    messaging_handovers: HandoverProtocolEvent;
-    messaging_optins: PluginOptInEvent;
-    messaging_policy_enforcement: PolicyEnforcementEvent;
-    messaging_postbacks: PostbackRecievedEvent;
-    message_reactions: MessageReactionEvent;
-    message_reads: MessageReadEvent;
-    messaging_referrals: ReferralEvent;
+    delivery: MessageDeliveredEvent;
+    game_play: InstantGameEvent;
+    pass_thread_control: HandoverProtocolPassThreadControlEvent;
+    take_thread_control: HandoverProtocolTakeThreadControlEvent;
+    request_thread_control: HandoverProtocolRequestThreadControlEvent;
+    app_roles: HandoverProtocolAppRolesEvent;
+    optin: PluginOptInEvent;
+    policy_enforcement: PolicyEnforcementEvent;
+    postback: PostbackRecievedEvent;
+    reaction: MessageReactionEvent;
+    read: MessageReadEvent;
+    referral: ReferralEvent;
     standby: HandoverProtocolStandbyChannelEvent;
 }
 export {};

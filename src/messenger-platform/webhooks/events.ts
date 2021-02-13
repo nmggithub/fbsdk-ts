@@ -276,57 +276,40 @@ export interface InstantGameEvent {
     payload: string;
 }
 
-export type HandoverProtocolEvent = XOR<
-    [
-        HandoverProtocolPassThreadControlEvent,
-        HandoverProtocolTakeThreadControlEvent,
-        HandoverProtocolRequestThreadControlEvent,
-        HandoverProtocolAppRolesEvent
-    ]
->;
-
-interface HandoverProtocolPassThreadControlEvent {
-    pass_thread_control: {
-        /**
-         * App ID that thread control is passed to.
-         */
-        new_owner_app_id: string;
-        /**
-         * Custom string specified in the API request.
-         */
-        metadata: string;
-    };
+export interface HandoverProtocolPassThreadControlEvent {
+    /**
+     * App ID that thread control is passed to.
+     */
+    new_owner_app_id: string;
+    /**
+     * Custom string specified in the API request.
+     */
+    metadata: string;
 }
-interface HandoverProtocolTakeThreadControlEvent {
-    take_thread_control: {
-        /**
-         * App ID that thread control was taken from.
-         */
-        previous_owner_app_id: string;
-        /**
-         * Custom string specified in the API request.
-         */
-        metadata: string;
-    };
+export interface HandoverProtocolTakeThreadControlEvent {
+    /**
+     * App ID that thread control was taken from.
+     */
+    previous_owner_app_id: string;
+    /**
+     * Custom string specified in the API request.
+     */
+    metadata: string;
 }
 
-interface HandoverProtocolRequestThreadControlEvent {
-    requested_thread_control: {
-        /**
-         * App ID of the Secondary Receiver that is requesting thread control.
-         */
-        requested_owner_app_id: string;
-        /**
-         * Custom string specified in the API request.
-         */
-        metadata: string;
-    };
+export interface HandoverProtocolRequestThreadControlEvent {
+    /**
+     * App ID of the Secondary Receiver that is requesting thread control.
+     */
+    requested_owner_app_id: string;
+    /**
+     * Custom string specified in the API request.
+     */
+    metadata: string;
 }
 
-interface HandoverProtocolAppRolesEvent {
-    app_roles: {
-        [key: string]: ['primary_receiver' | 'secondary_receiver'];
-    };
+export interface HandoverProtocolAppRolesEvent {
+    [key: string]: ['primary_receiver' | 'secondary_receiver'];
 }
 
 export interface PluginOptInEvent {
@@ -375,7 +358,7 @@ export interface PostbackRecievedEvent {
     /**
      * Referral information for how the user got into the thread.
      */
-    referral: ReferralEvent['referral'];
+    referral: ReferralEvent;
 }
 
 export interface MessageReactionEvent {
@@ -407,7 +390,6 @@ export interface MessageReadEvent {
 }
 
 export interface ReferralEvent {
-    referral: {
         /**
          * The source of the referral. Supported values:
          * - `MESSENGER_CODE`
@@ -454,7 +436,6 @@ export interface ReferralEvent {
              */
             post_id: string;
         };
-    };
 }
 
 export type HandoverProtocolStandbyChannelEvent = XOR<
