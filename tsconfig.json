@@ -8,5 +8,5 @@
         "moduleResolution": "node",
         "module": "commonjs"
     },
-    "include": ["./src/index.ts"]
+    "include": ["./src/**/*"]
 }

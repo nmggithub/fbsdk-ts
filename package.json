@@ -34,6 +34,9 @@
         "!dist/graph-api/types.js",
         "!dist/messenger-platform/apis/custom-user-settings.js",
         "!dist/messenger-platform/apis/messenger-profile.js",
-        "!dist/messenger-platform/apis/send.js"
+        "!dist/messenger-platform/apis/send.js",
+        "!dist/messenger-platform/webhooks/index.js",
+        "!dist/messenger-platform/webhooks/events.js",
+        "!dist/graph-api/webhooks/index.js"
     ]
 }
