@@ -1,6 +1,5 @@
 import { FacebookAppBase } from '../index';
 import { DePromise, DeepPartial } from '../util';
-import path from 'path';
 import { APISpec } from '.';
 
 export type NodeGetter<ThisNode extends CRUDNodeInfo, Edges extends CRUDEdgeInfoSet> = (
@@ -98,7 +97,7 @@ export class Edge<ThisEdge extends CRUDEdgeInfo> implements CRUDEdge<ThisEdge> {
             EdgeResponse<Pick<GraphAPIResponse<ThisEdge['read_return']>, FieldsTuple[number] | 'id'>>,
             DeepPartial<ThisEdge['read_params']>
         >(
-            path.join(this.id, this.edge),
+            `${this.id}/${this.edge}`,
             Object.assign(Object.assign(params ?? {}, { access_token }), {
                 fields: fields?.toString(),
             })
@@ -113,7 +112,7 @@ export class Edge<ThisEdge extends CRUDEdgeInfo> implements CRUDEdge<ThisEdge> {
             ThisEdge['create_type'],
             DeepPartial<ThisEdge['read_params']>
         >(
-            path.join(this.id, this.edge),
+            `${this.id}/${this.edge}`,
             data,
             Object.assign(params ?? {}, { access_token })
         );
