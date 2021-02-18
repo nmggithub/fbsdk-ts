@@ -1,4 +1,6 @@
 # Changelog
+## [v1.3.2] - 2021-02-18
+- Fixed bad type definition for messages edge
 ## [v1.3.1] - 2021-02-15
 - Removed unneeded use of path built-in
 ## [v1.3.0] - 2021-02-13

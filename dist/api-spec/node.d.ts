@@ -72,6 +72,6 @@ interface Pagination {
     next: string;
 }
 declare type GraphAPIResponse<T> = {
-    [K in keyof T]: T[K] extends string | number | boolean | string[] | number[] | boolean[] ? T[K] : T[K] extends Array<infer U> ? EdgeResponse<GraphAPIResponse<U>> : 'id' extends keyof T[K] ? Pick<T[K], 'id'> : T[K];
+    [K in keyof T]: T[K] extends string | number | boolean | string[] | number[] | boolean[] ? T[K] : T[K] extends Array<infer U> ? EdgeResponse<GraphAPIResponse<U>> : 'id' extends keyof T[K] ? K extends 'from' | 'to' ? T[K] : Pick<T[K], 'id'> : T[K];
 };
 export {};

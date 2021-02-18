@@ -36,7 +36,10 @@ interface CRUDNode<ThisNode extends CRUDNodeInfo> {
         fields?: (keyof ThisNode['read_return'])[],
         params?: Partial<ThisNode['read_params']>
     ) => Promise<Pick<GraphAPIResponse<ThisNode['read_return']>, FieldsTuple[number] | 'id'>>;
-    delete: (access_token: string, params?: Partial<ThisNode['delete_params']>) => Promise<ThisNode['delete_return']>
+    delete: (
+        access_token: string,
+        params?: Partial<ThisNode['delete_params']>
+    ) => Promise<ThisNode['delete_return']>;
 }
 
 interface CRUDEdge<ThisEdge extends CRUDEdgeInfo> {
@@ -73,13 +76,11 @@ export default class Node<ThisNode extends CRUDNodeInfo, Edges extends CRUDEdgeI
                 fields: fields?.toString(),
             })
         );
-    public delete = async (
-        access_token: string,
-        params?: Partial<ThisNode['delete_params']>
-    ) => await this.GraphAPI.delete<ThisNode['delete_return'], ThisNode['delete_params']>(
-        this.id,
-        Object.assign(params ?? {}, { access_token })
-    )
+    public delete = async (access_token: string, params?: Partial<ThisNode['delete_params']>) =>
+        await this.GraphAPI.delete<ThisNode['delete_return'], ThisNode['delete_params']>(
+            this.id,
+            Object.assign(params ?? {}, { access_token })
+        );
 }
 
 export class Edge<ThisEdge extends CRUDEdgeInfo> implements CRUDEdge<ThisEdge> {
@@ -94,7 +95,9 @@ export class Edge<ThisEdge extends CRUDEdgeInfo> implements CRUDEdge<ThisEdge> {
         params?: DeepPartial<ThisEdge['read_params']>
     ) =>
         this.GraphAPI.get<
-            EdgeResponse<Pick<GraphAPIResponse<ThisEdge['read_return']>, FieldsTuple[number] | 'id'>>,
+            EdgeResponse<
+                Pick<GraphAPIResponse<ThisEdge['read_return']>, FieldsTuple[number] | 'id'>
+            >,
             DeepPartial<ThisEdge['read_params']>
         >(
             `${this.id}/${this.edge}`,
@@ -111,11 +114,7 @@ export class Edge<ThisEdge extends CRUDEdgeInfo> implements CRUDEdge<ThisEdge> {
             ThisEdge['create_return'],
             ThisEdge['create_type'],
             DeepPartial<ThisEdge['read_params']>
-        >(
-            `${this.id}/${this.edge}`,
-            data,
-            Object.assign(params ?? {}, { access_token })
-        );
+        >(`${this.id}/${this.edge}`, data, Object.assign(params ?? {}, { access_token }));
 }
 
 interface EdgeResponse<NodeType> {
@@ -139,6 +138,8 @@ type GraphAPIResponse<T> = {
         : T[K] extends Array<infer U>
         ? EdgeResponse<GraphAPIResponse<U>>
         : 'id' extends keyof T[K]
-        ? Pick<T[K], 'id'>
+        ? K extends 'from' | 'to'
+            ? T[K]
+            : Pick<T[K], 'id'>
         : T[K];
 };
