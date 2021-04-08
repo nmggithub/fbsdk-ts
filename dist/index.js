@@ -61,7 +61,8 @@ class FacebookAppBase {
                     appsecret_proof: this.makeAppSecretProof(_params.access_token),
                 });
                 try {
-                    const response = ((yield this.graphAPIAxiosInstance.get(endpoint, { params })).data);
+                    const response = ((yield this.graphAPIAxiosInstance.get(endpoint, { params }))
+                        .data);
                     return response;
                 }
                 catch (e) {
@@ -73,7 +74,9 @@ class FacebookAppBase {
                     appsecret_proof: this.makeAppSecretProof(_params.access_token),
                 });
                 try {
-                    const response = ((yield this.graphAPIAxiosInstance.post(endpoint, data, { params })).data);
+                    const response = ((yield this.graphAPIAxiosInstance.post(endpoint, data, {
+                        params,
+                    })).data);
                     return response;
                 }
                 catch (e) {
@@ -85,7 +88,9 @@ class FacebookAppBase {
                     appsecret_proof: this.makeAppSecretProof(_params.access_token),
                 });
                 try {
-                    const response = ((yield this.graphAPIAxiosInstance.delete(endpoint, { params })).data);
+                    const response = ((yield this.graphAPIAxiosInstance.delete(endpoint, {
+                        params,
+                    })).data);
                     return response;
                 }
                 catch (e) {
@@ -279,42 +284,44 @@ class FacebookAppNoExposedNodes extends FacebookAppBase {
             }, id),
             User: (id) => new node_1.default(this.GraphAPI, {
                 'Payment.subscriptions': new node_1.Edge('payment.subscriptions', this.GraphAPI, id),
-                Accounts: new node_1.Edge('accounts', this.GraphAPI, id),
-                AdStudies: new node_1.Edge('ad_studies', this.GraphAPI, id),
-                Adaccounts: new node_1.Edge('adaccounts', this.GraphAPI, id),
-                Albums: new node_1.Edge('albums', this.GraphAPI, id),
-                AppRequestFormerRecipients: new node_1.Edge('apprequestformerrecipients', this.GraphAPI, id),
-                AppRequests: new node_1.Edge('apprequests', this.GraphAPI, id),
-                AssignedAdAccounts: new node_1.Edge('assigned_ad_accounts', this.GraphAPI, id),
-                AssignedBusinessAssetGroups: new node_1.Edge('assigned_business_asset_groups', this.GraphAPI, id),
-                AssignedPages: new node_1.Edge('assigned_pages', this.GraphAPI, id),
-                AssignedProductCatalogs: new node_1.Edge('assigned_product_catalogs', this.GraphAPI, id),
-                BusinessUsers: new node_1.Edge('business_users', this.GraphAPI, id),
-                Businesses: new node_1.Edge('businesses', this.GraphAPI, id),
-                Events: new node_1.Edge('events', this.GraphAPI, id),
-                Feed: new node_1.Edge('feed', this.GraphAPI, id),
-                Friends: new node_1.Edge('friends', this.GraphAPI, id),
-                Groups: new node_1.Edge('groups', this.GraphAPI, id),
-                IdsForApps: new node_1.Edge('ids_for_apps', this.GraphAPI, id),
-                IdsForBusiness: new node_1.Edge('ids_for_business', this.GraphAPI, id),
-                IdsForPages: new node_1.Edge('ids_for_pages', this.GraphAPI, id),
-                Likes: new node_1.Edge('likes', this.GraphAPI, id),
-                LiveEncoders: new node_1.Edge('live_encoders', this.GraphAPI, id),
-                LiveVideos: new node_1.Edge('live_videos', this.GraphAPI, id),
-                Music: new node_1.Edge('music', this.GraphAPI, id),
-                PaymentTransactions: new node_1.Edge('payment_transactions', this.GraphAPI, id),
-                Permissions: new node_1.Edge('permissions', this.GraphAPI, id),
-                PersonalAdAccounts: new node_1.Edge('personal_ad_accounts', this.GraphAPI, id),
-                Photos: new node_1.Edge('photos', this.GraphAPI, id),
-                Picture: new node_1.Edge('picture', this.GraphAPI, id),
-                Posts: new node_1.Edge('posts', this.GraphAPI, id),
-                Videos: new node_1.Edge('videos', this.GraphAPI, id),
+                'Accounts': new node_1.Edge('accounts', this.GraphAPI, id),
+                'AdStudies': new node_1.Edge('ad_studies', this.GraphAPI, id),
+                'Adaccounts': new node_1.Edge('adaccounts', this.GraphAPI, id),
+                'Albums': new node_1.Edge('albums', this.GraphAPI, id),
+                'AppRequestFormerRecipients': new node_1.Edge('apprequestformerrecipients', this.GraphAPI, id),
+                'AppRequests': new node_1.Edge('apprequests', this.GraphAPI, id),
+                'AssignedAdAccounts': new node_1.Edge('assigned_ad_accounts', this.GraphAPI, id),
+                'AssignedBusinessAssetGroups': new node_1.Edge('assigned_business_asset_groups', this.GraphAPI, id),
+                'AssignedPages': new node_1.Edge('assigned_pages', this.GraphAPI, id),
+                'AssignedProductCatalogs': new node_1.Edge('assigned_product_catalogs', this.GraphAPI, id),
+                'BusinessUsers': new node_1.Edge('business_users', this.GraphAPI, id),
+                'Businesses': new node_1.Edge('businesses', this.GraphAPI, id),
+                'Events': new node_1.Edge('events', this.GraphAPI, id),
+                'Feed': new node_1.Edge('feed', this.GraphAPI, id),
+                'Friends': new node_1.Edge('friends', this.GraphAPI, id),
+                'Groups': new node_1.Edge('groups', this.GraphAPI, id),
+                'IdsForApps': new node_1.Edge('ids_for_apps', this.GraphAPI, id),
+                'IdsForBusiness': new node_1.Edge('ids_for_business', this.GraphAPI, id),
+                'IdsForPages': new node_1.Edge('ids_for_pages', this.GraphAPI, id),
+                'Likes': new node_1.Edge('likes', this.GraphAPI, id),
+                'LiveEncoders': new node_1.Edge('live_encoders', this.GraphAPI, id),
+                'LiveVideos': new node_1.Edge('live_videos', this.GraphAPI, id),
+                'Music': new node_1.Edge('music', this.GraphAPI, id),
+                'PaymentTransactions': new node_1.Edge('payment_transactions', this.GraphAPI, id),
+                'Permissions': new node_1.Edge('permissions', this.GraphAPI, id),
+                'PersonalAdAccounts': new node_1.Edge('personal_ad_accounts', this.GraphAPI, id),
+                'Photos': new node_1.Edge('photos', this.GraphAPI, id),
+                'Picture': new node_1.Edge('picture', this.GraphAPI, id),
+                'Posts': new node_1.Edge('posts', this.GraphAPI, id),
+                'Videos': new node_1.Edge('videos', this.GraphAPI, id),
             }, id),
             Video: (id) => new node_1.default(this.GraphAPI, {}, id),
             VideoList: (id) => new node_1.default(this.GraphAPI, {}, id),
             VideoPoll: (id) => new node_1.default(this.GraphAPI, {}, id),
         };
-        this.graphAPIAxiosInstance = axios_1.default.create({ baseURL: `https://graph.facebook.com/v9.0` });
+        this.graphAPIAxiosInstance = axios_1.default.create({
+            baseURL: `https://graph.facebook.com/v9.0`,
+        });
     }
 }
 exports.FacebookAppNoExposedNodes = FacebookAppNoExposedNodes;

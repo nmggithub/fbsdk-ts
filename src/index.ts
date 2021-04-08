@@ -41,14 +41,15 @@ export abstract class FacebookAppBase<API extends APISpec> {
     protected GraphAPI = {
         get: async <ReturnType, ParamsType = any>(
             endpoint: string,
-            _params?: ParamsType & { access_token: string }
+            _params?: ParamsType & { access_token: string },
         ) => {
             const params = Object.assign(_params, {
                 appsecret_proof: this.makeAppSecretProof(_params.access_token),
             });
             try {
                 const response = <ReturnType>(
-                    (await this.graphAPIAxiosInstance.get(endpoint, { params })).data
+                    (await this.graphAPIAxiosInstance.get(endpoint, { params }))
+                        .data
                 );
                 return response;
             } catch (e) {
@@ -58,14 +59,18 @@ export abstract class FacebookAppBase<API extends APISpec> {
         post: async <ReturnType, DataType = any, ParamsType = any>(
             endpoint: string,
             data: DataType,
-            _params?: ParamsType & { access_token: string }
+            _params?: ParamsType & { access_token: string },
         ) => {
             const params = Object.assign(_params, {
                 appsecret_proof: this.makeAppSecretProof(_params.access_token),
             });
             try {
                 const response = <ReturnType>(
-                    (await this.graphAPIAxiosInstance.post(endpoint, data, { params })).data
+                    (
+                        await this.graphAPIAxiosInstance.post(endpoint, data, {
+                            params,
+                        })
+                    ).data
                 );
                 return response;
             } catch (e) {
@@ -74,14 +79,18 @@ export abstract class FacebookAppBase<API extends APISpec> {
         },
         delete: async <ReturnType, ParamsType = any>(
             endpoint: string,
-            _params?: ParamsType & { access_token: string }
+            _params?: ParamsType & { access_token: string },
         ) => {
             const params = Object.assign(_params, {
                 appsecret_proof: this.makeAppSecretProof(_params.access_token),
             });
             try {
                 const response = <ReturnType>(
-                    (await this.graphAPIAxiosInstance.delete(endpoint, { params })).data
+                    (
+                        await this.graphAPIAxiosInstance.delete(endpoint, {
+                            params,
+                        })
+                    ).data
                 );
                 return response;
             } catch (e) {
@@ -96,7 +105,9 @@ export abstract class FacebookAppBase<API extends APISpec> {
 export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
     constructor(config: FacebookAppConfig) {
         super(config);
-        this.graphAPIAxiosInstance = axios.create({ baseURL: `https://graph.facebook.com/v9.0` });
+        this.graphAPIAxiosInstance = axios.create({
+            baseURL: `https://graph.facebook.com/v9.0`,
+        });
     }
     protected _Nodes: APISpecNodeCollection<APIv9> = {
         Album: (id: string) =>
@@ -108,7 +119,7 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                     Photos: new Edge('photos', this.GraphAPI, id),
                     Picture: new Edge('picture', this.GraphAPI, id),
                 },
-                id
+                id,
             ),
         AppRequest: (id: string) => new Node(this.GraphAPI, {}, id),
         Application: (id: string) =>
@@ -119,25 +130,37 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                     AdNetworkAnalyticsResults: new Edge(
                         'adnetworkanalytics_results',
                         this.GraphAPI,
-                        id
+                        id,
                     ),
                     Agencies: new Edge('agencies', this.GraphAPI, id),
-                    AppEventTypes: new Edge('app_events_types', this.GraphAPI, id),
+                    AppEventTypes: new Edge(
+                        'app_events_types',
+                        this.GraphAPI,
+                        id,
+                    ),
                     AppInsights: new Edge('app_insights', this.GraphAPI, id),
-                    AppInstalledGroups: new Edge('app_installed_groups', this.GraphAPI, id),
+                    AppInstalledGroups: new Edge(
+                        'app_installed_groups',
+                        this.GraphAPI,
+                        id,
+                    ),
                     AppAssets: new Edge('appassets', this.GraphAPI, id),
-                    AuthorizedAdAccounts: new Edge('authorized_adaccounts', this.GraphAPI, id),
+                    AuthorizedAdAccounts: new Edge(
+                        'authorized_adaccounts',
+                        this.GraphAPI,
+                        id,
+                    ),
                     ButtonAutoDetectionDeviceSelection: new Edge(
                         'button_auto_detection_device_selection',
                         this.GraphAPI,
-                        id
+                        id,
                     ),
                     DAChecks: new Edge('da_checks', this.GraphAPI, id),
                     Events: new Edge('events', this.GraphAPI, id),
                     iOSSKAdNetworkConversionConfig: new Edge(
                         'ios_skadnetwork_conversion_config',
                         this.GraphAPI,
-                        id
+                        id,
                     ),
                     MobileSDKGK: new Edge('mobile_sdk_gk', this.GraphAPI, id),
                     ModelAsset: new Edge('model_asset', this.GraphAPI, id),
@@ -145,18 +168,24 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                     Products: new Edge('products', this.GraphAPI, id),
                     Purchases: new Edge('purchases', this.GraphAPI, id),
                     Roles: new Edge('roles', this.GraphAPI, id),
-                    SubscribedDomains: new Edge('subscribed_domains', this.GraphAPI, id),
+                    SubscribedDomains: new Edge(
+                        'subscribed_domains',
+                        this.GraphAPI,
+                        id,
+                    ),
                     SubscribedDomainsPhishing: new Edge(
                         'subscribed_domains_phishing',
                         this.GraphAPI,
-                        id
+                        id,
                     ),
                 },
-                id
+                id,
             ),
         AsyncSession: (id: string) => new Node(this.GraphAPI, {}, id),
-        CPASAdvertiserPartnershipRecommendation: (id: string) => new Node(this.GraphAPI, {}, id),
-        CPASCollaborationRequest: (id: string) => new Node(this.GraphAPI, {}, id),
+        CPASAdvertiserPartnershipRecommendation: (id: string) =>
+            new Node(this.GraphAPI, {}, id),
+        CPASCollaborationRequest: (id: string) =>
+            new Node(this.GraphAPI, {}, id),
         CTCertDomain: (id: string) => new Node(this.GraphAPI, {}, id),
         Comment: (id: string) =>
             new Node(
@@ -164,22 +193,34 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                 {
                     Comments: new Edge('comments', this.GraphAPI, id),
                     Likes: new Edge('likes', this.GraphAPI, id),
-                    PrivateReplies: new Edge('private_replies', this.GraphAPI, id),
+                    PrivateReplies: new Edge(
+                        'private_replies',
+                        this.GraphAPI,
+                        id,
+                    ),
                     Reactions: new Edge('reactions', this.GraphAPI, id),
                 },
-                id
+                id,
             ),
         CommerceMerchantSettings: (id: string) =>
             new Node(
                 this.GraphAPI,
                 {
-                    OrderManagementsApps: new Edge('order_management_apps', this.GraphAPI, id),
-                    ProductCatalogs: new Edge('product_catalogs', this.GraphAPI, id),
+                    OrderManagementsApps: new Edge(
+                        'order_management_apps',
+                        this.GraphAPI,
+                        id,
+                    ),
+                    ProductCatalogs: new Edge(
+                        'product_catalogs',
+                        this.GraphAPI,
+                        id,
+                    ),
                     Returns: new Edge('returns', this.GraphAPI, id),
                     SetupStatus: new Edge('setup_status', this.GraphAPI, id),
                     TaxSettings: new Edge('tax_settings', this.GraphAPI, id),
                 },
-                id
+                id,
             ),
         Conversation: (id: string) =>
             new Node(
@@ -187,7 +228,7 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                 {
                     Messages: new Edge('messages', this.GraphAPI, id),
                 },
-                id
+                id,
             ),
         Destination: (id: string) => new Node(this.GraphAPI, {}, id),
         Doc: (id: string) => new Node(this.GraphAPI, {}, id),
@@ -198,7 +239,7 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                 {
                     Roles: new Edge('roles', this.GraphAPI, id),
                 },
-                id
+                id,
             ),
         Flight: (id: string) => new Node(this.GraphAPI, {}, id),
         FriendList: (id: string) => new Node(this.GraphAPI, {}, id),
@@ -215,7 +256,7 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                     Photos: new Edge('photos', this.GraphAPI, id),
                     Videos: new Edge('videos', this.GraphAPI, id),
                 },
-                id
+                id,
             ),
         GroupDoc: (id: string) => new Node(this.GraphAPI, {}, id),
         GroupMessage: (id: string) => new Node(this.GraphAPI, {}, id),
@@ -227,7 +268,7 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                     Leads: new Edge('leads', this.GraphAPI, id),
                     TestLeads: new Edge('test_leads', this.GraphAPI, id),
                 },
-                id
+                id,
             ),
         Link: (id: string) =>
             new Node(
@@ -236,7 +277,7 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                     Comments: new Edge('comments', this.GraphAPI, id),
                     Likes: new Edge('likes', this.GraphAPI, id),
                 },
-                id
+                id,
             ),
         LiveEncoder: (id: string) => new Node(this.GraphAPI, {}, id),
         LiveVideo: (id: string) =>
@@ -245,13 +286,21 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                 {
                     BlockedUsers: new Edge('blocked_users', this.GraphAPI, id),
                     Comments: new Edge('comments', this.GraphAPI, id),
-                    CrosspostSharedPages: new Edge('crosspost_shared_pages', this.GraphAPI, id),
-                    CrosspostedBroadcasrs: new Edge('crossposted_broadcasts', this.GraphAPI, id),
+                    CrosspostSharedPages: new Edge(
+                        'crosspost_shared_pages',
+                        this.GraphAPI,
+                        id,
+                    ),
+                    CrosspostedBroadcasrs: new Edge(
+                        'crossposted_broadcasts',
+                        this.GraphAPI,
+                        id,
+                    ),
                     Errors: new Edge('errors', this.GraphAPI, id),
                     Polls: new Edge('polls', this.GraphAPI, id),
                     Reactions: new Edge('reactions', this.GraphAPI, id),
                 },
-                id
+                id,
             ),
         LiveVideoInputStream: (id: string) => new Node(this.GraphAPI, {}, id),
         MailingAddress: (id: string) => new Node(this.GraphAPI, {}, id),
@@ -262,7 +311,7 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                 {
                     Views: new Edge('views', this.GraphAPI, id),
                 },
-                id
+                id,
             ),
         OfflineConversionDataSet: (id: string) =>
             new Node(
@@ -271,11 +320,15 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                     AdAccounts: new Edge('adaccounts', this.GraphAPI, id),
                     Agencies: new Edge('agencies', this.GraphAPI, id),
                     Audiences: new Edge('audiences', this.GraphAPI, id),
-                    CustomConversations: new Edge('customconversations', this.GraphAPI, id),
+                    CustomConversations: new Edge(
+                        'customconversations',
+                        this.GraphAPI,
+                        id,
+                    ),
                     Stats: new Edge('stats', this.GraphAPI, id),
                     Uploads: new Edge('uploads', this.GraphAPI, id),
                 },
-                id
+                id,
             ),
         OfflineConversionDataSetUpload: (id: string) =>
             new Node(
@@ -283,7 +336,7 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                 {
                     Progress: new Edge('progress', this.GraphAPI, id),
                 },
-                id
+                id,
             ),
         Page: (id: string) =>
             new Node(
@@ -292,44 +345,92 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                     AdsPosts: new Edge('ads_posts', this.GraphAPI, id),
                     Agencies: new Edge('agencies', this.GraphAPI, id),
                     Albums: new Edge('albums', this.GraphAPI, id),
-                    AssignedUsers: new Edge('assigned_users', this.GraphAPI, id),
-                    AudioMediaCopyrights: new Edge('audio_media_copyrights', this.GraphAPI, id),
+                    AssignedUsers: new Edge(
+                        'assigned_users',
+                        this.GraphAPI,
+                        id,
+                    ),
+                    AudioMediaCopyrights: new Edge(
+                        'audio_media_copyrights',
+                        this.GraphAPI,
+                        id,
+                    ),
                     Blocked: new Edge('blocked', this.GraphAPI, id),
-                    CallToActions: new Edge('call_to_actions', this.GraphAPI, id),
+                    CallToActions: new Edge(
+                        'call_to_actions',
+                        this.GraphAPI,
+                        id,
+                    ),
                     ClaimedURLs: new Edge('claimed_urls', this.GraphAPI, id),
                     CommerceMerchantSettings: new Edge(
                         'commerce_merchant_settings',
                         this.GraphAPI,
-                        id
+                        id,
                     ),
-                    CommerceOrders: new Edge('commerce_orders', this.GraphAPI, id),
-                    CommercePayouts: new Edge('commerce_payouts', this.GraphAPI, id),
-                    CommerceTransactions: new Edge('commerce_transactions', this.GraphAPI, id),
+                    CommerceOrders: new Edge(
+                        'commerce_orders',
+                        this.GraphAPI,
+                        id,
+                    ),
+                    CommercePayouts: new Edge(
+                        'commerce_payouts',
+                        this.GraphAPI,
+                        id,
+                    ),
+                    CommerceTransactions: new Edge(
+                        'commerce_transactions',
+                        this.GraphAPI,
+                        id,
+                    ),
                     Conversations: new Edge('conversations', this.GraphAPI, id),
                     CopyrightWhitelistedPartners: new Edge(
                         'copyright_whitelisted_partners',
                         this.GraphAPI,
-                        id
+                        id,
                     ),
                     CrosspostWhitelistedPages: new Edge(
                         'crosspost_whitelisted_pages',
                         this.GraphAPI,
-                        id
+                        id,
                     ),
                     CustomLabels: new Edge('custom_labels', this.GraphAPI, id),
-                    CustomUserSettings: new Edge('custom_user_settings', this.GraphAPI, id),
+                    CustomUserSettings: new Edge(
+                        'custom_user_settings',
+                        this.GraphAPI,
+                        id,
+                    ),
                     Events: new Edge('events', this.GraphAPI, id),
                     Feed: new Edge('feed', this.GraphAPI, id),
-                    GlobalBrandChildren: new Edge('global_brand_children', this.GraphAPI, id),
-                    ImageCopyrights: new Edge('image_copyrights', this.GraphAPI, id),
-                    IndexedVideos: new Edge('indexed_videos', this.GraphAPI, id),
+                    GlobalBrandChildren: new Edge(
+                        'global_brand_children',
+                        this.GraphAPI,
+                        id,
+                    ),
+                    ImageCopyrights: new Edge(
+                        'image_copyrights',
+                        this.GraphAPI,
+                        id,
+                    ),
+                    IndexedVideos: new Edge(
+                        'indexed_videos',
+                        this.GraphAPI,
+                        id,
+                    ),
                     Insights: new Edge('insights', this.GraphAPI, id),
-                    InstagramAccounts: new Edge('instagram_accounts', this.GraphAPI, id),
-                    InstantArticles: new Edge('instant_articles', this.GraphAPI, id),
+                    InstagramAccounts: new Edge(
+                        'instagram_accounts',
+                        this.GraphAPI,
+                        id,
+                    ),
+                    InstantArticles: new Edge(
+                        'instant_articles',
+                        this.GraphAPI,
+                        id,
+                    ),
                     InstantArticlesInsights: new Edge(
                         'instant_articles_insights',
                         this.GraphAPI,
-                        id
+                        id,
                     ),
                     LeadgenForms: new Edge('leadgen_forms', this.GraphAPI, id),
                     Likes: new Edge('likes', this.GraphAPI, id),
@@ -337,41 +438,93 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                     LiveVideos: new Edge('live_videos', this.GraphAPI, id),
                     Locations: new Edge('locations', this.GraphAPI, id),
                     Messages: new Edge('messages', this.GraphAPI, id),
-                    MediaFingerprints: new Edge('media_fingerprints', this.GraphAPI, id),
-                    MessagingFeatureReview: new Edge('messaging_feature_review', this.GraphAPI, id),
-                    MessengerProfile: new Edge('messenger_profile', this.GraphAPI, id),
+                    MediaFingerprints: new Edge(
+                        'media_fingerprints',
+                        this.GraphAPI,
+                        id,
+                    ),
+                    MessagingFeatureReview: new Edge(
+                        'messaging_feature_review',
+                        this.GraphAPI,
+                        id,
+                    ),
+                    MessengerProfile: new Edge(
+                        'messenger_profile',
+                        this.GraphAPI,
+                        id,
+                    ),
                     Nativeoffers: new Edge('nativeoffers', this.GraphAPI, id),
                     PageBackedInstagramAccounts: new Edge(
                         'page_backed_instagram_accounts',
                         this.GraphAPI,
-                        id
+                        id,
                     ),
                     Personas: new Edge('personas', this.GraphAPI, id),
                     Photos: new Edge('photos', this.GraphAPI, id),
                     Picture: new Edge('picture', this.GraphAPI, id),
                     Posts: new Edge('posts', this.GraphAPI, id),
-                    ProductCatalogs: new Edge('product_catalogs', this.GraphAPI, id),
-                    PublishedPosts: new Edge('published_posts', this.GraphAPI, id),
+                    ProductCatalogs: new Edge(
+                        'product_catalogs',
+                        this.GraphAPI,
+                        id,
+                    ),
+                    PublishedPosts: new Edge(
+                        'published_posts',
+                        this.GraphAPI,
+                        id,
+                    ),
                     Ratings: new Edge('ratings', this.GraphAPI, id),
                     Roles: new Edge('roles', this.GraphAPI, id),
-                    RtbDynamicPosts: new Edge('rtb_dynamic_posts', this.GraphAPI, id),
-                    ScheduledPosts: new Edge('scheduled_posts', this.GraphAPI, id),
-                    SecondaryReceivers: new Edge('secondary_receivers', this.GraphAPI, id),
+                    RtbDynamicPosts: new Edge(
+                        'rtb_dynamic_posts',
+                        this.GraphAPI,
+                        id,
+                    ),
+                    ScheduledPosts: new Edge(
+                        'scheduled_posts',
+                        this.GraphAPI,
+                        id,
+                    ),
+                    SecondaryReceivers: new Edge(
+                        'secondary_receivers',
+                        this.GraphAPI,
+                        id,
+                    ),
                     Settings: new Edge('settings', this.GraphAPI, id),
-                    ShopSetupStatus: new Edge('shop_setup_status', this.GraphAPI, id),
-                    SubscribedApps: new Edge('subscribed_apps', this.GraphAPI, id),
+                    ShopSetupStatus: new Edge(
+                        'shop_setup_status',
+                        this.GraphAPI,
+                        id,
+                    ),
+                    SubscribedApps: new Edge(
+                        'subscribed_apps',
+                        this.GraphAPI,
+                        id,
+                    ),
                     Tabs: new Edge('tabs', this.GraphAPI, id),
                     Tagged: new Edge('tagged', this.GraphAPI, id),
                     ThreadOwner: new Edge('thread_owner', this.GraphAPI, id),
                     Tours: new Edge('tours', this.GraphAPI, id),
-                    VideoCopyrightRules: new Edge('video_copyright_rules', this.GraphAPI, id),
-                    VideoCopyrights: new Edge('video_copyrights', this.GraphAPI, id),
+                    VideoCopyrightRules: new Edge(
+                        'video_copyright_rules',
+                        this.GraphAPI,
+                        id,
+                    ),
+                    VideoCopyrights: new Edge(
+                        'video_copyrights',
+                        this.GraphAPI,
+                        id,
+                    ),
                     VideoLists: new Edge('video_lists', this.GraphAPI, id),
-                    VideoMediaCopyrights: new Edge('video_media_copyrights', this.GraphAPI, id),
+                    VideoMediaCopyrights: new Edge(
+                        'video_media_copyrights',
+                        this.GraphAPI,
+                        id,
+                    ),
                     Videos: new Edge('videos', this.GraphAPI, id),
                     VisitorPosts: new Edge('visitor_posts', this.GraphAPI, id),
                 },
-                id
+                id,
             ),
         PageCallToAction: (id: string) => new Node(this.GraphAPI, {}, id),
         PagePost: (id: string) =>
@@ -382,7 +535,7 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                     Likes: new Edge('likes', this.GraphAPI, id),
                     Reactions: new Edge('reactions', this.GraphAPI, id),
                 },
-                id
+                id,
             ),
         Photo: (id: string) =>
             new Node(
@@ -390,57 +543,89 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
                 {
                     Likes: new Edge('likes', this.GraphAPI, id),
                 },
-                id
+                id,
             ),
         User: (id: string) =>
             new Node(
                 this.GraphAPI,
                 {
-                    'Payment.subscriptions': new Edge('payment.subscriptions', this.GraphAPI, id),
-                    Accounts: new Edge('accounts', this.GraphAPI, id),
-                    AdStudies: new Edge('ad_studies', this.GraphAPI, id),
-                    Adaccounts: new Edge('adaccounts', this.GraphAPI, id),
-                    Albums: new Edge('albums', this.GraphAPI, id),
-                    AppRequestFormerRecipients: new Edge(
+                    'Payment.subscriptions': new Edge(
+                        'payment.subscriptions',
+                        this.GraphAPI,
+                        id,
+                    ),
+                    'Accounts': new Edge('accounts', this.GraphAPI, id),
+                    'AdStudies': new Edge('ad_studies', this.GraphAPI, id),
+                    'Adaccounts': new Edge('adaccounts', this.GraphAPI, id),
+                    'Albums': new Edge('albums', this.GraphAPI, id),
+                    'AppRequestFormerRecipients': new Edge(
                         'apprequestformerrecipients',
                         this.GraphAPI,
-                        id
+                        id,
                     ),
-                    AppRequests: new Edge('apprequests', this.GraphAPI, id),
-                    AssignedAdAccounts: new Edge('assigned_ad_accounts', this.GraphAPI, id),
-                    AssignedBusinessAssetGroups: new Edge(
+                    'AppRequests': new Edge('apprequests', this.GraphAPI, id),
+                    'AssignedAdAccounts': new Edge(
+                        'assigned_ad_accounts',
+                        this.GraphAPI,
+                        id,
+                    ),
+                    'AssignedBusinessAssetGroups': new Edge(
                         'assigned_business_asset_groups',
                         this.GraphAPI,
-                        id
+                        id,
                     ),
-                    AssignedPages: new Edge('assigned_pages', this.GraphAPI, id),
-                    AssignedProductCatalogs: new Edge(
+                    'AssignedPages': new Edge(
+                        'assigned_pages',
+                        this.GraphAPI,
+                        id,
+                    ),
+                    'AssignedProductCatalogs': new Edge(
                         'assigned_product_catalogs',
                         this.GraphAPI,
-                        id
+                        id,
                     ),
-                    BusinessUsers: new Edge('business_users', this.GraphAPI, id),
-                    Businesses: new Edge('businesses', this.GraphAPI, id),
-                    Events: new Edge('events', this.GraphAPI, id),
-                    Feed: new Edge('feed', this.GraphAPI, id),
-                    Friends: new Edge('friends', this.GraphAPI, id),
-                    Groups: new Edge('groups', this.GraphAPI, id),
-                    IdsForApps: new Edge('ids_for_apps', this.GraphAPI, id),
-                    IdsForBusiness: new Edge('ids_for_business', this.GraphAPI, id),
-                    IdsForPages: new Edge('ids_for_pages', this.GraphAPI, id),
-                    Likes: new Edge('likes', this.GraphAPI, id),
-                    LiveEncoders: new Edge('live_encoders', this.GraphAPI, id),
-                    LiveVideos: new Edge('live_videos', this.GraphAPI, id),
-                    Music: new Edge('music', this.GraphAPI, id),
-                    PaymentTransactions: new Edge('payment_transactions', this.GraphAPI, id),
-                    Permissions: new Edge('permissions', this.GraphAPI, id),
-                    PersonalAdAccounts: new Edge('personal_ad_accounts', this.GraphAPI, id),
-                    Photos: new Edge('photos', this.GraphAPI, id),
-                    Picture: new Edge('picture', this.GraphAPI, id),
-                    Posts: new Edge('posts', this.GraphAPI, id),
-                    Videos: new Edge('videos', this.GraphAPI, id),
+                    'BusinessUsers': new Edge(
+                        'business_users',
+                        this.GraphAPI,
+                        id,
+                    ),
+                    'Businesses': new Edge('businesses', this.GraphAPI, id),
+                    'Events': new Edge('events', this.GraphAPI, id),
+                    'Feed': new Edge('feed', this.GraphAPI, id),
+                    'Friends': new Edge('friends', this.GraphAPI, id),
+                    'Groups': new Edge('groups', this.GraphAPI, id),
+                    'IdsForApps': new Edge('ids_for_apps', this.GraphAPI, id),
+                    'IdsForBusiness': new Edge(
+                        'ids_for_business',
+                        this.GraphAPI,
+                        id,
+                    ),
+                    'IdsForPages': new Edge('ids_for_pages', this.GraphAPI, id),
+                    'Likes': new Edge('likes', this.GraphAPI, id),
+                    'LiveEncoders': new Edge(
+                        'live_encoders',
+                        this.GraphAPI,
+                        id,
+                    ),
+                    'LiveVideos': new Edge('live_videos', this.GraphAPI, id),
+                    'Music': new Edge('music', this.GraphAPI, id),
+                    'PaymentTransactions': new Edge(
+                        'payment_transactions',
+                        this.GraphAPI,
+                        id,
+                    ),
+                    'Permissions': new Edge('permissions', this.GraphAPI, id),
+                    'PersonalAdAccounts': new Edge(
+                        'personal_ad_accounts',
+                        this.GraphAPI,
+                        id,
+                    ),
+                    'Photos': new Edge('photos', this.GraphAPI, id),
+                    'Picture': new Edge('picture', this.GraphAPI, id),
+                    'Posts': new Edge('posts', this.GraphAPI, id),
+                    'Videos': new Edge('videos', this.GraphAPI, id),
                 },
-                id
+                id,
             ),
         Video: (id: string) => new Node(this.GraphAPI, {}, id),
         VideoList: (id: string) => new Node(this.GraphAPI, {}, id),

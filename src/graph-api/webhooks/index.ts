@@ -28,4 +28,5 @@ interface WebhookEventNotificationEntry {
     time: number;
 }
 
-export default interface WebhookEventNotification extends WebhookEventNotificationBase<WebhookEventNotificationEntry> {}
+export default interface WebhookEventNotification
+    extends WebhookEventNotificationBase<WebhookEventNotificationEntry> {}

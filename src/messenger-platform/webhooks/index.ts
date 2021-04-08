@@ -56,8 +56,8 @@ type MessengerWebhookEvent = {
 
 export interface MessengerWebhookEventNotification
     extends WebhookEventNotificationBase<MessengerWebhookEventNotificationEntry> {
-        object: 'page';
-    }
+    object: 'page';
+}
 
 interface MessengerWebhookEvents {
     message: XOR<[MessageReceivedEvent, MessageEchoEvent]>;

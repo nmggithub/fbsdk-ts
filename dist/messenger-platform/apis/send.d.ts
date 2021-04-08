@@ -100,7 +100,11 @@ interface QuickReplyTextWithImage extends QuickReplyText {
 interface QuickReplyUserInfo {
     content_type: UserInfoType;
 }
-declare type QuickReply = XOR<[QuickReplyText, QuickReplyTextWithImage, QuickReplyUserInfo]>;
+declare type QuickReply = XOR<[
+    QuickReplyText,
+    QuickReplyTextWithImage,
+    QuickReplyUserInfo
+]>;
 interface PageMessageWithText extends PageMessageBase {
     /**
      * Message text. Previews will not be shown for the URLs in this field. Use attachment instead. Must be UTF-8 and has a 2000 character limit.
@@ -144,8 +148,20 @@ interface PageMessageTemplateAttachment extends PageMessageAttachmentBase {
      */
     payload: MessageTemplate;
 }
-declare type PageMessageAttachment = XOR<[PageMessageFileAttachment, PageMessageTemplateAttachment]>;
-export declare type MessageTemplate = XOR<[GenericTemplate, ButtonTemplate, MediaTemplate, ReceiptTemplate, AirlineBoardingPassTemplate, AirlineCheckInTemplate, AirlineItineraryTemplate, AirlineFlightUpdateTemplate]>;
+declare type PageMessageAttachment = XOR<[
+    PageMessageFileAttachment,
+    PageMessageTemplateAttachment
+]>;
+export declare type MessageTemplate = XOR<[
+    GenericTemplate,
+    ButtonTemplate,
+    MediaTemplate,
+    ReceiptTemplate,
+    AirlineBoardingPassTemplate,
+    AirlineCheckInTemplate,
+    AirlineItineraryTemplate,
+    AirlineFlightUpdateTemplate
+]>;
 declare type AirlineTemplateType = `airline_${'boardingpass' | 'checkin' | 'itinerary' | 'update'}`;
 interface MessageTemplateBase {
     template_type: 'generic' | 'button' | 'media' | 'receipt' | AirlineTemplateType;
@@ -500,7 +516,10 @@ interface AirlineMessageTemplateFlightInfoArrivalAirport {
      */
     city: string;
 }
-declare type AirlineBoardingPassTemplateBoardingPass = XOR<[AirlineBoardingPassTemplateBoardingPassWithQRCode, AirlineBoardingPassTemplateBoardingPassWithBarCode]>;
+declare type AirlineBoardingPassTemplateBoardingPass = XOR<[
+    AirlineBoardingPassTemplateBoardingPassWithQRCode,
+    AirlineBoardingPassTemplateBoardingPassWithBarCode
+]>;
 interface AirlineCheckInTemplate extends AirlineMessageTemplateBase {
     template_type: 'airline_checkin';
     /**
@@ -726,5 +745,11 @@ interface LoginButton extends MessageButtonBase {
 interface LogoutButton {
     type: 'account_unliknk';
 }
-declare type MessageButton = XOR<[URLButton, PostbackButton, CallButton, LoginButton, LogoutButton]>;
+declare type MessageButton = XOR<[
+    URLButton,
+    PostbackButton,
+    CallButton,
+    LoginButton,
+    LogoutButton
+]>;
 export {};

@@ -2,9 +2,10 @@ import { FacebookAppBase } from '../index';
 import { DePromise, DeepPartial } from '../util';
 import { APISpec } from '.';
 
-export type NodeGetter<ThisNode extends CRUDNodeInfo, Edges extends CRUDEdgeInfoSet> = (
-    id?: string
-) => Node<ThisNode, Edges>;
+export type NodeGetter<
+    ThisNode extends CRUDNodeInfo,
+    Edges extends CRUDEdgeInfoSet
+> = (id?: string) => Node<ThisNode, Edges>;
 
 export interface CRUDNodeInfo {
     // create info
@@ -34,87 +35,109 @@ interface CRUDNode<ThisNode extends CRUDNodeInfo> {
     read: <FieldsTuple extends (keyof ThisNode['read_return'])[]>(
         access_token: string,
         fields?: (keyof ThisNode['read_return'])[],
-        params?: Partial<ThisNode['read_params']>
-    ) => Promise<Pick<GraphAPIResponse<ThisNode['read_return']>, FieldsTuple[number] | 'id'>>;
+        params?: Partial<ThisNode['read_params']>,
+    ) => Promise<
+        Pick<
+            GraphAPIResponse<ThisNode['read_return']>,
+            FieldsTuple[number] | 'id'
+        >
+    >;
     delete: (
         access_token: string,
-        params?: Partial<ThisNode['delete_params']>
+        params?: Partial<ThisNode['delete_params']>,
     ) => Promise<ThisNode['delete_return']>;
 }
 
 interface CRUDEdge<ThisEdge extends CRUDEdgeInfo> {
     read: (
         ...args: Parameters<CRUDNode<ThisEdge>['read']>
-    ) => Promise<EdgeResponse<DePromise<ReturnType<CRUDNode<ThisEdge>['read']>>>>;
+    ) => Promise<
+        EdgeResponse<DePromise<ReturnType<CRUDNode<ThisEdge>['read']>>>
+    >;
     create: (
         access_token: string,
         data: Partial<ThisEdge['create_type']>,
-        params?: Partial<ThisEdge['create_params']>
+        params?: Partial<ThisEdge['create_params']>,
     ) => Promise<ThisEdge['create_return']>;
 }
 
-export default class Node<ThisNode extends CRUDNodeInfo, Edges extends CRUDEdgeInfoSet = any>
-    implements CRUDNode<ThisNode> {
+export default class Node<
+    ThisNode extends CRUDNodeInfo,
+    Edges extends CRUDEdgeInfoSet = any
+> implements CRUDNode<ThisNode> {
     constructor(
         private GraphAPI: FacebookAppBase<APISpec>['GraphAPI'],
         public Edges: {
             [edge in keyof Edges]: Edge<Edges[edge]>;
         },
-        private id?: string
+        private id?: string,
     ) {}
     public read = async <FieldsTuple extends (keyof ThisNode['read_return'])[]>(
         access_token: string,
         fields?: (keyof ThisNode['read_return'])[],
-        params?: Partial<ThisNode['read_params']>
+        params?: Partial<ThisNode['read_params']>,
     ) =>
         await this.GraphAPI.get<
-            Pick<GraphAPIResponse<ThisNode['read_return']>, FieldsTuple[number] | 'id'>,
+            Pick<
+                GraphAPIResponse<ThisNode['read_return']>,
+                FieldsTuple[number] | 'id'
+            >,
             ThisNode['read_params']
         >(
             this.id,
             Object.assign(Object.assign(params ?? {}, { access_token }), {
                 fields: fields?.toString(),
-            })
+            }),
         );
-    public delete = async (access_token: string, params?: Partial<ThisNode['delete_params']>) =>
-        await this.GraphAPI.delete<ThisNode['delete_return'], ThisNode['delete_params']>(
-            this.id,
-            Object.assign(params ?? {}, { access_token })
-        );
+    public delete = async (
+        access_token: string,
+        params?: Partial<ThisNode['delete_params']>,
+    ) =>
+        await this.GraphAPI.delete<
+            ThisNode['delete_return'],
+            ThisNode['delete_params']
+        >(this.id, Object.assign(params ?? {}, { access_token }));
 }
 
 export class Edge<ThisEdge extends CRUDEdgeInfo> implements CRUDEdge<ThisEdge> {
     constructor(
         private edge: ThisEdge['edge'],
         private GraphAPI: FacebookAppBase<APISpec>['GraphAPI'],
-        private id?: string
+        private id?: string,
     ) {}
     public read = async <FieldsTuple extends (keyof ThisEdge['read_return'])[]>(
         access_token: string,
         fields?: (keyof ThisEdge['read_return'])[],
-        params?: DeepPartial<ThisEdge['read_params']>
+        params?: DeepPartial<ThisEdge['read_params']>,
     ) =>
         this.GraphAPI.get<
             EdgeResponse<
-                Pick<GraphAPIResponse<ThisEdge['read_return']>, FieldsTuple[number] | 'id'>
+                Pick<
+                    GraphAPIResponse<ThisEdge['read_return']>,
+                    FieldsTuple[number] | 'id'
+                >
             >,
             DeepPartial<ThisEdge['read_params']>
         >(
             `${this.id}/${this.edge}`,
             Object.assign(Object.assign(params ?? {}, { access_token }), {
                 fields: fields?.toString(),
-            })
+            }),
         );
     public create = async (
         access_token: string,
         data: Partial<ThisEdge['create_type']>,
-        params?: Partial<ThisEdge['create_params']>
+        params?: Partial<ThisEdge['create_params']>,
     ) =>
         this.GraphAPI.post<
             ThisEdge['create_return'],
             ThisEdge['create_type'],
             DeepPartial<ThisEdge['read_params']>
-        >(`${this.id}/${this.edge}`, data, Object.assign(params ?? {}, { access_token }));
+        >(
+            `${this.id}/${this.edge}`,
+            data,
+            Object.assign(params ?? {}, { access_token }),
+        );
 }
 
 interface EdgeResponse<NodeType> {
@@ -133,7 +156,13 @@ interface Pagination {
 }
 
 type GraphAPIResponse<T> = {
-    [K in keyof T]: T[K] extends string | number | boolean | string[] | number[] | boolean[]
+    [K in keyof T]: T[K] extends
+        | string
+        | number
+        | boolean
+        | string[]
+        | number[]
+        | boolean[]
         ? T[K]
         : T[K] extends Array<infer U>
         ? EdgeResponse<GraphAPIResponse<U>>

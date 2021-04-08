@@ -39,7 +39,11 @@ export interface PageMessageRequest {
     /**
      * The message tag string. See [Message Tags](https://developers.facebook.com/docs/messenger-platform/message-tags).
      */
-    tag: 'CONFIRMED_EVENT_UPDATE' | 'POST_PURCHASE_UPDATE' | 'ACCOUNT_UPDATE' | 'HUMAN_AGENT';
+    tag:
+        | 'CONFIRMED_EVENT_UPDATE'
+        | 'POST_PURCHASE_UPDATE'
+        | 'ACCOUNT_UPDATE'
+        | 'HUMAN_AGENT';
 }
 
 interface PageMessageRecipient {
@@ -75,7 +79,7 @@ interface PageMessageBase {
 type UserInfoType = `user_${'phone_number' | 'email'}`;
 
 interface QuickReplyBase {
-    /**	
+    /**
      * Must be one of the following
      *
      * - `text`: Sends a text button
@@ -109,7 +113,9 @@ interface QuickReplyUserInfo {
     content_type: UserInfoType;
 }
 
-type QuickReply =  XOR<[QuickReplyText, QuickReplyTextWithImage, QuickReplyUserInfo]>;
+type QuickReply = XOR<
+    [QuickReplyText, QuickReplyTextWithImage, QuickReplyUserInfo]
+>;
 
 interface PageMessageWithText extends PageMessageBase {
     /**
@@ -149,7 +155,7 @@ interface PageMessageFileAttachment extends PageMessageAttachmentBase {
          * Set to `true` to make the saved asset sendable to other message recipients. Defaults to `false`.
          */
         is_reusable: boolean;
-    }
+    };
 }
 
 interface PageMessageTemplateAttachment extends PageMessageAttachmentBase {
@@ -160,14 +166,36 @@ interface PageMessageTemplateAttachment extends PageMessageAttachmentBase {
     payload: MessageTemplate;
 }
 
-type PageMessageAttachment = XOR<[PageMessageFileAttachment, PageMessageTemplateAttachment]>;
+type PageMessageAttachment = XOR<
+    [PageMessageFileAttachment, PageMessageTemplateAttachment]
+>;
 
-export type MessageTemplate = XOR<[GenericTemplate, ButtonTemplate, MediaTemplate, ReceiptTemplate, AirlineBoardingPassTemplate, AirlineCheckInTemplate, AirlineItineraryTemplate, AirlineFlightUpdateTemplate]>;
+export type MessageTemplate = XOR<
+    [
+        GenericTemplate,
+        ButtonTemplate,
+        MediaTemplate,
+        ReceiptTemplate,
+        AirlineBoardingPassTemplate,
+        AirlineCheckInTemplate,
+        AirlineItineraryTemplate,
+        AirlineFlightUpdateTemplate,
+    ]
+>;
 
-type AirlineTemplateType = `airline_${'boardingpass' | 'checkin' | 'itinerary' | 'update'}`;
+type AirlineTemplateType = `airline_${
+    | 'boardingpass'
+    | 'checkin'
+    | 'itinerary'
+    | 'update'}`;
 
 interface MessageTemplateBase {
-    template_type: 'generic' | 'button' | 'media' | 'receipt' | AirlineTemplateType;
+    template_type:
+        | 'generic'
+        | 'button'
+        | 'media'
+        | 'receipt'
+        | AirlineTemplateType;
 }
 
 interface GenericTemplate extends MessageTemplateBase {
@@ -451,14 +479,16 @@ interface AirlineBoardingPassTemplateBoardingPassBase {
     flight_info: AirlineMessageTemplateFlightInfo;
 }
 
-interface AirlineBoardingPassTemplateBoardingPassWithQRCode extends AirlineBoardingPassTemplateBoardingPassBase {
+interface AirlineBoardingPassTemplateBoardingPassWithQRCode
+    extends AirlineBoardingPassTemplateBoardingPassBase {
     /**
      * Aztec or QR code.
      */
     qr_code: string;
 }
 
-interface AirlineBoardingPassTemplateBoardingPassWithBarCode extends AirlineBoardingPassTemplateBoardingPassBase {
+interface AirlineBoardingPassTemplateBoardingPassWithBarCode
+    extends AirlineBoardingPassTemplateBoardingPassBase {
     /**
      * URL of the barcode image.
      */
@@ -540,7 +570,12 @@ interface AirlineMessageTemplateFlightInfoArrivalAirport {
     city: string;
 }
 
-type AirlineBoardingPassTemplateBoardingPass = XOR<[AirlineBoardingPassTemplateBoardingPassWithQRCode, AirlineBoardingPassTemplateBoardingPassWithBarCode]>;
+type AirlineBoardingPassTemplateBoardingPass = XOR<
+    [
+        AirlineBoardingPassTemplateBoardingPassWithQRCode,
+        AirlineBoardingPassTemplateBoardingPassWithBarCode,
+    ]
+>;
 
 interface AirlineCheckInTemplate extends AirlineMessageTemplateBase {
     template_type: 'airline_checkin';
@@ -617,7 +652,8 @@ interface AirlineItineraryTemplatePassengerInfo {
     name: string;
 }
 
-interface AirlineItineraryTemplateFlightInfo extends AirlineMessageTemplateFlightInfo {
+interface AirlineItineraryTemplateFlightInfo
+    extends AirlineMessageTemplateFlightInfo {
     /**
      * Used to group segments of a connection together. Must be unique within the itinerary
      */
@@ -709,7 +745,12 @@ interface MessageButtonBase {
     /**
      * Type of button
      */
-    type: 'web_url' | 'postback' | 'phone_number' | 'account_link' | 'account_unlink';
+    type:
+        | 'web_url'
+        | 'postback'
+        | 'phone_number'
+        | 'account_link'
+        | 'account_unlink';
 }
 
 interface URLButtonBase extends MessageButtonBase {
@@ -783,4 +824,6 @@ interface LogoutButton {
     type: 'account_unliknk';
 }
 
-type MessageButton = XOR<[URLButton, PostbackButton, CallButton, LoginButton, LogoutButton]>;
+type MessageButton = XOR<
+    [URLButton, PostbackButton, CallButton, LoginButton, LogoutButton]
+>;

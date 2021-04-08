@@ -1,4 +1,10 @@
-type BackdatedTimeGranularityEnum = 'year' | 'month' | 'day' | 'hour' | 'min' | 'none';
+type BackdatedTimeGranularityEnum =
+    | 'year'
+    | 'month'
+    | 'day'
+    | 'hour'
+    | 'min'
+    | 'none';
 export interface Album {
     /**
      * The Album ID.
@@ -399,7 +405,14 @@ export interface Application {
     /**
      * The platforms associated with the app in the Audience Network product. Not enforced, but when present, it can be used to provide the user with platform specific information for the app and its placements
      */
-    an_platforms: ('IOS' | 'ANDROID' | 'MOBILE_WEB' | 'DESKTOP' | 'INSTANT_ARTICLES' | 'UNKNOWN')[];
+    an_platforms: (
+        | 'IOS'
+        | 'ANDROID'
+        | 'MOBILE_WEB'
+        | 'DESKTOP'
+        | 'INSTANT_ARTICLES'
+        | 'UNKNOWN'
+    )[];
     /**
      * Domains and subdomains this app can use
      */
@@ -1545,7 +1558,12 @@ export interface Event {
     /**
      * Type of online event - Live, Link or Other
      */
-    online_event_format: 'messenger_room' | 'third_party' | 'fb_live' | 'other' | 'none';
+    online_event_format:
+        | 'messenger_room'
+        | 'third_party'
+        | 'fb_live'
+        | 'other'
+        | 'none';
     /**
      * Third party streaming url associated with Link events
      */
@@ -2612,7 +2630,11 @@ A `SCHEDULED_LIVE` LiveVideo is one whose scheduled time has passed, yet the str
 
 (Consider using the `SCHEDULED` states to create a planned, future LiveVideo.)
      */
-    status: 'LIVE_NOW' | 'UNPUBLISHED' | 'SCHEDULED_UNPUBLISHED' | 'SCHEDULED_LIVE';
+    status:
+        | 'LIVE_NOW'
+        | 'UNPUBLISHED'
+        | 'SCHEDULED_UNPUBLISHED'
+        | 'SCHEDULED_LIVE';
     /**
      * The stream url of the live video
      */
@@ -4150,7 +4172,9 @@ export interface Page {
     /**
      * To be used when `temporary_status` is set to `differently_open` to indicate how the business is operating differently than usual, such as a restaurant offering takeout. Enum keys can be one or more of the following: ONLINE_SERVICES, DELIVERY, PICKUP, OTHER with the value set to `true` or `false`. For example, a business offering food pick up but pausing delivery would be `differently_open_offerings:{"DELIVERY":"false", "PICKUP":"true"}`
      */
-    differently_open_offerings: { [key in 'ONLINE_SERVICES' | 'DELIVERY' | 'PICKUP']: boolean };
+    differently_open_offerings: {
+        [key in 'ONLINE_SERVICES' | 'DELIVERY' | 'PICKUP']: boolean;
+    };
     /**
      * The director of the film. Applicable to Films. Can be read with [Page Public Content Access](https://developers.facebook.com/docs/apps/review/feature/#reference-PAGES_ACCESS) or [Page Public Metadata Access](https://developers.facebook.com/docs/apps/review/feature#page-public-metadata-access).
      */
@@ -4557,7 +4581,11 @@ An example with:
     /**
      * Indicates how the business corresponding to this Page is operating differently than usual. Enum values {`differently_open`, `temporarily_closed`, `operating_as_usual`, `no_data`}  If set to `differently_open` use with `differently_open_offerings` to set status.
      */
-    temporary_status: 'differently_open' | 'temporarily_closed' | 'operating_as_usual' | 'no_data';
+    temporary_status:
+        | 'differently_open'
+        | 'temporarily_closed'
+        | 'operating_as_usual'
+        | 'no_data';
     /**
      * Unread message count for the Page. Only visible to a page admin
      */
@@ -4740,13 +4768,13 @@ interface EffectiveDevicePlatforms {
 
 interface TargetingDynamicRule {
     'action.type': string;
-    ad_group_id: string;
-    campaign_group_id: string;
-    campaign_id: string;
-    impression_count: string;
-    page_id: string;
-    post: string;
-    retention_seconds: string;
+    'ad_group_id': string;
+    'campaign_group_id': string;
+    'campaign_id': string;
+    'impression_count': string;
+    'page_id': string;
+    'post': string;
+    'retention_seconds': string;
 }
 
 interface TargetingProductAudienceSpec {
@@ -5775,7 +5803,10 @@ interface AdSet {
      * - If you enable campaign budget optimization, you should get `bid_strategy` at the parent campaign level.
      * - TARGET_COST` bidding strategy has been deprecated with [Marketing API v9](https://developers.facebook.com/docs/graph-api/changelog/version9.0).
      */
-    bid_strategy: 'LOWEST_COST_WITHOUT_CAP' | 'LOWEST_COST_WITH_BID_CAP' | 'COST_CAP';
+    bid_strategy:
+        | 'LOWEST_COST_WITHOUT_CAP'
+        | 'LOWEST_COST_WITH_BID_CAP'
+        | 'COST_CAP';
     /**
      * The billing event for this ad set:
      *
@@ -7178,7 +7209,10 @@ interface Campaign {
      * - If you do not enable campaign budget optimization, you should get `bid_strategy` at the ad set level.
      * - `TARGET_COST` bidding strategy has been deprecated with [Marketing API v9](https://developers.facebook.com/docs/graph-api/changelog/version9.0).
      */
-    bid_strategy: 'LOWEST_COST_WITHOUT_CAP' | 'LOWEST_COST_WITH_BID_CAP' | 'COST_CAP';
+    bid_strategy:
+        | 'LOWEST_COST_WITHOUT_CAP'
+        | 'LOWEST_COST_WITH_BID_CAP'
+        | 'COST_CAP';
     /**
      * The Boosted Object this campaign has associated, if any
      */
@@ -7226,7 +7260,13 @@ interface Campaign {
     /**
      * IN_PROCESS is available for version 4.0 or higher
      */
-    effective_status: 'ACTIVE' | 'PAUSED' | 'DELETED' | 'ARCHIVED' | 'IN_PROCESS' | 'WITH_ISSUES';
+    effective_status:
+        | 'ACTIVE'
+        | 'PAUSED'
+        | 'DELETED'
+        | 'ARCHIVED'
+        | 'IN_PROCESS'
+        | 'WITH_ISSUES';
     /**
      * When set to `true` Indicates that the campaign will include SKAdNetwork, iOS 14+.
      */
@@ -8638,7 +8678,14 @@ interface Vehicle {
     /**
      * Condition
      */
-    condition: 'EXCELLENT' | 'VERY_GOOD' | 'GOOD' | 'FAIR' | 'POOR' | 'OTHER' | 'NONE';
+    condition:
+        | 'EXCELLENT'
+        | 'VERY_GOOD'
+        | 'GOOD'
+        | 'FAIR'
+        | 'POOR'
+        | 'OTHER'
+        | 'NONE';
     /**
      * Currency
      */

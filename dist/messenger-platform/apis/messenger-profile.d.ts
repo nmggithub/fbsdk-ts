@@ -94,6 +94,6 @@ export interface MessengerProfilePersistentMenu {
      *
      * Required if `"composer_input_disabled": true`.
      */
-    call_to_actions: (XOR<[PostbackButton, URLButton]>)[];
+    call_to_actions: XOR<[PostbackButton, URLButton]>[];
 }
 export {};

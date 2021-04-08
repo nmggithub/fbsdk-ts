@@ -10,9 +10,17 @@ type XORBase<T1, T2> =
 type XOR2<T1, T2> = XORBase<T1, T2>;
 type XOR3<T1, T2, T3> = XORBase<XORBase<T1, T2>, T3>;
 
-type HasAtLeastTwo<T extends {}[]> = T[0] extends undefined ? false : T[1] extends undefined ? false : true;
+type HasAtLeastTwo<T extends {}[]> = T[0] extends undefined
+    ? false
+    : T[1] extends undefined
+    ? false
+    : true;
 
-type RemoveFirstTwo<T extends {}[]> = T extends [{}, {}, ...infer U] ? U extends {}[] ? U : never : never;
+type RemoveFirstTwo<T extends {}[]> = T extends [{}, {}, ...infer U]
+    ? U extends {}[]
+        ? U
+        : never
+    : never;
 
 export type XOR<T extends {}[]> = HasAtLeastTwo<T> extends true
     ? HasAtLeastTwo<RemoveFirstTwo<T>> extends true

@@ -133,14 +133,17 @@ export interface APIv9 extends APISpec {
                  * The size of this picture. It can be one of the following values: thumbnail, small, album.
                  */
                 type: 'thumbnail' | 'small' | 'album';
-            }
+            };
         };
     };
     AppRequest: EdgelessNodeSpec<AppRequest>;
     Application: {
         node: NodeSpec<Application>;
         edges: {
-            Accounts: EdgeSpec<TestAccount & { access_token: string }, 'accounts'> & {
+            Accounts: EdgeSpec<
+                TestAccount & { access_token: string },
+                'accounts'
+            > & {
                 read_params: {
                     /**
                      * The type of user requested
@@ -162,7 +165,10 @@ export interface APIv9 extends APISpec {
                 };
             };
             Agencies: EdgeSpec<Business, 'agencies'>;
-            AppEventTypes: EdgeSpec<ApplicationAppEventTypes, 'app_events_types'>;
+            AppEventTypes: EdgeSpec<
+                ApplicationAppEventTypes,
+                'app_events_types'
+            >;
             AppInsights: EdgeSpec<InsightsQueryResult, 'app_insights'> & {
                 read_params: {
                     breakdowns: InsightBreakdown[];
@@ -197,7 +203,10 @@ export interface APIv9 extends APISpec {
                 };
             };
             AppAssets: EdgeSpec<CanvasAppAsset, 'appassets'>;
-            AuthorizedAdAccounts: EdgeSpec<AdAccount, 'authorized_adaccounts'> & {
+            AuthorizedAdAccounts: EdgeSpec<
+                AdAccount,
+                'authorized_adaccounts'
+            > & {
                 read_params: {
                     business: string;
                 };
@@ -219,7 +228,12 @@ export interface APIv9 extends APISpec {
             Events: EdgeSpec<Event, 'events'> & {
                 read_params: {
                     include_canceld: boolean;
-                    type: 'attending' | 'created' | 'declined' | 'maybe' | 'not_replied';
+                    type:
+                        | 'attending'
+                        | 'created'
+                        | 'declined'
+                        | 'maybe'
+                        | 'not_replied';
                 };
             };
             iOSSKAdNetworkConversionConfig: EdgeSpec<
@@ -273,7 +287,10 @@ export interface APIv9 extends APISpec {
             };
             Roles: EdgeSpec<Role, 'roles'>;
             SubscribedDomains: EdgeSpec<CTCertDomain, 'subscribed_domains'>;
-            SubscribedDomainsPhishing: EdgeSpec<CTCertDomain, 'subscribed_domains_phishing'>;
+            SubscribedDomainsPhishing: EdgeSpec<
+                CTCertDomain,
+                'subscribed_domains_phishing'
+            >;
         };
     };
     AsyncSession: EdgelessNodeSpec<AsyncSession>;
@@ -292,7 +309,10 @@ export interface APIv9 extends APISpec {
     CommerceMerchantSettings: {
         node: NodeSpec<CommerceMerchantSettings>;
         edges: {
-            OrderManagementsApps: EdgeSpec<Application, 'order_management_apps'>;
+            OrderManagementsApps: EdgeSpec<
+                Application,
+                'order_management_apps'
+            >;
             ProductCatalogs: EdgeSpec<ProductCatalog, 'product_catalogs'>;
             Returns: EdgeSpec<CommerceReturn, 'returns'>;
             SetupStatus: EdgeSpec<CommerceMerchantSettings, 'setup_status'>;
@@ -310,7 +330,10 @@ export interface APIv9 extends APISpec {
     Event: {
         node: NodeSpec<Event>;
         edges: {
-            Roles: EdgeSpec<Profile & { role_type: unknown /* enum */ }, 'roles'>;
+            Roles: EdgeSpec<
+                Profile & { role_type: unknown /* enum */ },
+                'roles'
+            >;
         };
     };
     Flight: EdgelessNodeSpec<Flight>;
@@ -362,7 +385,10 @@ export interface APIv9 extends APISpec {
         edges: Pick<CommonEdges, 'Reactions' | 'Comments'> & {
             BlockedUsers: EdgeSpec<User, 'blocked_users'>;
             CrosspostSharedPages: EdgeSpec<Page, 'crosspost_shared_pages'>;
-            CrosspostedBroadcasrs: EdgeSpec<LiveVideo, 'crossposted_broadcasts'>;
+            CrosspostedBroadcasrs: EdgeSpec<
+                LiveVideo,
+                'crossposted_broadcasts'
+            >;
             Errors: EdgeSpec<LiveVideoError, 'errors'>;
             Polls: EdgeSpec<VideoPoll, 'polls'>;
         };
@@ -380,7 +406,10 @@ export interface APIv9 extends APISpec {
         node: NodeSpec<OfflineConversionDataSet>;
         edges: {
             AdAccounts: EdgeSpec<
-                AdAccount & { auto_track_for_ads: boolean; auto_track_for_ads_timestamp: number },
+                AdAccount & {
+                    auto_track_for_ads: boolean;
+                    auto_track_for_ads_timestamp: number;
+                },
                 'adaccounts'
             > & {
                 read_params: {
@@ -388,7 +417,9 @@ export interface APIv9 extends APISpec {
                 };
             };
             Agencies: EdgeSpec<
-                Business & { permitted_roles: ('ADMIN' | 'UPLOADER' | 'ADVERTISER')[] },
+                Business & {
+                    permitted_roles: ('ADMIN' | 'UPLOADER' | 'ADVERTISER')[];
+                },
                 'agencies'
             >;
             Audiences: EdgeSpec<CustomAudience, 'audiences'> & {
@@ -396,7 +427,10 @@ export interface APIv9 extends APISpec {
                     ad_account: string;
                 };
             };
-            CustomConversations: EdgeSpec<CustomConversion, 'customconversations'> & {
+            CustomConversations: EdgeSpec<
+                CustomConversion,
+                'customconversations'
+            > & {
                 read_params: {
                     ad_account: string;
                 };
@@ -460,12 +494,15 @@ export interface APIv9 extends APISpec {
                      * The latest timestamp of return data set
                      */
                     until: string;
-                }
+                };
             };
             Agencies: EdgeSpec<Business, 'agencies'>;
             Albums: EdgeSpec<Album, 'albums'>;
             AssignedUsers: EdgeSpec<AssignedUser, 'assigned_users'>;
-            AudioMediaCopyrights: EdgeSpec<AudioCopyright, 'audio_media_copyrights'>;
+            AudioMediaCopyrights: EdgeSpec<
+                AudioCopyright,
+                'audio_media_copyrights'
+            >;
             Blocked: EdgeSpec<Profile, 'blocked'>;
             CallToActions: EdgeSpec<PageCallToAction, 'call_to_actions'>;
             ClaimedURLs: EdgeSpec<URL, 'claimed_urls'>;
@@ -475,12 +512,24 @@ export interface APIv9 extends APISpec {
             >;
             CommerceOrders: EdgeSpec<CommerceOrder, 'commerce_orders'>;
             CommercePayouts: EdgeSpec<CommercePayout, 'commerce_payouts'>;
-            CommerceTransactions: EdgeSpec<CommerceOrderTransactionDetail, 'commerce_transactions'>;
+            CommerceTransactions: EdgeSpec<
+                CommerceOrderTransactionDetail,
+                'commerce_transactions'
+            >;
             Conversations: EdgeSpec<Conversation, 'conversations'>;
-            CopyrightWhitelistedPartners: EdgeSpec<Profile, 'copyright_whitelisted_partners'>;
-            CrosspostWhitelistedPages: EdgeSpec<Page, 'crosspost_whitelisted_pages'>;
+            CopyrightWhitelistedPartners: EdgeSpec<
+                Profile,
+                'copyright_whitelisted_partners'
+            >;
+            CrosspostWhitelistedPages: EdgeSpec<
+                Page,
+                'crosspost_whitelisted_pages'
+            >;
             CustomLabels: EdgeSpec<PageUserMessageThreadLabel, 'custom_labels'>;
-            CustomUserSettings: EdgeSpec<CustomUserSettings, 'custom_user_settings'>;
+            CustomUserSettings: EdgeSpec<
+                CustomUserSettings,
+                'custom_user_settings'
+            >;
             Events: EdgeSpec<Event, 'events'>;
             Feed: EdgeSpec<PagePost, 'feed'>;
             GlobalBrandChildren: EdgeSpec<Page, 'global_brand_children'>;
@@ -499,11 +548,20 @@ export interface APIv9 extends APISpec {
             LiveVideos: EdgeSpec<LiveVideo, 'live_videos'>;
             Locations: EdgeSpec<Page, 'locations'>;
             MediaFingerprints: EdgeSpec<MediaFingerprint, 'media_fingerprints'>;
-            Messages: CreateEdgeSpec<PageMessageRequest, 'messages'>,
-            MessagingFeatureReview: EdgeSpec<MessagingFeatureReview, 'messaging_feature_review'>;
-            MessengerProfile: CreateEdgeSpec<MessengerProfile, 'messenger_profile'>;
+            Messages: CreateEdgeSpec<PageMessageRequest, 'messages'>;
+            MessagingFeatureReview: EdgeSpec<
+                MessagingFeatureReview,
+                'messaging_feature_review'
+            >;
+            MessengerProfile: CreateEdgeSpec<
+                MessengerProfile,
+                'messenger_profile'
+            >;
             Nativeoffers: EdgeSpec<NativeOffer, 'nativeoffers'>;
-            PageBackedInstagramAccounts: EdgeSpec<InstagramUser, 'page_backed_instagram_accounts'>;
+            PageBackedInstagramAccounts: EdgeSpec<
+                InstagramUser,
+                'page_backed_instagram_accounts'
+            >;
             Personas: EdgeSpec<Persona, 'personas'>;
             Photos: EdgeSpec<Photo, 'photos'>;
             Picture: EdgeSpec<ProfilePictureSource, 'picture'>;
@@ -516,16 +574,25 @@ export interface APIv9 extends APISpec {
             ScheduledPosts: EdgeSpec<PagePost, 'scheduled_posts'>;
             SecondaryReceivers: EdgeSpec<Application, 'secondary_receivers'>;
             Settings: EdgeSpec<PageSettings, 'settings'>;
-            ShopSetupStatus: EdgeSpec<CommerceMerchantSettingsSetupStatus, 'shop_setup_status'>;
+            ShopSetupStatus: EdgeSpec<
+                CommerceMerchantSettingsSetupStatus,
+                'shop_setup_status'
+            >;
             SubscribedApps: EdgeSpec<Application, 'subscribed_apps'>;
             Tabs: EdgeSpec<Tab, 'tabs'>;
             Tagged: EdgeSpec<PagePost, 'tagged'>;
             ThreadOwner: EdgeSpec<PageThreadOwner, 'thread_owner'>;
             Tours: EdgeSpec<EventTour, 'tours'>;
-            VideoCopyrightRules: EdgeSpec<VideoCopyrightRule, 'video_copyright_rules'>;
+            VideoCopyrightRules: EdgeSpec<
+                VideoCopyrightRule,
+                'video_copyright_rules'
+            >;
             VideoCopyrights: EdgeSpec<VideoCopyright, 'video_copyrights'>;
             VideoLists: EdgeSpec<VideoList, 'video_lists'>;
-            VideoMediaCopyrights: EdgeSpec<VideoCopyright, 'video_media_copyrights'>;
+            VideoMediaCopyrights: EdgeSpec<
+                VideoCopyright,
+                'video_media_copyrights'
+            >;
             Videos: EdgeSpec<Video, 'videos'>;
             VisitorPosts: EdgeSpec<PagePost, 'visitor_posts'>;
         };
@@ -542,37 +609,52 @@ export interface APIv9 extends APISpec {
     User: {
         node: NodeSpec<User>;
         edges: {
-            Albums: EdgeSpec<Album,'albums'>,
-            AppRequestFormerRecipients: EdgeSpec<AppRequestFormerRecipient,'apprequestformerrecipients'>,
-            AppRequests: EdgeSpec<AppRequest,'apprequests'>,
-            BusinessUsers: EdgeSpec<BusinessUser,'business_users'>,
-            Businesses: EdgeSpec<Business,'businesses'>,
-            Accounts: EdgeSpec<Page,'accounts'>,
-            AdStudies: EdgeSpec<AdStudy,'ad_studies'>,
-            Adaccounts: EdgeSpec<AdAccount,'adaccounts'>,
-            AssignedAdAccounts: EdgeSpec<AdAccount,'assigned_ad_accounts'>,
-            AssignedBusinessAssetGroups: EdgeSpec<BusinessAssetGroup,'assigned_business_asset_groups'>,
-            AssignedPages: EdgeSpec<Page,'assigned_pages'>,
-            AssignedProductCatalogs: EdgeSpec<ProductCatalog,'assigned_product_catalogs'>,
-            Events: EdgeSpec<Event,'events'>,
-            Feed: EdgeSpec<Post,'feed'>,
-            Friends: EdgeSpec<User,'friends'>,
-            Groups: EdgeSpec<Group,'groups'>,
-            IdsForApps: EdgeSpec<UserIDForApp,'ids_for_apps'>,
-            IdsForBusiness: EdgeSpec<UserIDForApp,'ids_for_business'>,
-            IdsForPages: EdgeSpec<UserIDForPage,'ids_for_pages'>,
-            Likes: EdgeSpec<Page,'likes'>,
-            LiveEncoders: EdgeSpec<LiveEncoder,'live_encoders'>,
-            LiveVideos: EdgeSpec<LiveVideo,'live_videos'>,
-            Music: EdgeSpec<Page,'music'>,
-            'Payment.subscriptions': EdgeSpec<PaymentSubscription,'payment.subscriptions'>,
-            PaymentTransactions: EdgeSpec<PaymentEnginePayment,'payment_transactions'>,
-            Permissions: EdgeSpec<Permission,'permissions'>,
-            PersonalAdAccounts: EdgeSpec<AdAccount,'personal_ad_accounts'>,
-            Photos: EdgeSpec<Photo,'photos'>,
-            Picture: EdgeSpec<ProfilePictureSource,'picture'>,
-            Posts: EdgeSpec<Post,'posts'>,
-            Videos: EdgeSpec<Video,'videos'>
+            'Albums': EdgeSpec<Album, 'albums'>;
+            'AppRequestFormerRecipients': EdgeSpec<
+                AppRequestFormerRecipient,
+                'apprequestformerrecipients'
+            >;
+            'AppRequests': EdgeSpec<AppRequest, 'apprequests'>;
+            'BusinessUsers': EdgeSpec<BusinessUser, 'business_users'>;
+            'Businesses': EdgeSpec<Business, 'businesses'>;
+            'Accounts': EdgeSpec<Page, 'accounts'>;
+            'AdStudies': EdgeSpec<AdStudy, 'ad_studies'>;
+            'Adaccounts': EdgeSpec<AdAccount, 'adaccounts'>;
+            'AssignedAdAccounts': EdgeSpec<AdAccount, 'assigned_ad_accounts'>;
+            'AssignedBusinessAssetGroups': EdgeSpec<
+                BusinessAssetGroup,
+                'assigned_business_asset_groups'
+            >;
+            'AssignedPages': EdgeSpec<Page, 'assigned_pages'>;
+            'AssignedProductCatalogs': EdgeSpec<
+                ProductCatalog,
+                'assigned_product_catalogs'
+            >;
+            'Events': EdgeSpec<Event, 'events'>;
+            'Feed': EdgeSpec<Post, 'feed'>;
+            'Friends': EdgeSpec<User, 'friends'>;
+            'Groups': EdgeSpec<Group, 'groups'>;
+            'IdsForApps': EdgeSpec<UserIDForApp, 'ids_for_apps'>;
+            'IdsForBusiness': EdgeSpec<UserIDForApp, 'ids_for_business'>;
+            'IdsForPages': EdgeSpec<UserIDForPage, 'ids_for_pages'>;
+            'Likes': EdgeSpec<Page, 'likes'>;
+            'LiveEncoders': EdgeSpec<LiveEncoder, 'live_encoders'>;
+            'LiveVideos': EdgeSpec<LiveVideo, 'live_videos'>;
+            'Music': EdgeSpec<Page, 'music'>;
+            'Payment.subscriptions': EdgeSpec<
+                PaymentSubscription,
+                'payment.subscriptions'
+            >;
+            'PaymentTransactions': EdgeSpec<
+                PaymentEnginePayment,
+                'payment_transactions'
+            >;
+            'Permissions': EdgeSpec<Permission, 'permissions'>;
+            'PersonalAdAccounts': EdgeSpec<AdAccount, 'personal_ad_accounts'>;
+            'Photos': EdgeSpec<Photo, 'photos'>;
+            'Picture': EdgeSpec<ProfilePictureSource, 'picture'>;
+            'Posts': EdgeSpec<Post, 'posts'>;
+            'Videos': EdgeSpec<Video, 'videos'>;
         };
     };
     Video: {

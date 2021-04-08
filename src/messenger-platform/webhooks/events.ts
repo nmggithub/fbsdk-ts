@@ -48,7 +48,7 @@ type MessageReceivedEventAttachment = XOR<
         MessageReceivedEventFallbackAttachment,
         MessageReceivedEventLocationAttachment,
         MessageReceivedEventStickerAttachment,
-        MessageReceivedEventProductAttachment
+        MessageReceivedEventProductAttachment,
     ]
 >;
 
@@ -64,17 +64,20 @@ interface MessageReceivedEventAttachmentBase {
     payload: MessageReceivedEventPayloadBase;
 }
 
-interface MessageReceivedEventFallbackAttachment extends MessageReceivedEventAttachmentBase {
+interface MessageReceivedEventFallbackAttachment
+    extends MessageReceivedEventAttachmentBase {
     type: 'fallback';
     payload: MessageReceivedEventFallbackAttachmentPayload;
 }
 
-interface MessageReceivedEventLocationAttachment extends MessageReceivedEventAttachmentBase {
+interface MessageReceivedEventLocationAttachment
+    extends MessageReceivedEventAttachmentBase {
     type: 'location';
     payload: MessageReceivedEventLocationAttachmentPayload;
 }
 
-interface MessageReceivedEventStickerAttachment extends MessageReceivedEventAttachmentBase {
+interface MessageReceivedEventStickerAttachment
+    extends MessageReceivedEventAttachmentBase {
     type: 'image';
     payload: MessageReceivedEventStickerAttachmentPayload;
 }
@@ -91,14 +94,16 @@ interface MessageReceivedEventPayloadBase {
     url: string;
 }
 
-interface MessageReceivedEventFallbackAttachmentPayload extends MessageReceivedEventPayloadBase {
+interface MessageReceivedEventFallbackAttachmentPayload
+    extends MessageReceivedEventPayloadBase {
     /**
      * Title of the attachment.
      */
     title: string;
 }
 
-interface MessageReceivedEventLocationAttachmentPayload extends MessageReceivedEventPayloadBase {
+interface MessageReceivedEventLocationAttachmentPayload
+    extends MessageReceivedEventPayloadBase {
     coordinates: {
         /**
          * Latitude.
@@ -112,7 +117,8 @@ interface MessageReceivedEventLocationAttachmentPayload extends MessageReceivedE
     };
 }
 
-interface MessageReceivedEventStickerAttachmentPayload extends MessageReceivedEventPayloadBase {
+interface MessageReceivedEventStickerAttachmentPayload
+    extends MessageReceivedEventPayloadBase {
     /**
      * Persistent id of this sticker, for example `369239263222822` references the Like sticker.
      */
@@ -192,7 +198,7 @@ export type MessageEchoEvent = XOR<
         TextMessageEchoEvent,
         AttachmentMessageEchoEvent,
         TemplateAttachmentMessageEchoEvent,
-        FallbackAttachmentMessageEchoEvent
+        FallbackAttachmentMessageEchoEvent,
     ]
 >;
 
@@ -334,7 +340,8 @@ export type PolicyEnforcementEvent = XOR<
     [PolicyEnforcementWarningOrBlockEvent, PolicyEnforcementUnblockEvent]
 >;
 
-interface PolicyEnforcementWarningOrBlockEvent extends PolicyEnforcementEventBase {
+interface PolicyEnforcementWarningOrBlockEvent
+    extends PolicyEnforcementEventBase {
     action: 'warning' | 'block';
     /**
      * The reason for being warned or blocked.
@@ -367,7 +374,15 @@ export interface MessageReactionEvent {
      *
      * `other` could also be returned in case the emoji based reaction does not match the ones above.
      */
-    reaction: 'smile' | 'angry' | 'sad' | 'wow' | 'love' | 'like' | 'dislike' | 'other';
+    reaction:
+        | 'smile'
+        | 'angry'
+        | 'sad'
+        | 'wow'
+        | 'love'
+        | 'like'
+        | 'dislike'
+        | 'other';
     /**
      * Reference to the emoji corresponding to the reaction.
      */
@@ -390,52 +405,57 @@ export interface MessageReadEvent {
 }
 
 export interface ReferralEvent {
+    /**
+     * The source of the referral. Supported values:
+     * - `MESSENGER_CODE`
+     * - `DISCOVER_TAB`
+     * - `ADS`
+     * - `SHORTLINK`
+     * - `CUSTOMER_CHAT_PLUGIN`
+     */
+    source:
+        | 'MESSENGER_CODE'
+        | 'DISCOVER_TAB'
+        | 'ADS'
+        | 'SHORTLINK'
+        | 'CUSTOMER_CHAT_PLUGIN';
+    /**
+     * The referral type. Currently supports OPEN_THREAD.
+     */
+    type: 'OPEN_THREAD';
+    /**
+     * The optional ref attribute set in the referrer.
+     */
+    ref: string;
+    /**
+     * The URI of the site where the message was sent in the Facebook chat plugin.
+     */
+    referrer_uri: string;
+    /**
+     * A flag indicating whether the user is a guest user from [Facebook Chat Plugin](https://developers.facebook.com/docs/messenger-platform/discovery/customer-chat-plugin/)
+     */
+    is_guest_user: string;
+    /**
+     * The data contaning information about the CTM ad, the user initiated the thread from.
+     */
+    ads_context_data: {
         /**
-         * The source of the referral. Supported values:
-         * - `MESSENGER_CODE`
-         * - `DISCOVER_TAB`
-         * - `ADS`
-         * - `SHORTLINK`
-         * - `CUSTOMER_CHAT_PLUGIN`
+         * Title of the Ad.
          */
-        source: 'MESSENGER_CODE' | 'DISCOVER_TAB' | 'ADS' | 'SHORTLINK' | 'CUSTOMER_CHAT_PLUGIN';
+        ad_title: string;
         /**
-         * The referral type. Currently supports OPEN_THREAD.
+         * Url of the image from the Ad the user is interested.
          */
-        type: 'OPEN_THREAD';
+        photo_url: string;
         /**
-         * The optional ref attribute set in the referrer.
+         * Thumbnail url of the the video from the ad.
          */
-        ref: string;
+        video_url: string;
         /**
-         * The URI of the site where the message was sent in the Facebook chat plugin.
+         * ID of the post.
          */
-        referrer_uri: string;
-        /**
-         * A flag indicating whether the user is a guest user from [Facebook Chat Plugin](https://developers.facebook.com/docs/messenger-platform/discovery/customer-chat-plugin/)
-         */
-        is_guest_user: string;
-        /**
-         * The data contaning information about the CTM ad, the user initiated the thread from.
-         */
-        ads_context_data: {
-            /**
-             * Title of the Ad.
-             */
-            ad_title: string;
-            /**
-             * Url of the image from the Ad the user is interested.
-             */
-            photo_url: string;
-            /**
-             * Thumbnail url of the the video from the ad.
-             */
-            video_url: string;
-            /**
-             * ID of the post.
-             */
-            post_id: string;
-        };
+        post_id: string;
+    };
 }
 
 export type HandoverProtocolStandbyChannelEvent = XOR<
@@ -443,6 +463,6 @@ export type HandoverProtocolStandbyChannelEvent = XOR<
         MessageReadEvent,
         MessageDeliveredEvent,
         MessageReceivedEvent,
-        Omit<PostbackRecievedEvent, 'payload'>
+        Omit<PostbackRecievedEvent, 'payload'>,
     ]
 >[];
