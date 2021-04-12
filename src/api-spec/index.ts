@@ -102,11 +102,13 @@ import {
     PaymentSubscription,
     UserIDForPage,
     AppRequestFormerRecipient,
+    AdsPixel,
 } from '../graph-api/types';
 
 import { CustomUserSettings } from '../messenger-platform/apis/custom-user-settings';
 import { MessengerProfile } from '../messenger-platform/apis/messenger-profile';
 import { PageMessageRequest } from '../messenger-platform/apis/send';
+import { ServerEvent } from '../conversions-api/apis/server-event';
 
 interface NodeGetterTypeParams {
     node: CRUDNodeInfo;
@@ -116,6 +118,12 @@ interface NodeGetterTypeParams {
 export type APISpec = { [key: string]: NodeGetterTypeParams };
 
 export interface APIv9 extends APISpec {
+    AdsPixel: {
+        node: NodeSpec<AdsPixel>;
+        edges: {
+            Events: CreateEdgeSpec<ServerEvent, 'events'>;
+        };
+    };
     Album: {
         node: NodeSpec<Album>;
         edges: Pick<CommonEdges, 'Likes' | 'Comments'> & {
