@@ -13,15 +13,33 @@ interface FacebookGraphAPIError {
     type: string;
     code: number;
     fbtrace_id: string;
+    error_user_msg?: string;
+    error_user_title?: string;
+}
+
+class FacebookError extends Error {
+    constructor(
+        public message: string,
+        public name: string,
+        public error_user_msg?: string,
+        public error_user_title?: string,
+    ) {
+        super(message);
+        Error.captureStackTrace(this, FacebookError);
+        this.name = name;
+    }
 }
 
 const handleFacebookError = (e: AxiosError) => {
     const { status, data } = e.response;
     if (status.toString()[0] === '4') {
         const _fbError = (<{ error: FacebookGraphAPIError }>data).error;
-        const fbError = new Error();
-        fbError.message = _fbError.message;
-        fbError.name = _fbError.type;
+        const fbError = new FacebookError(
+            _fbError.message,
+            _fbError.type,
+            _fbError.error_user_msg,
+            _fbError.error_user_title,
+        );
         throw fbError;
     } else throw new Error('Unexpected error');
 };
@@ -66,12 +84,10 @@ export abstract class FacebookAppBase<API extends APISpec> {
             });
             try {
                 const response = <ReturnType>(
-                    (
-                        await this.graphAPIAxiosInstance.post(endpoint, data, {
-                            params,
-                        })
-                    ).data
-                );
+                    await this.graphAPIAxiosInstance.post(endpoint, data, {
+                        params,
+                    })
+                ).data;
                 return response;
             } catch (e) {
                 handleFacebookError(e);
@@ -86,12 +102,10 @@ export abstract class FacebookAppBase<API extends APISpec> {
             });
             try {
                 const response = <ReturnType>(
-                    (
-                        await this.graphAPIAxiosInstance.delete(endpoint, {
-                            params,
-                        })
-                    ).data
-                );
+                    await this.graphAPIAxiosInstance.delete(endpoint, {
+                        params,
+                    })
+                ).data;
                 return response;
             } catch (e) {
                 handleFacebookError(e);
@@ -110,6 +124,12 @@ export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
         });
     }
     protected _Nodes: APISpecNodeCollection<APIv9> = {
+        AdsPixel: (id: string) =>
+            new Node(
+                this.GraphAPI,
+                { Events: new Edge('events', { ...this.GraphAPI }, id) },
+                id,
+            ),
         Album: (id: string) =>
             new Node(
                 this.GraphAPI,
