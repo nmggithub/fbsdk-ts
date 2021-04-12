@@ -7738,7 +7738,7 @@ export interface CustomAudienceSharingStatus {
     status: string;
 }
 
-interface AdsPixel {
+export interface AdsPixel {
     /**
      * ID of the pixel
      */
