@@ -7090,7 +7090,7 @@ export interface CustomAudienceSharingStatus {
     sharing_relationship_id: number;
     status: string;
 }
-interface AdsPixel {
+export interface AdsPixel {
     /**
      * ID of the pixel
      */

@@ -35,13 +35,22 @@ exports.FacebookApp = exports.FacebookAppNoExposedNodes = exports.FacebookAppBas
 const axios_1 = __importDefault(require("axios"));
 const node_1 = __importStar(require("./api-spec/node"));
 const crypto_1 = __importDefault(require("crypto"));
+class FacebookError extends Error {
+    constructor(message, name, error_user_msg, error_user_title) {
+        super(message);
+        this.message = message;
+        this.name = name;
+        this.error_user_msg = error_user_msg;
+        this.error_user_title = error_user_title;
+        Error.captureStackTrace(this, FacebookError);
+        this.name = name;
+    }
+}
 const handleFacebookError = (e) => {
     const { status, data } = e.response;
     if (status.toString()[0] === '4') {
         const _fbError = data.error;
-        const fbError = new Error();
-        fbError.message = _fbError.message;
-        fbError.name = _fbError.type;
+        const fbError = new FacebookError(_fbError.message, _fbError.type, _fbError.error_user_msg, _fbError.error_user_title);
         throw fbError;
     }
     else
@@ -74,9 +83,9 @@ class FacebookAppBase {
                     appsecret_proof: this.makeAppSecretProof(_params.access_token),
                 });
                 try {
-                    const response = ((yield this.graphAPIAxiosInstance.post(endpoint, data, {
+                    const response = (yield this.graphAPIAxiosInstance.post(endpoint, data, {
                         params,
-                    })).data);
+                    })).data;
                     return response;
                 }
                 catch (e) {
@@ -88,9 +97,9 @@ class FacebookAppBase {
                     appsecret_proof: this.makeAppSecretProof(_params.access_token),
                 });
                 try {
-                    const response = ((yield this.graphAPIAxiosInstance.delete(endpoint, {
+                    const response = (yield this.graphAPIAxiosInstance.delete(endpoint, {
                         params,
-                    })).data);
+                    })).data;
                     return response;
                 }
                 catch (e) {
@@ -105,6 +114,7 @@ class FacebookAppNoExposedNodes extends FacebookAppBase {
     constructor(config) {
         super(config);
         this._Nodes = {
+            AdsPixel: (id) => new node_1.default(this.GraphAPI, { Events: new node_1.Edge('events', Object.assign({}, this.GraphAPI), id) }, id),
             Album: (id) => new node_1.default(this.GraphAPI, {
                 Comments: new node_1.Edge('comments', this.GraphAPI, id),
                 Likes: new node_1.Edge('likes', this.GraphAPI, id),

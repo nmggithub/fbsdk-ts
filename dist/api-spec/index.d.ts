@@ -1,8 +1,9 @@
 import Node, { CRUDNodeInfo, CRUDEdgeInfoSet } from './node';
-import { AdAccount, AdNetworkAnalyticsAsyncQueryResult, Album, Application, ApplicationAppEventTypes, ApplicationPermission, ApplicationPermissionStatus, AppRequest, AsyncSession, Business, ButtonAutoDetectionDeviceSelection, CanvasAppAsset, Comment, CommerceMerchantSettings, ConversionConfig, CPASAdvertiserPartnershipRecommendation, CPASCollaborationRequest, CTCertDomain, DACheck, GamesIAPProduct, InsightsQueryResult, MobileSDKGK, Photo, ProductCatalog, Profile, ProfilePictureSource, Reaction, CommerceReturn, Role, SDKMLModel, TestAccount, Conversation, Message, Destination, Doc, Event, Flight, FriendList, GroupDoc, GroupMessage, ImageCopyright, LeadGenData, UserLeadGenInfo, Link, LiveVideo, LiveVideoInputStream, LiveEncoder, User, Page, LiveVideoError, VideoPoll, MailingAddress, GroupFile, MediaFingerprint, NativeOffer, NativeOfferView, OfflineConversionDataSet, OfflineConversionDataSetUpload, CustomAudience, CustomConversion, OfflineConversionDataSetStats, CommerceMerchantTaxSettings, Video, Post, SignalsUploadProgress, GamesIAPOrder, PagePost, AssignedUser, AudioCopyright, CommerceMerchantSettingsSetupStatus, CommerceOrder, CommerceOrderTransactionDetail, CommercePayout, InsightsResult, InstagramUser, InstantArticle, InstantArticleInsightsQueryResult, MessagingFeatureReview, PageCallToAction, PageSettings, PageThreadOwner, PageUserMessageThreadLabel, Persona, Recommendation, RTBDynamicPost, Tab, VideoCopyright, VideoCopyrightRule, VideoList, EventTour, Group, InsightBreakdown, BusinessUser, BusinessAssetGroup, Permission, URL, UserIDForApp, AdStudy, PaymentEnginePayment, PaymentSubscription, UserIDForPage, AppRequestFormerRecipient } from '../graph-api/types';
+import { AdAccount, AdNetworkAnalyticsAsyncQueryResult, Album, Application, ApplicationAppEventTypes, ApplicationPermission, ApplicationPermissionStatus, AppRequest, AsyncSession, Business, ButtonAutoDetectionDeviceSelection, CanvasAppAsset, Comment, CommerceMerchantSettings, ConversionConfig, CPASAdvertiserPartnershipRecommendation, CPASCollaborationRequest, CTCertDomain, DACheck, GamesIAPProduct, InsightsQueryResult, MobileSDKGK, Photo, ProductCatalog, Profile, ProfilePictureSource, Reaction, CommerceReturn, Role, SDKMLModel, TestAccount, Conversation, Message, Destination, Doc, Event, Flight, FriendList, GroupDoc, GroupMessage, ImageCopyright, LeadGenData, UserLeadGenInfo, Link, LiveVideo, LiveVideoInputStream, LiveEncoder, User, Page, LiveVideoError, VideoPoll, MailingAddress, GroupFile, MediaFingerprint, NativeOffer, NativeOfferView, OfflineConversionDataSet, OfflineConversionDataSetUpload, CustomAudience, CustomConversion, OfflineConversionDataSetStats, CommerceMerchantTaxSettings, Video, Post, SignalsUploadProgress, GamesIAPOrder, PagePost, AssignedUser, AudioCopyright, CommerceMerchantSettingsSetupStatus, CommerceOrder, CommerceOrderTransactionDetail, CommercePayout, InsightsResult, InstagramUser, InstantArticle, InstantArticleInsightsQueryResult, MessagingFeatureReview, PageCallToAction, PageSettings, PageThreadOwner, PageUserMessageThreadLabel, Persona, Recommendation, RTBDynamicPost, Tab, VideoCopyright, VideoCopyrightRule, VideoList, EventTour, Group, InsightBreakdown, BusinessUser, BusinessAssetGroup, Permission, URL, UserIDForApp, AdStudy, PaymentEnginePayment, PaymentSubscription, UserIDForPage, AppRequestFormerRecipient, AdsPixel } from '../graph-api/types';
 import { CustomUserSettings } from '../messenger-platform/apis/custom-user-settings';
 import { MessengerProfile } from '../messenger-platform/apis/messenger-profile';
 import { PageMessageRequest } from '../messenger-platform/apis/send';
+import { ServerEvent } from '../conversions-api/apis/server-event';
 interface NodeGetterTypeParams {
     node: CRUDNodeInfo;
     edges: CRUDEdgeInfoSet;
@@ -11,6 +12,12 @@ export declare type APISpec = {
     [key: string]: NodeGetterTypeParams;
 };
 export interface APIv9 extends APISpec {
+    AdsPixel: {
+        node: NodeSpec<AdsPixel>;
+        edges: {
+            Events: CreateEdgeSpec<ServerEvent, 'events'>;
+        };
+    };
     Album: {
         node: NodeSpec<Album>;
         edges: Pick<CommonEdges, 'Likes' | 'Comments'> & {
