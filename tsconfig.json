@@ -1,12 +1,27 @@
 {
     "compilerOptions": {
+        "strict": true,
+        "noImplicitReturns": true,
+        "exactOptionalPropertyTypes": true,
+        "allowUnreachableCode": false,
+        "noFallthroughCasesInSwitch": true,
         "declaration": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "noUnusedParameters": false,
+        "importsNotUsedAsValues": "error",
+        "isolatedModules": true,
+        "forceConsistentCasingInFileNames": true,
         "outDir": "dist",
         "target": "ES6",
         "esModuleInterop": true,
         "noUnusedLocals": true,
         "moduleResolution": "node",
-        "module": "commonjs"
+        "module": "commonjs",
+        "noEmitOnError": true,
+        "noErrorTruncation": true,
+        "resolveJsonModule": true
     },
     "include": ["./src/**/*"]
 }

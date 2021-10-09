@@ -309,7 +309,7 @@ interface CustomAPISpec extends APISpec {
  */
 
 class CustomFacebookApp extends FacebookAppBase<CustomAPISpec> {
-    graphAPIAxiosInstance = axios.create({
+    protected graphAPIAxiosInstance = axios.create({
         baseURL: `{CUSTOM-GRAPH-API-BASE-URL}`,
     });
 }

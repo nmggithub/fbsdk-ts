@@ -1,5 +1,5 @@
-import { CRUDNodeInfo, CRUDEdgeInfoSet } from './node';
-import {
+import type { CRUDNodeInfo, CRUDEdgeInfoSet } from './node';
+import type {
     AdAccount,
     AdNetworkAnalyticsAsyncQueryResult,
     Album,
@@ -104,9 +104,9 @@ import {
     AppRequestFormerRecipient,
 } from '../graph-api/types';
 
-import { CustomUserSettings } from '../messenger-platform/apis/custom-user-settings';
-import { MessengerProfile } from '../messenger-platform/apis/messenger-profile';
-import { PageMessageRequest } from '../messenger-platform/apis/send';
+import type { CustomUserSettings } from '../messenger-platform/apis/custom-user-settings';
+import type { MessengerProfile } from '../messenger-platform/apis/messenger-profile';
+import type { PageMessageRequest } from '../messenger-platform/apis/send';
 
 interface NodeGetterTypeParams {
     node: CRUDNodeInfo;

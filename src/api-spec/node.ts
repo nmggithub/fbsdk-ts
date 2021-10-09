@@ -1,6 +1,6 @@
-import { FacebookAppBase } from '../index';
-import { DePromise, DeepPartial } from '../util';
-import { APISpec } from '.';
+import type { FacebookAppBase } from '../index';
+import type { DePromise, DeepPartial } from '../util';
+import type { APISpec } from '.';
 
 export type NodeGetter<
     ThisNode extends CRUDNodeInfo,
@@ -71,7 +71,9 @@ export default class Node<
         private id?: string,
     ) {}
     public Edge<T extends keyof Edges>(edge: T) {
-        return new Edge<Edges[T]>(edge as string, this.GraphAPI);
+        if (!this.id)
+            throw new Error('Cannot access edges of node with unspecified id');
+        return new Edge<Edges[T]>(edge as string, this.GraphAPI, this.id);
     }
     public read = async <
         FieldsTuple extends Exclude<keyof ThisNode['read_return'], 'id'>[],
@@ -79,8 +81,9 @@ export default class Node<
         access_token: string,
         fields?: FieldsTuple,
         params?: Partial<ThisNode['read_params']>,
-    ) =>
-        await this.GraphAPI.get<
+    ) => {
+        if (!this.id) throw new Error('Cannot read node with unspecified id');
+        return await this.GraphAPI.get<
             Pick<
                 GraphAPIResponse<ThisNode['read_return']>,
                 FieldsTuple[number] | 'id'
@@ -92,21 +95,24 @@ export default class Node<
                 fields: fields?.toString(),
             }),
         );
+    };
     public delete = async (
         access_token: string,
         params?: Partial<ThisNode['delete_params']>,
-    ) =>
-        await this.GraphAPI.delete<
+    ) => {
+        if (!this.id) throw new Error('Cannot delete node with unspecified id');
+        return await this.GraphAPI.delete<
             ThisNode['delete_return'],
             ThisNode['delete_params']
         >(this.id, Object.assign(params ?? {}, { access_token }));
+    };
 }
 
 export class Edge<ThisEdge extends CRUDEdgeInfo> implements CRUDEdge<ThisEdge> {
     constructor(
         private edge: ThisEdge['edge'],
         private GraphAPI: FacebookAppBase<APISpec>['GraphAPI'],
-        private id?: string,
+        private id: string,
     ) {}
     public read = async <
         FieldsTuple extends Exclude<keyof ThisEdge['read_return'], 'id'>[],

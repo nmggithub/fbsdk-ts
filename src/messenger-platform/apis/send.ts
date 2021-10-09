@@ -1,4 +1,4 @@
-import { XOR } from '../../util';
+import type { XOR } from '../../util';
 
 export interface PageMessageRequest {
     /**

@@ -1,4 +1,4 @@
-import { MessengerProfilePersistentMenu } from './messenger-profile';
+import type { MessengerProfilePersistentMenu } from './messenger-profile';
 
 export interface CustomUserSettings {
     /**

@@ -1,5 +1,5 @@
-import { XOR } from '../../util';
-import { MessageTemplate } from '../apis/send';
+import type { XOR } from '../../util';
+import type { MessageTemplate } from '../apis/send';
 
 export interface MessageReceivedEvent {
     /**

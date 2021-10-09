@@ -1,5 +1,5 @@
-import { XOR } from '../../util';
-import { PostbackButton, URLButton } from './send';
+import type { XOR } from '../../util';
+import type { PostbackButton, URLButton } from './send';
 
 export interface MessengerProfile {
     /**

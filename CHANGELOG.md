@@ -1,4 +1,6 @@
 # Changelog
+## [v2.0.2] - 2021-10-09
+- made type checking more strict
 ## [v2.0.1] - 2021-10-09
 - Built new version
 - Removed ID from field tuples

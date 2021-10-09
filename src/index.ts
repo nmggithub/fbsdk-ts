@@ -1,8 +1,8 @@
 import axios, { AxiosError, AxiosInstance } from 'axios';
-import { APISpec, APIv9 } from './api-spec';
+import type { APISpec, APIv9 } from './api-spec';
 import Node from './api-spec/node';
 import crypto from 'crypto';
-import { KnownKeys } from './util';
+import type { KnownKeys } from './util';
 
 interface FacebookAppConfig {
     readonly appId: string;
@@ -16,15 +16,16 @@ interface FacebookGraphAPIError {
     fbtrace_id: string;
 }
 
-const handleFacebookError = (e: AxiosError) => {
+const getFacebookError = (e: AxiosError): Error => {
+    if (!e.response) return new Error('Unexpected error');
     const { status, data } = e.response;
     if (status.toString()[0] === '4') {
         const _fbError = (<{ error: FacebookGraphAPIError }>data).error;
         const fbError = new Error();
         fbError.message = _fbError.message;
         fbError.name = _fbError.type;
-        throw fbError;
-    } else throw new Error('Unexpected error');
+        return fbError;
+    } else return new Error('Unexpected error');
 };
 
 export abstract class FacebookAppBase<API extends APISpec> {
@@ -42,7 +43,7 @@ export abstract class FacebookAppBase<API extends APISpec> {
     protected GraphAPI = {
         get: async <ReturnType, ParamsType = any>(
             endpoint: string,
-            _params?: ParamsType & { access_token: string },
+            _params: ParamsType & { access_token: string },
         ) => {
             const params = Object.assign(_params, {
                 appsecret_proof: this.makeAppSecretProof(_params.access_token),
@@ -54,13 +55,13 @@ export abstract class FacebookAppBase<API extends APISpec> {
                 );
                 return response;
             } catch (e) {
-                handleFacebookError(e);
+                throw getFacebookError(e as AxiosError<any>);
             }
         },
         post: async <ReturnType, DataType = any, ParamsType = any>(
             endpoint: string,
             data: DataType,
-            _params?: ParamsType & { access_token: string },
+            _params: ParamsType & { access_token: string },
         ) => {
             const params = Object.assign(_params, {
                 appsecret_proof: this.makeAppSecretProof(_params.access_token),
@@ -73,12 +74,12 @@ export abstract class FacebookAppBase<API extends APISpec> {
                 ).data;
                 return response;
             } catch (e) {
-                handleFacebookError(e);
+                throw getFacebookError(e as AxiosError<any>);
             }
         },
         delete: async <ReturnType, ParamsType = any>(
             endpoint: string,
-            _params?: ParamsType & { access_token: string },
+            _params: ParamsType & { access_token: string },
         ) => {
             const params = Object.assign(_params, {
                 appsecret_proof: this.makeAppSecretProof(_params.access_token),
@@ -91,7 +92,7 @@ export abstract class FacebookAppBase<API extends APISpec> {
                 ).data;
                 return response;
             } catch (e) {
-                handleFacebookError(e);
+                throw getFacebookError(e as AxiosError<any>);
             }
         },
     };
@@ -117,4 +118,4 @@ export class FacebookApp extends FacebookAppNoExposedNodes {
     public Node = this._Node;
 }
 
-export { APISpec };
+export type { APISpec };

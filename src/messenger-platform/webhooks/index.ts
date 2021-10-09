@@ -1,6 +1,6 @@
-import { WebhookEventNotificationBase } from '../../graph-api/webhooks';
-import { XOR } from '../../util';
-import {
+import type { WebhookEventNotificationBase } from '../../graph-api/webhooks';
+import type { XOR } from '../../util';
+import type {
     AccountLinkingEvent,
     HandoverProtocolAppRolesEvent,
     HandoverProtocolPassThreadControlEvent,
