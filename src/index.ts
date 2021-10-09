@@ -66,12 +66,10 @@ export abstract class FacebookAppBase<API extends APISpec> {
             });
             try {
                 const response = <ReturnType>(
-                    (
-                        await this.graphAPIAxiosInstance.post(endpoint, data, {
-                            params,
-                        })
-                    ).data
-                );
+                    await this.graphAPIAxiosInstance.post(endpoint, data, {
+                        params,
+                    })
+                ).data;
                 return response;
             } catch (e) {
                 handleFacebookError(e);
@@ -86,12 +84,10 @@ export abstract class FacebookAppBase<API extends APISpec> {
             });
             try {
                 const response = <ReturnType>(
-                    (
-                        await this.graphAPIAxiosInstance.delete(endpoint, {
-                            params,
-                        })
-                    ).data
-                );
+                    await this.graphAPIAxiosInstance.delete(endpoint, {
+                        params,
+                    })
+                ).data;
                 return response;
             } catch (e) {
                 handleFacebookError(e);

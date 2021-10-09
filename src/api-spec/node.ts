@@ -4,7 +4,7 @@ import { APISpec } from '.';
 
 export type NodeGetter<
     ThisNode extends CRUDNodeInfo,
-    Edges extends CRUDEdgeInfoSet
+    Edges extends CRUDEdgeInfoSet,
 > = (id?: string) => Node<ThisNode, Edges>;
 
 export interface CRUDNodeInfo {
@@ -34,7 +34,7 @@ export type CRUDEdgeInfoSet = { [key: string]: CRUDEdgeInfo };
 interface CRUDNode<ThisNode extends CRUDNodeInfo> {
     read: <FieldsTuple extends (keyof ThisNode['read_return'])[]>(
         access_token: string,
-        fields?: (keyof ThisNode['read_return'])[],
+        fields?: FieldsTuple,
         params?: Partial<ThisNode['read_params']>,
     ) => Promise<
         Pick<
@@ -63,8 +63,9 @@ interface CRUDEdge<ThisEdge extends CRUDEdgeInfo> {
 
 export default class Node<
     ThisNode extends CRUDNodeInfo,
-    Edges extends CRUDEdgeInfoSet = any
-> implements CRUDNode<ThisNode> {
+    Edges extends CRUDEdgeInfoSet = any,
+> implements CRUDNode<ThisNode>
+{
     constructor(
         private GraphAPI: FacebookAppBase<APISpec>['GraphAPI'],
         public Edges: {
@@ -74,7 +75,7 @@ export default class Node<
     ) {}
     public read = async <FieldsTuple extends (keyof ThisNode['read_return'])[]>(
         access_token: string,
-        fields?: (keyof ThisNode['read_return'])[],
+        fields?: FieldsTuple,
         params?: Partial<ThisNode['read_params']>,
     ) =>
         await this.GraphAPI.get<
