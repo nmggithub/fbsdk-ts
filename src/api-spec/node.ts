@@ -68,11 +68,11 @@ export default class Node<
 {
     constructor(
         private GraphAPI: FacebookAppBase<APISpec>['GraphAPI'],
-        public Edges: {
-            [edge in keyof Edges]: Edge<Edges[edge]>;
-        },
         private id?: string,
     ) {}
+    public Edge<T extends keyof Edges>(edge: T) {
+        return new Edge<Edges[T]>(edge as string, this.GraphAPI);
+    }
     public read = async <FieldsTuple extends (keyof ThisNode['read_return'])[]>(
         access_token: string,
         fields?: FieldsTuple,
@@ -156,7 +156,7 @@ interface Pagination {
     next: string;
 }
 
-type GraphAPIResponse<T> = {
+export type GraphAPIResponse<T> = {
     [K in keyof T]: T[K] extends
         | string
         | number

@@ -50,25 +50,25 @@ const app = new FacebookApp({
 
 ## Step 3: Reading Nodes and Edges
 
-Once your app is initialized, you can read different nodes on the `Nodes` object:
+Once your app is initialized, you can read different nodes using the `Node` function:
 
 ```ts
 // Get information about a page
 
-app.Nodes.Page('{SOME-PAGE-ID}')
+app.Node('Page', '{SOME-PAGE-ID}')
     .read('{PAGE-ACCESS-TOKEN}')
     .then((pageInfo) => {
         // do stuff with page info
     });
 ```
 
-A node may or may not also contain `Edges`, which will return a collection of nodes related to the root node:
+A node may or may not also contain edges that can be accessed using the `Edge` function:
 
 ```ts
 // Get conversations on page
 
-app.Nodes.Page('{SOME-PAGE-ID}')
-    .Edges.Conversations.read('{PAGE-ACCESS-TOKEN}')
+app.Node('Page', '{SOME-PAGE-ID}')
+    .Edge('Conversations').read('{PAGE-ACCESS-TOKEN}')
     .then((conversations) => {
         // do stuff with conversations
     });
@@ -85,7 +85,7 @@ By default, not all fields on a node are returned when it is read (however, the 
 ```ts
 // Get the category and follower count of a page
 
-app.Nodes.Page('{SOME-PAGE-ID}')
+app.Node('Page', '{SOME-PAGE-ID}')
     .read('{PAGE-ACCESS-TOKEN}', ['category', 'followers_count'])
     .then((pageInfo) => {
         // do stuff with page info
@@ -99,8 +99,8 @@ Sometimes, a node or edge may have parameters that can be used with a read opera
 ```ts
 // Get a page's spam folder
 
-app.Nodes.Page('{SOME-PAGE-ID}')
-    .Edges.Conversations.read('{PAGE-ACCESS-TOKEN}', undefined, {
+app.Node('Page', '{SOME-PAGE-ID}')
+    .Edge('Conversations').read('{PAGE-ACCESS-TOKEN}', undefined, {
         folder: 'spam',
     })
     .then((spamConversations) => {
@@ -136,14 +136,14 @@ import { FacebookAppNoExposedNodes } from 'fbsdk-ts';
 
 ## Step 2: Sub-classing
 
-`FacebookAppNoExposedNodes` is an abstract class, and the parent class of the `FacebookApp` class used in the previous examples. Both classes are virtually identical, except that `FacebookApp` exposes the nodes object on `.Nodes`, while `FacebookAppNoExposedNodes` keeps the nodes object on the projected member `_Nodes`. If you want to make a subclass that does not expose the nodes object, you can extend `FacebookAppNoExposedNodes`:
+`FacebookAppNoExposedNodes` is an abstract class, and the parent class of the `FacebookApp` class used in the previous examples. Both classes are virtually identical, except that `FacebookApp` exposes the nodes function on `.Node`, while `FacebookAppNoExposedNodes` keeps the nodes function on the protected member `_Node`. If you want to make a subclass that does not expose the nodes function, you can extend `FacebookAppNoExposedNodes`:
 
 ```js
 // make a class that can only return page data
 
 class FacebookPageGetter extends FacebookAppNoExposedNodes {
-    public getPageInfo(pageId, accessToken) {
-        return await this._Nodes.Page(pageId).read(accessToken);
+    public async getPageInfo(pageId, accessToken) {
+        return await this._Node('Page', pageId).read(accessToken);
     }
 }
 
@@ -285,7 +285,8 @@ import {
     EdgelessNodeSpec,
     APISpecNodeCollection,
 } from 'fbsdk-ts/dist/api-spec';
-import Node, { Edge } from 'fbsdk-ts/dist/api-spec/node';
+import Node from 'fbsdk-ts/dist/api-spec/node';
+import { KnownKeys } from 'fbsdk-ts/dist/util';
 
 interface CustomAPISpec extends APISpec {
     SomeNodeName: {
@@ -306,33 +307,27 @@ interface CustomAPISpec extends APISpec {
 }
 
 /*
- * Each key of the nodes object must be a function of the type: (id: string) => Node
- * The second parameter of the Node constructor is an implementation of the edges definition
- * The first parameter of the Edge constructor must the the API path to the edge
- *
- * The above requirements will by type-checked by the compiler.
+ * The below function simply implements the node function 
  */
 
 class CustomFacebookApp extends FacebookAppBase<CustomAPISpec> {
-    protected _Nodes: APISpecNodeCollection<CustomAPISpec> = {
-        SomeNodeName: (id: string) =>
-            new Node(
-                this.GraphAPI,
-                {
-                    SomeEdge: new Edge('things', this.GraphAPI, id),
-                },
-                id,
-            ),
-        SomeEdgelessNodeName: (id: string) => new Node(this.GraphAPI, {}, id),
-    };
+    protected _Node<NodeType extends KnownKeys<CustomAPISpec>>(
+        node: NodeType,
+        id?: string,
+    ) {
+        return new Node<CustomAPISpec[NodeType]['node'], CustomAPISpec[NodeType]['edges']>(
+            this.GraphAPI,
+            id,
+        );
+    }
 }
 ```
 
-If you want to expose the nodes as a public member variable (as the default `FacebookApp` does), you can simply add this inside your class:
+If you want to expose the nodes function as a public member variable (as the default `FacebookApp` does), you can simply add this inside your class:
 
 ```ts
 ...
-public Nodes = this._Nodes;
+public Node = this._Node;
 ...
 ```
 
