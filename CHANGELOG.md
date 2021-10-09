@@ -1,4 +1,6 @@
 # Changelog
+## [v1.3.4] - 2021-10-08
+- Applied previous change to edge
 ## [v1.3.3] - 2021-10-08
 - Removed need to duplicate fields as type parameter
 ## [v1.3.2] - 2021-02-18
