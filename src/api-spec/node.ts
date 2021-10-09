@@ -32,7 +32,7 @@ export interface CRUDEdgeInfo extends CRUDNodeInfo {
 export type CRUDEdgeInfoSet = { [key: string]: CRUDEdgeInfo };
 
 interface CRUDNode<ThisNode extends CRUDNodeInfo> {
-    read: <FieldsTuple extends (keyof ThisNode['read_return'])[]>(
+    read: <FieldsTuple extends Exclude<keyof ThisNode['read_return'], 'id'>[]>(
         access_token: string,
         fields?: FieldsTuple,
         params?: Partial<ThisNode['read_params']>,
@@ -73,7 +73,9 @@ export default class Node<
     public Edge<T extends keyof Edges>(edge: T) {
         return new Edge<Edges[T]>(edge as string, this.GraphAPI);
     }
-    public read = async <FieldsTuple extends (keyof ThisNode['read_return'])[]>(
+    public read = async <
+        FieldsTuple extends Exclude<keyof ThisNode['read_return'], 'id'>[],
+    >(
         access_token: string,
         fields?: FieldsTuple,
         params?: Partial<ThisNode['read_params']>,
@@ -106,7 +108,9 @@ export class Edge<ThisEdge extends CRUDEdgeInfo> implements CRUDEdge<ThisEdge> {
         private GraphAPI: FacebookAppBase<APISpec>['GraphAPI'],
         private id?: string,
     ) {}
-    public read = async <FieldsTuple extends (keyof ThisEdge['read_return'])[]>(
+    public read = async <
+        FieldsTuple extends Exclude<keyof ThisEdge['read_return'], 'id'>[],
+    >(
         access_token: string,
         fields?: FieldsTuple,
         params?: DeepPartial<ThisEdge['read_params']>,

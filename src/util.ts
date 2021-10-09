@@ -30,10 +30,7 @@ export type XOR<T extends {}[]> = HasAtLeastTwo<T> extends true
         : XOR3<T[0], T[1], T[2]>
     : never;
 
-export type KnownKeys<T> = keyof {
-    [K in keyof T as string extends K
-        ? never
-        : number extends K
-        ? never
-        : K]: never;
-};
+export type KnownKeys<T> = keyof T &
+    keyof {
+        [K in keyof T as {} extends Record<K, 1> ? never : K]: never;
+    };

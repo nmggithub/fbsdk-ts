@@ -1,4 +1,4 @@
-import Node, { CRUDNodeInfo, CRUDEdgeInfoSet } from './node';
+import { CRUDNodeInfo, CRUDEdgeInfoSet } from './node';
 import {
     AdAccount,
     AdNetworkAnalyticsAsyncQueryResult,

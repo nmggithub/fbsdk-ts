@@ -274,7 +274,7 @@ For more specific code examples, see [the v9 APISpec definition](/src/api-spec/i
 
 ## Step 3: Implementing the definition
 
-Import the `Node` and `Edge` classes from `fbsdk-ts/dist/api-spec/node`. Your custom APISpec definition can now be implemented in a subclass of `FacebookAppBase`:
+Your custom APISpec definition can now be implemented in a subclass of `FacebookAppBase`:
 
 ```ts
 import { FacebookAppBase } from 'fbsdk-ts';
@@ -285,8 +285,6 @@ import {
     EdgelessNodeSpec,
     APISpecNodeCollection,
 } from 'fbsdk-ts/dist/api-spec';
-import Node from 'fbsdk-ts/dist/api-spec/node';
-import { KnownKeys } from 'fbsdk-ts/dist/util';
 
 interface CustomAPISpec extends APISpec {
     SomeNodeName: {
@@ -307,23 +305,17 @@ interface CustomAPISpec extends APISpec {
 }
 
 /*
- * The below function simply implements the node function 
+ * The below member assignment sets up the base URL for Graph API queries
  */
 
 class CustomFacebookApp extends FacebookAppBase<CustomAPISpec> {
-    protected _Node<NodeType extends KnownKeys<CustomAPISpec>>(
-        node: NodeType,
-        id?: string,
-    ) {
-        return new Node<CustomAPISpec[NodeType]['node'], CustomAPISpec[NodeType]['edges']>(
-            this.GraphAPI,
-            id,
-        );
-    }
+    graphAPIAxiosInstance = axios.create({
+        baseURL: `{CUSTOM-GRAPH-API-BASE-URL}`,
+    });
 }
 ```
 
-If you want to expose the nodes function as a public member variable (as the default `FacebookApp` does), you can simply add this inside your class:
+If you want to expose the nodes function as a public member function (as the default `FacebookApp` does), you can simply add this inside your class:
 
 ```ts
 ...

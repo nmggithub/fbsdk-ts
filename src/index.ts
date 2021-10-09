@@ -28,7 +28,7 @@ const handleFacebookError = (e: AxiosError) => {
 };
 
 export abstract class FacebookAppBase<API extends APISpec> {
-    protected graphAPIAxiosInstance: AxiosInstance;
+    protected abstract graphAPIAxiosInstance: AxiosInstance;
 
     constructor(private config: FacebookAppConfig) {}
 
@@ -96,29 +96,21 @@ export abstract class FacebookAppBase<API extends APISpec> {
         },
     };
 
-    protected abstract _Node<NodeType extends KnownKeys<API>>(
-        node: NodeType,
-        id?: string,
-    ): Node<unknown>;
-    // protected abstract _Nodes: APISpecNodeCollection<API>;
-}
-
-export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
-    constructor(config: FacebookAppConfig) {
-        super(config);
-        this.graphAPIAxiosInstance = axios.create({
-            baseURL: `https://graph.facebook.com/v9.0`,
-        });
-    }
-    protected _Node<NodeType extends KnownKeys<APIv9>>(
+    protected _Node<NodeType extends KnownKeys<API>>(
         node: NodeType,
         id?: string,
     ) {
-        return new Node<APIv9[NodeType]['node'], APIv9[NodeType]['edges']>(
+        return new Node<API[NodeType]['node'], API[NodeType]['edges']>(
             this.GraphAPI,
             id,
         );
     }
+}
+
+export abstract class FacebookAppNoExposedNodes extends FacebookAppBase<APIv9> {
+    graphAPIAxiosInstance = axios.create({
+        baseURL: `https://graph.facebook.com/v9.0`,
+    });
 }
 
 export class FacebookApp extends FacebookAppNoExposedNodes {
@@ -126,8 +118,3 @@ export class FacebookApp extends FacebookAppNoExposedNodes {
 }
 
 export { APISpec };
-
-let app = new FacebookApp({
-    appId: '',
-    appSecret: '',
-});

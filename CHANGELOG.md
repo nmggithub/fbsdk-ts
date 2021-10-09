@@ -1,4 +1,7 @@
 # Changelog
+## [v2.0.1] - 2021-10-09
+- Built new version
+- Removed ID from field tuples
 ## [v2.0.0] - 2021-10-09
 - Converted acces objects to functions
 ## [v1.3.4] - 2021-10-08
