@@ -1,4 +1,6 @@
 # Changelog
+## [v2.0.0] - 2021-10-09
+- Converted acces objects to functions
 ## [v1.3.4] - 2021-10-08
 - Applied previous change to edge
 ## [v1.3.3] - 2021-10-08
