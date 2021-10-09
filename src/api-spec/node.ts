@@ -108,7 +108,7 @@ export class Edge<ThisEdge extends CRUDEdgeInfo> implements CRUDEdge<ThisEdge> {
     ) {}
     public read = async <FieldsTuple extends (keyof ThisEdge['read_return'])[]>(
         access_token: string,
-        fields?: (keyof ThisEdge['read_return'])[],
+        fields?: FieldsTuple,
         params?: DeepPartial<ThisEdge['read_params']>,
     ) =>
         this.GraphAPI.get<
